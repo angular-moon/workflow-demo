@@ -1,0 +1,67 @@
+{
+  "config": {
+    "title": "Demo Components",
+    "description": "My awesome app using docz",
+    "menu": [],
+    "ordering": "descending",
+    "version": "0.1.0",
+    "repository": null,
+    "native": false,
+    "codeSandbox": true,
+    "themeConfig": {},
+    "typescript": true,
+    "wrapper": "src/wrapper",
+    "indexHtml": "public/index.docz.html"
+  },
+  "entries": {
+    "src/index.mdx": {
+      "name": "Getting Started",
+      "route": "/",
+      "id": "6576455a124f9aaefd860597f03a8fe4",
+      "filepath": "src/index.mdx",
+      "link": null,
+      "slug": "src-index",
+      "order": 0,
+      "menu": null,
+      "headings": [
+        {
+          "depth": 1,
+          "slug": "getting-started",
+          "value": "Getting Started"
+        },
+        {
+          "depth": 2,
+          "slug": "consistency",
+          "value": "Consistency"
+        }
+      ]
+    },
+    "src/components/ApplyView/ApplyView.mdx": {
+      "name": "ApplyView",
+      "menu": "Components",
+      "id": "03fbdd235e6ad6054f23c1c5ff329385",
+      "filepath": "src/components/ApplyView/ApplyView.mdx",
+      "link": null,
+      "slug": "src-components-apply-view-apply-view",
+      "route": "/src-components-apply-view-apply-view",
+      "order": 0,
+      "headings": [
+        {
+          "depth": 1,
+          "slug": "applyview",
+          "value": "ApplyView"
+        },
+        {
+          "depth": 2,
+          "slug": "properties",
+          "value": "Properties"
+        },
+        {
+          "depth": 2,
+          "slug": "basic-usage",
+          "value": "Basic usage"
+        }
+      ]
+    }
+  }
+}

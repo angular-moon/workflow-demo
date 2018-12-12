@@ -1,0 +1,13 @@
+{
+  "name": "workflow-demo",
+  "private": true,
+  "devDependencies": {
+    "lerna": "^3.5.1"
+  },
+  "workspaces": ["packages/*"],
+  "scripts": {
+    "start:app": "lerna run --scope *-app --parallel --progress start",
+    "start:c": "lerna run --scope *-components --parallel --progress start",
+    "docz:c": "lerna run --scope *-components --parallel --progress docz:dev"
+  }
+}
