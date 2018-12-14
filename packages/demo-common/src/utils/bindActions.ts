@@ -13,8 +13,8 @@ const bindActions = (actions, dispatch) => {
     head,
     keys
   )(actions);
-  const bound = bindActionCreators(actions[namespace], dispatch);
-  return { [namespace + postfix]: { ...bound } };
+  const boundActions = bindActionCreators(actions[namespace], dispatch);
+  return { [namespace + postfix]: { ...boundActions } };
 };
 
 /**

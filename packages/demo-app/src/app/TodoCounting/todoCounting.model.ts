@@ -8,6 +8,7 @@ const { unwrapActions } = utils;
 const todoCountingActions = unwrapActions(wrappedTodoCountingActions);
 
 export interface Counting {
+  bizState: string;
   name: string;
   count: number;
 }

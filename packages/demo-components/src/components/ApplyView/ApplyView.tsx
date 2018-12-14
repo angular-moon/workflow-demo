@@ -68,10 +68,9 @@ function mapStateToProps({ apply }: any): StateProps {
   return { apply };
 }
 
-// const mapDispatchToProps = bindActions(applyActions);
-function mapDispatchToProps(dispatch: Dispatch<any>): DispatchProps {
+function mapDispatchToProps(dispatch): DispatchProps {
   // @ts-ignore
-  return bindActions(applyActions);
+  return bindActions(applyActions)(dispatch);
 }
 
 export default connect<StateProps, DispatchProps, OwnProps>(

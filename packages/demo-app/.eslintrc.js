@@ -47,6 +47,7 @@ module.exports = {
         functions: 'ignore',
       },
     ],
+    'import/no-unresolved': 'off',
     'react/jsx-filename-extension': ['error', { extensions: ['.jsx', '.tsx'] }],
   },
 };

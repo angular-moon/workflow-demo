@@ -15,8 +15,6 @@ const packageAlias = packages.reduce((alias, package) => {
   return alias;
 }, {});
 
-console.log(packageSrcAbsPaths);
-
 module.exports = {
   packages,
   packageSrcAbsPaths,

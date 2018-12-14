@@ -62,6 +62,7 @@ export class ApplyForm extends Component<Props> {
   componentDidMount() {
     const { id, applyBoundActions } = this.props;
     applyBoundActions.reset();
+    applyBoundActions.re;
     if (id) {
       applyBoundActions.fetch(id);
     }
@@ -190,9 +191,9 @@ function mapStateToProps({ apply }: any): StateProps {
   return { apply };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<any>): DispatchProps {
+function mapDispatchToProps(dispatch): DispatchProps {
   // @ts-ignore
-  return bindActions(applyActions);
+  return bindActions(applyActions)(dispatch);
 }
 
 export default connect<StateProps, DispatchProps, OwnProps>(

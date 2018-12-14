@@ -10,6 +10,8 @@
     "@types/react-dom": "16.0.11",
     "@types/react-redux": "^6.0.10",
     "@types/react-router-dom": "^4.3.1",
+    "@types/redux": "^3.6.0",
+    "@types/redux-actions": "^2.3.1",
     "ramda": "^0.26.1",
     "react": "^16.7.0-alpha.2",
     "react-dev-utils": "^6.1.1",
@@ -84,7 +86,6 @@
     "@types/dva": "^1.1.0",
     "@types/lodash": "^4.14.119",
     "@types/ramda": "^0.25.42",
-    "@types/redux": "^3.6.0",
     "@types/redux-actions": "^2.3.1",
     "lerna": "^3.5.1"
   }

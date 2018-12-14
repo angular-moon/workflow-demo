@@ -2,10 +2,9 @@
 import React, { Component } from 'react';
 import { Button, Badge } from 'antd';
 import { ActionCreatorsMapObject, Dispatch } from 'redux';
-import { connect } from 'react-redux';
+import { connect, DispatchProp } from 'react-redux';
 import { push } from 'react-router-redux';
 import { utils } from 'demo-common';
-import styled from 'styled-components';
 import todoCountingModel, { Countings } from './todoCounting.model';
 import todoCountingActions from './todoCounting.action';
 
@@ -17,7 +16,7 @@ interface StateProps {
   todoCounting: Countings;
 }
 
-interface DispatchProps {
+interface DispatchProps extends DispatchProp {
   todoCountingBoundActions: ActionCreatorsMapObject;
 }
 
@@ -29,6 +28,11 @@ class TodoCounting extends Component<Props, {}> {
     todoCountingBoundActions.fetch();
   }
 
+  goTodoList = bizState => () => {
+    const { dispatch } = this.props;
+    dispatch(push(`/center/todos/${bizState}`));
+  };
+
   render() {
     const { todoCounting } = this.props;
     return (
@@ -36,7 +40,9 @@ class TodoCounting extends Component<Props, {}> {
         {todoCounting.map(todo => (
           <span style={{ margin: 20 }}>
             <Badge key={todo.name} count={todo.count} showZero>
-              <Button type="default">{todo.name}</Button>
+              <Button type="default" onClick={this.goTodoList(todo.bizState)}>
+                {todo.name}
+              </Button>
             </Badge>
           </span>
         ))}
@@ -51,10 +57,11 @@ function mapStateToProps({ todoCounting }: any): StateProps {
 // const mapDispatchToProps = bindActions(applyActions);
 function mapDispatchToProps(dispatch: Dispatch<any>): DispatchProps {
   // @ts-ignore
-  return bindActions(todoCountingActions);
+  return bindActions(todoCountingActions)(dispatch);
 }
 
-export default connect(
+export default connect<StateProps, DispatchProps>(
   mapStateToProps,
   mapDispatchToProps
+  // @ts-ignore
 )(TodoCounting);
