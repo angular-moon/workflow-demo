@@ -3,10 +3,10 @@ import { createActions } from 'redux-actions';
 import { identity } from 'ramda';
 
 export default createActions({
-  apply: {
-    reset: identity,
-    set: identity,
-    fetch: identity,
-    save: identity,
+  workflow: {
+    create: identity,
+    remove: identity,
+    flowNext: identity,
+    reject: identity,
   },
 });

@@ -3,7 +3,7 @@
 import { api } from 'demo-common';
 import { Action } from 'redux-actions';
 import { EffectsCommandMap } from 'dva';
-import { User } from '../types/User.d';
+import { User } from '../../types/User';
 
 // const { unwrapActions } = utils;
 

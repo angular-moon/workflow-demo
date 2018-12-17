@@ -3,9 +3,12 @@ import { FormComponentProps } from 'antd/lib/form';
 import { utils } from 'demo-common';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ActionCreatorsMapObject, Dispatch } from 'redux';
+import { ActionCreatorsMapObject } from 'redux';
 import applyActions from '../../actions/apply.action';
 import applyModel from '../../models/apply.model';
+import { Cancel } from '../Operation';
+import { Save } from './Operation';
+import ButtonBox from '../ButtonBox';
 import CatalogSelect, { Catalog } from './CatalogSelect';
 
 const FormItem = Form.Item;
@@ -36,6 +39,7 @@ interface StateProps {
    * 申报数据
    */
   apply: {
+    id: string;
     catalog: Catalog;
     budget: number;
     agent: string;
@@ -59,10 +63,16 @@ export class ApplyForm extends Component<Props> {
     });
   };
 
+  removeWorkFlow = () => {
+    // TODO
+    console.log('workFlow was removed');
+    // @ts-ignore
+    return Promise.resolve('workFlow was removed');
+  };
+
   componentDidMount() {
     const { id, applyBoundActions } = this.props;
     applyBoundActions.reset();
-    applyBoundActions.re;
     if (id) {
       applyBoundActions.fetch(id);
     }
@@ -74,6 +84,9 @@ export class ApplyForm extends Component<Props> {
       apply,
       form: { getFieldDecorator },
     } = this.props;
+
+    // mode为create且没有保存过, 取消时删除工作流
+    const cancelNeedRemoveWorkFlow = mode === Mode.CREATE && !apply.id;
 
     const formItemLayout = {
       labelCol: {
@@ -156,9 +169,14 @@ export class ApplyForm extends Component<Props> {
         </FormItem>
         {agentItem}
         <FormItem {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">
-            提交
-          </Button>
+          <ButtonBox>
+            <Button type="primary" htmlType="submit">
+              提交
+            </Button>
+            <Save />
+            {/* 取消 */}
+            {cancelNeedRemoveWorkFlow ? <Cancel preCancel={this.removeWorkFlow} /> : <Cancel />}
+          </ButtonBox>
         </FormItem>
       </Form>
     );

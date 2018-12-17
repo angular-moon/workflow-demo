@@ -38,8 +38,8 @@ class TodoCounting extends Component<Props, {}> {
     return (
       <div style={{ padding: 20 }}>
         {todoCounting.map(todo => (
-          <span style={{ margin: 20 }}>
-            <Badge key={todo.name} count={todo.count} showZero>
+          <span style={{ margin: 20 }} key={todo.name}>
+            <Badge count={todo.count} showZero>
               <Button type="default" onClick={this.goTodoList(todo.bizState)}>
                 {todo.name}
               </Button>

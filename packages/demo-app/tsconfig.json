@@ -16,6 +16,6 @@
     "jsx": "preserve",
   },
   "include": [
-    "src/**/*"
+    "src/**/*", "../demo-common/src/models/workflow.model.ts"
   ]
 }

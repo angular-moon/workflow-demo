@@ -1,8 +1,10 @@
 import { Icon, Menu } from 'antd';
 import { utils } from 'demo-common';
 import React from 'react';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import { connect } from 'react-redux';
-import userModel from '../../models/user.model';
+import userModel from '../../models/user/user.model';
 import { User } from '../../types/User.d';
 
 interface StateProps {
@@ -10,6 +12,12 @@ interface StateProps {
 }
 
 type Props = StateProps;
+
+const MenuLink = styled(Link)`
+  && {
+    display: inline-block;
+  }
+`;
 
 class DemoMenu extends React.Component<Props> {
   render() {
@@ -19,12 +27,13 @@ class DemoMenu extends React.Component<Props> {
         <Menu mode="inline" theme="dark" defaultSelectedKeys={['todos']}>
           <Menu.Item key="todos">
             <Icon type="pie-chart" />
-            <span>我的待办</span>
+            <MenuLink to="/center">我的待办</MenuLink>
           </Menu.Item>
+          {/* 经办人 用户id === 1 */}
           {Number(user.id) === 1 ? (
             <Menu.Item key="create">
               <Icon type="form" />
-              <span>新建采购申报</span>
+              <MenuLink to="/center/workflow-ui">新建采购申报</MenuLink>
             </Menu.Item>
           ) : null}
         </Menu>
