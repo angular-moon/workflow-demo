@@ -1,4 +1,4 @@
-import { utils, api } from 'demo-common';
+import { utils, api, enums } from 'demo-common';
 import { Action } from 'redux-actions';
 import { EffectsCommandMap } from 'dva';
 import wrappedTodoCountingActions from './todoCounting.action';
@@ -8,8 +8,8 @@ const { unwrapActions } = utils;
 const todoCountingActions = unwrapActions(wrappedTodoCountingActions);
 
 export interface Counting {
-  bizState: string;
-  name: string;
+  todoType: enums.TodoType;
+  todoTypeName: enums.TodoTypeName;
   count: number;
 }
 
@@ -29,11 +29,8 @@ export default {
     *fetch({ payload }: Action<any>, { call, put }: EffectsCommandMap) {
       try {
         // 获取暂存和待办任务数量
-        const [{ data: transientCount }, { data: otherCount }] = yield [
-          call(api.workflowDemo.me_transient_applications_counting_get),
-          call(api.workflowDemo.me_todo_list_counting_get),
-        ];
-        yield put(todoCountingActions.set(transientCount, otherCount));
+        const { data: todoCounting } = yield call(api.workflowDemo.me_todo_list_stats_get);
+        yield put(todoCountingActions.set(todoCounting));
       } catch (e) {
         console.log(e);
       }

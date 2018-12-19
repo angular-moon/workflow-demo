@@ -3,8 +3,7 @@ import React, { Component } from 'react';
 import { Button, Table } from 'antd';
 import { ActionCreatorsMapObject, Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { BizState } from '../../enum/BizState.enum';
-import { utils } from 'demo-common';
+import { utils, enums } from 'demo-common';
 import todoListModel from './todoList.model';
 import Pagination from '../../types/Pagination';
 import todoListActions from './todoList.action';
@@ -36,7 +35,7 @@ const columns = [
 ];
 
 interface RouteParams {
-  bizState: BizState;
+  todoType: enums.TodoType;
 }
 
 interface StateProps {
@@ -54,7 +53,7 @@ class TodoList extends Component<Props, {}> {
   componentDidMount() {
     const { todoListBoundActions, match } = this.props;
     todoListBoundActions.reset();
-    todoListBoundActions.fetch(match.params.bizState);
+    todoListBoundActions.fetch(match.params.todoType);
   }
 
   onPageChange = current => {
@@ -62,7 +61,7 @@ class TodoList extends Component<Props, {}> {
     todoListBoundActions.setPagination({
       current,
     });
-    todoListBoundActions.fetch(match.params.bizState);
+    todoListBoundActions.fetch(match.params.todoType);
   };
 
   render() {

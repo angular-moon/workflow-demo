@@ -43,7 +43,9 @@ export default {
     },
   },
   effects: {
-    *fetch({ payload: bizState }: Action<any>, { call, put, select }: EffectsCommandMap) {
+    *fetch({ payload: bizState }: Action<any>, {
+      call, put, select, all,
+    }: EffectsCommandMap) {
       try {
         const pagination: Pagination = yield select(state => state.todoList.pagination);
         const [
@@ -51,7 +53,7 @@ export default {
           {
             data: { value: total },
           },
-        ] = yield [
+        ] = yield all([
           call(api.workflowDemo.me_todo_list_get, {
             params: {
               bizState,
@@ -60,7 +62,7 @@ export default {
             },
           }),
           call(api.workflowDemo.me_todo_list_counting_get),
-        ];
+        ]);
         yield put(todoListActions.setTodos(todos));
         yield put(todoListActions.setPagination({ total }));
       } catch (e) {

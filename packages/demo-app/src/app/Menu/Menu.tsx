@@ -1,11 +1,13 @@
 import { Icon, Menu } from 'antd';
 import { utils } from 'demo-common';
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { includes } from 'lodash';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import userModel from '../../models/user/user.model';
 import { User } from '../../types/User.d';
+import Create from '../../components/Operation/Create';
 
 interface StateProps {
   user: User;
@@ -19,12 +21,21 @@ const MenuLink = styled(Link)`
   }
 `;
 
-class DemoMenu extends React.Component<Props> {
+class DemoMenu extends Component<Props> {
+  state = {
+    selectedKeys: ['todos'],
+  };
+
+  onSelect = ({ selectedKeys }) => {
+    this.setState(() => ({ selectedKeys }));
+  };
+
   render() {
     const { user } = this.props;
+    const { selectedKeys } = this.state;
     return (
       <div>
-        <Menu mode="inline" theme="dark" defaultSelectedKeys={['todos']}>
+        <Menu mode="inline" theme="dark" defaultSelectedKeys={['todos']} onSelect={this.onSelect}>
           <Menu.Item key="todos">
             <Icon type="pie-chart" />
             <MenuLink to="/center">我的待办</MenuLink>
@@ -33,7 +44,7 @@ class DemoMenu extends React.Component<Props> {
           {Number(user.id) === 1 ? (
             <Menu.Item key="create">
               <Icon type="form" />
-              <MenuLink to="/center/workflow-ui">新建采购申报</MenuLink>
+              <Create disabled={includes(selectedKeys, 'create')} />
             </Menu.Item>
           ) : null}
         </Menu>

@@ -5,8 +5,7 @@ import { FormComponentProps } from 'antd/es/form';
 import { ActionCreatorsMapObject, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import userModel from '../../models/user/user.model';
-import userActions from '../../models/user/user.action';
+import { userModel, userActions } from '../../models/user';
 import { utils } from 'demo-common';
 import styled from 'styled-components';
 

@@ -1,10 +1,9 @@
 import React from 'react';
 import { Button } from 'antd';
-import { goBack } from 'react-router-redux';
 import { connect } from 'react-redux';
 import { utils } from 'demo-common';
 import { ActionCreatorsMapObject } from 'redux';
-import applyActions from '../../../actions/apply.action';
+import applyActions from '../../../models/apply/apply.action';
 
 const { bindActions } = utils;
 

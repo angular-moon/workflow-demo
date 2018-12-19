@@ -8,6 +8,8 @@
   "scripts": {
     "start:app": "lerna run --scope *-app --parallel --progress start",
     "start:c": "lerna run --scope *-components --parallel --progress start",
+    "build:c": "lerna run --scope *-components --parallel --progress build",
+    "api-gen": "lerna run --scope *-common --parallel --progress api-gen",
     "docz:c": "lerna run --scope *-components --parallel --progress docz:dev"
   }
 }

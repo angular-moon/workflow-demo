@@ -24,7 +24,7 @@ const FileManagerPlugin = require('filemanager-webpack-plugin');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
 const externals = require('./externals');
-const { packageAlias, packageSrcAbsPaths } = require('./packages');
+const { packageSrcAbsPaths } = require('./packages');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -225,7 +225,7 @@ const webpackConfig = {
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
-      ...packageAlias,
+      '@': path.resolve(__dirname, 'src'),
     },
     plugins: [
       // Adds support for installing with Plug'n'Play, leading to faster installs and adding

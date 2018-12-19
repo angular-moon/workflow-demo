@@ -3,8 +3,8 @@ import { Row, Col } from 'antd';
 import { Dispatch, ActionCreatorsMapObject } from 'redux';
 import { connect } from 'react-redux';
 import { utils } from 'demo-common';
-import applyModel from '../../models/apply.model';
-import applyActions from '../../actions/apply.action';
+import applyModel from '../../models/apply/apply.model';
+import applyActions from '../../models/apply/apply.action';
 
 const { stateContainer, bindActions } = utils;
 

@@ -13,7 +13,7 @@ module.exports = {
   },
   settings: {
     'import/resolver': {
-      'typescript-eslint-parser': ['.ts', '.tsx'],
+      'typescript-eslint-parser': ['.d.ts', '.ts', '.tsx'],
       webpack: {
         config: path.resolve(__dirname, 'config/webpack.config.dev.js'),
       },
@@ -49,5 +49,7 @@ module.exports = {
     ],
     'import/no-unresolved': 'off',
     'react/jsx-filename-extension': ['error', { extensions: ['.jsx', '.tsx'] }],
+    'jsx-a11y/click-events-have-key-events': 'off',
+    'jsx-a11y/anchor-is-valid': 'off',
   },
 };

@@ -1,39 +1,27 @@
 import { createActions } from 'redux-actions';
 // @ts-ignore
 import { identity } from 'ramda';
+import { enums } from 'demo-common';
 
 export default createActions({
   todoCounting: {
     fetch: identity,
-    set: (transientCount, otherTodo) => [
-      // {
-      //   bizState: 'transient',
-      //   name: '暂存',
-      //   count: 10,
-      // },
+    set: () => [
       {
-        bizState: 'pending',
-        name: '待处理',
+        todoType: enums.TodoType.PENDING,
+        todoTypeName: enums.TodoTypeName.PENDING,
         count: 8,
       },
       {
-        bizState: 'rejected',
-        name: '被退回',
+        todoType: enums.TodoType.REJECTED,
+        todoTypeName: enums.TodoTypeName.REJECTED,
         count: 8,
       },
       {
-        bizState: 'revokeable',
-        name: '可撤销',
+        todoType: enums.TodoType.REVOKEABLE,
+        todoTypeName: enums.TodoTypeName.REVOKEABLE,
         count: 0,
       },
     ],
-    // }][
-    //   {
-    //     bizState: 'transient',
-    //     name: '暂存',
-    //     count: transientCount,
-    //   },
-    //   ...otherTodo,
-    // ],
   },
 });

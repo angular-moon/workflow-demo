@@ -1,14 +1,11 @@
 import React from 'react';
 import { Button } from 'antd';
-import { goBack } from 'react-router-redux';
 import { connect } from 'react-redux';
 import { utils, api } from 'demo-common';
 import { ActionCreatorsMapObject } from 'redux';
-import applyActions from '../../../actions/apply.action';
+import applyActions from '../../../models/apply/apply.action';
 
-const { stateContainer, bindActions } = utils;
-
-stateContainer.injectModel();
+const { bindActions } = utils;
 
 interface DispatchProps {
   applyBoundActions: ActionCreatorsMapObject;

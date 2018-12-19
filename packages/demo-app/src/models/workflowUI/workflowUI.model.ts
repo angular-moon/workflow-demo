@@ -1,20 +1,18 @@
-import { api } from 'demo-common';
+import { api, utils } from 'demo-common';
 import { Action } from 'redux-actions';
 import { EffectsCommandMap } from 'dva';
+import { Put } from 'redux-saga/effects';
+import { push } from 'react-router-redux';
+import { WorkflowUI } from './workflowUI';
+import wrappedWorkflowUIActions from './workflowUI.action';
 
-type Operation = {
-  data?: {};
-  name: string;
-  opinion: 'NONE' | 'REQUIRE' | 'OPTIONAL';
-};
+const workflowUIActions = utils.unwrapActions(wrappedWorkflowUIActions);
 
-type WorkflowUI = {
-  url: string | null;
-  props?: {};
-  operations: Operation[];
-};
+interface DefalutState {
+  (): WorkflowUI;
+}
 
-const defalutState: () => WorkflowUI = () => ({ url: null, operations: [] });
+const defalutState: DefalutState = () => ({ url: null, operations: [] });
 
 export default {
   namespace: 'workflowUI',
@@ -24,20 +22,31 @@ export default {
       return defalutState();
     },
     set(state: WorkflowUI, { payload }: Action<any>) {
-      if (payload) return { ...state, ...payload };
-      return null;
+      return { ...state, ...payload };
     },
   },
   effects: {
-    *fetch({ payload: user }: Action<any>, { call, put }: EffectsCommandMap) {
+    *showUI({ payload: taskId }: Action<any>, { call, put }: EffectsCommandMap) {
       try {
-        // mock 数据不好改, 暂时直接保存user, 不使用接口返回的数据
-        const { data } = yield call(api.workflowDemo.login_userId_get, {
-          path: { userId: user.id },
+        // 获取处理UI配置
+        const { data } = yield call(api.workflowDemo.me_todo_list_taskId_ui_config_get, {
+          path: { taskId },
         });
-        // 暂时保存
-        localStorage.setItem('user', JSON.stringify(user));
-        yield put({ type: 'setUser', payload: user });
+        // 保存配置
+        yield put(workflowUIActions.set(data));
+        // 跳转路由
+        yield put(push('/center/WorkflowUI'));
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    *createWorkflow({ payload }: Action<any>, { call, put }: EffectsCommandMap) {
+      try {
+        // TODO 替换为创建工作流接口
+        console.log('createWorkflow');
+        const { data: taskId } = yield call(api.workflowDemo.flows_post);
+        // @ts-ignore
+        yield put.resolve(workflowUIActions.showUI(taskId));
       } catch (e) {
         console.log(e);
       }

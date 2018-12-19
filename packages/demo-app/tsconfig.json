@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -13,9 +12,9 @@
     "isolatedModules": true,
     "noEmit": true,
     "noImplicitAny": false,
-    "jsx": "preserve",
+    "jsx": "preserve"
   },
   "include": [
-    "src/**/*", "../demo-common/src/models/workflow.model.ts"
+    "src/**/*"
   ]
 }

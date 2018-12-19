@@ -28,9 +28,9 @@ class TodoCounting extends Component<Props, {}> {
     todoCountingBoundActions.fetch();
   }
 
-  goTodoList = bizState => () => {
+  goTodoList = (todoType: string) => () => {
     const { dispatch } = this.props;
-    dispatch(push(`/center/todos/${bizState}`));
+    dispatch(push(`/center/todos/${todoType}`));
   };
 
   render() {
@@ -38,10 +38,10 @@ class TodoCounting extends Component<Props, {}> {
     return (
       <div style={{ padding: 20 }}>
         {todoCounting.map(todo => (
-          <span style={{ margin: 20 }} key={todo.name}>
+          <span style={{ margin: 20 }} key={todo.todoType}>
             <Badge count={todo.count} showZero>
-              <Button type="default" onClick={this.goTodoList(todo.bizState)}>
-                {todo.name}
+              <Button type="default" onClick={this.goTodoList(todo.todoType)}>
+                {todo.todoTypeName}
               </Button>
             </Badge>
           </span>

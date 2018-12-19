@@ -1,5 +1,5 @@
 import { utils, api } from 'demo-common';
-import wrappedDeclareActions from '../actions/apply.action';
+import wrappedDeclareActions from './apply.action';
 
 const { unwrapActions } = utils;
 
