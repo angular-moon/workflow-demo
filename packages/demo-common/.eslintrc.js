@@ -45,5 +45,7 @@ module.exports = {
       },
     ],
     'react/jsx-filename-extension': ['error', { extensions: ['.jsx', '.tsx'] }],
+    'import/prefer-default-export': 'off',
+    'import/no-unresolved': 'off',
   },
 };

@@ -1,15 +1,20 @@
-import { Button, Form, Input } from 'antd';
+import { Form, Input } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { utils } from 'demo-common';
+import { OperationType } from 'demo-common/src/enums/OperationType.enum';
+import { TodoType } from 'demo-common/src/enums/TodoType.enum';
+import { Operation } from 'demo-common/src/types/Operation';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ActionCreatorsMapObject } from 'redux';
 import applyActions from '../../models/apply/apply.action';
 import applyModel from '../../models/apply/apply.model';
-import { Cancel } from '../Operation';
-import { Save } from './Operation';
+import { filterOperations, mapOpComponents } from '../../utils/operations';
 import ButtonBox from '../ButtonBox';
+import { Cancel } from '../Operation';
 import CatalogSelect, { Catalog } from './CatalogSelect';
+import opComponentMaps, { Save } from './Operation';
+import { Apply } from '../../types/Apply';
 
 const FormItem = Form.Item;
 const { stateContainer, bindActions } = utils;
@@ -32,18 +37,21 @@ export interface OwnProps {
    * @workflow
    */
   mode: 'create' | 'update_agent';
+  /**
+   * 工作流任务类型
+   */
+  todoType: TodoType;
+  /**
+   * 工作流配置的操作
+   */
+  operations: Operation[];
 }
 
 interface StateProps {
   /**
    * 申报数据
    */
-  apply: {
-    id: string;
-    catalog: Catalog;
-    budget: number;
-    agent: string;
-  };
+  apply: Apply;
 }
 
 interface DispatchProps {
@@ -52,7 +60,15 @@ interface DispatchProps {
 
 type Props = StateProps & DispatchProps & OwnProps & FormComponentProps;
 
-export class ApplyForm extends Component<Props> {
+type State = {
+  opComponents: (React.ReactElement<any> | null)[];
+};
+
+export class ApplyForm extends Component<Props, State> {
+  state = {
+    opComponents: [],
+  };
+
   handleSubmit = e => {
     e.preventDefault();
     const { form } = this.props;
@@ -71,11 +87,17 @@ export class ApplyForm extends Component<Props> {
   };
 
   componentDidMount() {
-    const { id, applyBoundActions } = this.props;
+    const { form, id, applyBoundActions, todoType, operations } = this.props;
     applyBoundActions.reset();
     if (id) {
       applyBoundActions.fetch(id);
     }
+
+    const opComponents = filterOperations(todoType)(operations).map(
+      mapOpComponents(opComponentMaps, { [OperationType.SUBMIT]: { form } })
+    );
+
+    this.setState({ opComponents });
   }
 
   render() {
@@ -84,6 +106,8 @@ export class ApplyForm extends Component<Props> {
       apply,
       form: { getFieldDecorator },
     } = this.props;
+
+    const { opComponents } = this.state;
 
     // mode为create且没有保存过, 取消时删除工作流
     const cancelNeedRemoveWorkFlow = mode === Mode.CREATE && !apply.id;
@@ -170,9 +194,7 @@ export class ApplyForm extends Component<Props> {
         {agentItem}
         <FormItem {...tailFormItemLayout}>
           <ButtonBox>
-            <Button type="primary" htmlType="submit">
-              提交
-            </Button>
+            {opComponents}
             <Save />
             {/* 取消 */}
             {cancelNeedRemoveWorkFlow ? <Cancel preCancel={this.removeWorkFlow} /> : <Cancel />}

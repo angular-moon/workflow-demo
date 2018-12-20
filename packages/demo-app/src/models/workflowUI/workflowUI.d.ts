@@ -1,8 +1,4 @@
-export type Operation = {
-  data?: {};
-  name: string;
-  opinion: 'NONE' | 'REQUIRE' | 'OPTIONAL';
-};
+import { Operation } from 'demo-common/src/types/Operation';
 
 export type WorkflowUI = {
   url: string | null;

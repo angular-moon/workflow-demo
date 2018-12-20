@@ -1,10 +1,10 @@
 import { utils, api } from 'demo-common';
-import wrappedApplyActions from './apply.action';
+import wrappedDeclareActions from '../../models/apply/apply.action';
 import { Apply, ApplyServer } from '../../types/Apply';
 
 const { unwrapActions } = utils;
 
-const applyActions = unwrapActions(wrappedApplyActions);
+const declareActions = unwrapActions(wrappedDeclareActions);
 
 const defaultState = () => ({ catalog: {} } as Apply);
 
@@ -50,9 +50,10 @@ export default {
           path: { id: applyId },
         });
         // 保存数据
-        yield put(applyActions.set(transform2Client(data)));
+
+        yield put(declareActions.set(transform2Client(data)));
       } catch (e) {
-        utils.showError(e.message);
+        console.log(e);
       }
     },
     *save({ payload: processId }, { call, put, select }) {
@@ -72,21 +73,9 @@ export default {
         }
 
         // 保存数据
-        yield put(applyActions.set(transform2Client(response.data)));
+        yield put(declareActions.set(transform2Client(response.data)));
       } catch (e) {
-        utils.showError(e.message);
-      }
-    },
-    *submit({ payload }, { call, put }) {
-      const { opinion, selectKey, selectValue, processId, taskId } = payload;
-      try {
-        yield put.resolve(applyActions.save(processId));
-        yield call(api.workflowDemo.me_todo_list_taskId_patch, {
-          path: { taskId },
-          data: { opinion, selectKey, selectValue },
-        });
-      } catch (e) {
-        utils.showError(e.message);
+        console.log(e);
       }
     },
   },

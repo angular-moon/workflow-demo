@@ -1,4 +1,4 @@
-import utils from './utils';
+import utils from './utils/index';
 import * as api from './api';
 import * as enums from './enums';
 

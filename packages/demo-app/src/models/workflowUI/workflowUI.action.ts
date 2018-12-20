@@ -10,10 +10,9 @@ export default createActions({
     set: UICofing => ({
       url: UIUrlMap[UICofing.name],
       props: JSON.parse(UICofing.data),
-      operations: UICofing.operations.map(({ name, data, opinion }) => ({
-        name,
-        props: JSON.parse(data),
-        opinion,
+      operations: UICofing.operations.map(operation => ({
+        ...operation,
+        data: JSON.parse(operation.data),
       })),
     }),
     showUI: identity,
