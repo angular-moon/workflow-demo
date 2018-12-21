@@ -3,7 +3,9 @@ import { createActions } from 'redux-actions';
 import { identity } from 'ramda';
 
 export default createActions({
-  process: {
+  task: {
+    set: identity,
+    submit: identity,
     reject: identity,
     revoke: identity,
   },

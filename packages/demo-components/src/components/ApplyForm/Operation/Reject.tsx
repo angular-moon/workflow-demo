@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'antd';
 import { connect } from 'react-redux';
-import { utils, api } from 'demo-common';
+import { utils } from 'demo-common';
 import { ActionCreatorsMapObject } from 'redux';
 import applyActions from '../../../models/apply/apply.action';
 

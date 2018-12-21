@@ -57,7 +57,10 @@ export default {
     },
     *save({ payload: processId }, { call, put, select }) {
       try {
-        const apply = yield select(state => state.apply);
+        const { apply, processId } = yield select(state => ({
+          apply: state.apply,
+          processId: state.task.processId,
+        }));
         let response;
         // no id => post & bind processId
         if (!apply.id) {
@@ -73,18 +76,6 @@ export default {
 
         // 保存数据
         yield put(applyActions.set(transform2Client(response.data)));
-      } catch (e) {
-        utils.showError(e.message);
-      }
-    },
-    *submit({ payload }, { call, put }) {
-      const { opinion, selectKey, selectValue, processId, taskId } = payload;
-      try {
-        yield put.resolve(applyActions.save(processId));
-        yield call(api.workflowDemo.me_todo_list_taskId_patch, {
-          path: { taskId },
-          data: { opinion, selectKey, selectValue },
-        });
       } catch (e) {
         utils.showError(e.message);
       }

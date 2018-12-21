@@ -8,6 +8,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ActionCreatorsMapObject } from 'redux';
 import applyActions from '../../models/apply/apply.action';
+import taskActions from '../../models/task/task.action';
 import applyModel from '../../models/apply/apply.model';
 import { filterOperations, mapOpComponents } from '../../utils/operations';
 import ButtonBox from '../ButtonBox';
@@ -31,7 +32,7 @@ export interface OwnProps {
   /**
    * 申报id
    */
-  id?: string;
+  applyId?: string;
   /**
    * 模式
    * @workflow
@@ -41,6 +42,14 @@ export interface OwnProps {
    * 工作流任务类型
    */
   todoType: TodoType;
+  /**
+   * 工作流任务id
+   */
+  taskId: string;
+  /**
+   * 工作流实例id
+   */
+  processId: string;
   /**
    * 工作流配置的操作
    */
@@ -56,6 +65,7 @@ interface StateProps {
 
 interface DispatchProps {
   applyBoundActions: ActionCreatorsMapObject;
+  taskBoundActions: ActionCreatorsMapObject;
 }
 
 type Props = StateProps & DispatchProps & OwnProps & FormComponentProps;
@@ -69,16 +79,6 @@ export class ApplyForm extends Component<Props, State> {
     opComponents: [],
   };
 
-  handleSubmit = e => {
-    e.preventDefault();
-    const { form } = this.props;
-    form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        console.log('Received values of form: ', values);
-      }
-    });
-  };
-
   removeWorkFlow = () => {
     // TODO
     console.log('workFlow was removed');
@@ -87,14 +87,36 @@ export class ApplyForm extends Component<Props, State> {
   };
 
   componentDidMount() {
-    const { form, id, applyBoundActions, todoType, operations } = this.props;
+    const {
+      form,
+      applyId,
+      taskId,
+      processId,
+      applyBoundActions,
+      taskBoundActions,
+      todoType,
+      operations,
+    } = this.props;
+
     applyBoundActions.reset();
-    if (id) {
-      applyBoundActions.fetch(id);
+    // 加载申请表单数据
+    if (applyId) {
+      applyBoundActions.fetch(applyId);
     }
 
+    // 设置任务数据, 用于保存, 提交, 退回操作
+    taskBoundActions.reset();
+    taskBoundActions.set({
+      taskId,
+      processId,
+    });
+
+    // 提交操作, 传递 form utils 用于表单验证
+    const opComponentPropMaps = { [OperationType.SUBMIT]: { form } };
+
+    // 计算当前任务有哪些操作, 工作流配置有且当前的任务类型允许出现该操作
     const opComponents = filterOperations(todoType)(operations).map(
-      mapOpComponents(opComponentMaps, { [OperationType.SUBMIT]: { form } })
+      mapOpComponents(opComponentMaps, opComponentPropMaps)
     );
 
     this.setState({ opComponents });
@@ -184,7 +206,7 @@ export class ApplyForm extends Component<Props, State> {
       ) : null;
 
     return (
-      <Form onSubmit={this.handleSubmit}>
+      <Form>
         <FormItem {...formItemLayout} label="采购目录">
           {catalogItem}
         </FormItem>
@@ -233,7 +255,7 @@ function mapStateToProps({ apply }: any): StateProps {
 
 function mapDispatchToProps(dispatch): DispatchProps {
   // @ts-ignore
-  return bindActions(applyActions)(dispatch);
+  return bindActions(applyActions, taskActions)(dispatch);
 }
 
 export default connect<StateProps, DispatchProps, OwnProps>(

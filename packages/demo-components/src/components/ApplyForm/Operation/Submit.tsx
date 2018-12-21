@@ -4,7 +4,7 @@ import { WrappedFormUtils } from 'antd/es/form/Form';
 import { connect } from 'react-redux';
 import { utils } from 'demo-common';
 import { ActionCreatorsMapObject } from 'redux';
-import applyActions from '../../../models/apply/apply.action';
+import taskActions from '../../../models/task/task.action';
 
 const { bindActions } = utils;
 
@@ -15,19 +15,19 @@ interface OwnProps {
 }
 
 interface DispatchProps {
-  applyBoundActions: ActionCreatorsMapObject;
+  taskBoundActions: ActionCreatorsMapObject;
 }
 
 type Props = OwnProps & DispatchProps;
 
 const Submit = (props: Props) => {
-  const { text, form } = props;
+  const { text, form, select, opinion } = props;
 
   function submit() {
     form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        const { applyBoundActions } = props;
-        applyBoundActions.submit();
+        const { taskBoundActions } = props;
+        taskBoundActions.submit();
       }
     });
   }
@@ -41,7 +41,7 @@ const Submit = (props: Props) => {
 
 function mapDispatchToProps(dispatch): DispatchProps {
   // @ts-ignore
-  return bindActions(applyActions)(dispatch);
+  return bindActions(taskActions)(dispatch);
 }
 
 export default connect(

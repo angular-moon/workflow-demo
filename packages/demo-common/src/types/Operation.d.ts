@@ -1,6 +1,6 @@
 import { OperationType } from '../enums/OperationType.enum';
 
-export enum Opinion {
+export enum OpinionStrategy {
   NONE = 'NONE',
   REQUIRE = 'REQUIRE',
   OPTIONAL = 'OPTIONAL',
@@ -9,7 +9,7 @@ export enum Opinion {
 export type Operation = {
   name: string;
   type: OperationType;
-  opinion: Opinion;
+  opinion: OpinionStrategy;
   // 是否需要选择提交节点
   select?: string;
   data?: {};
