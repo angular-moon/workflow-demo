@@ -5,6 +5,7 @@ import { identity } from 'ramda';
 export default createActions({
   task: {
     set: identity,
+    fetchSelectNodes: identity,
     submit: identity,
     reject: identity,
     revoke: identity,

@@ -1,14 +1,27 @@
 import React, { Component } from 'react';
 import { Form, Select, Modal } from 'antd';
+import { ActionCreatorsMapObject } from 'redux';
+import { FormComponentProps } from 'antd/lib/form';
 import { OpinionStrategy } from 'demo-common/src/types/Operation';
+import { OperationType } from 'demo-common/src/enums/OperationType.enum';
 
 const FormItem = Form.Item;
 
 interface OwnerProps {
+  operationType: OperationType;
+  selectKey?: string; // submit 时可选的
   opinionStrategy: OpinionStrategy;
 }
 
-class TimeRelatedForm extends Component {
+
+interface DispatchProps {
+  applyBoundActions: ActionCreatorsMapObject;
+  taskBoundActions: ActionCreatorsMapObject;
+}
+
+type Props = OwnerProps & FormComponentProps;
+
+class TaskForm extends Component<Props> {
   handleSubmit = e => {
     e.preventDefault();
 
@@ -17,6 +30,10 @@ class TimeRelatedForm extends Component {
       }
     });
   };
+
+  componentDidMount(){
+    if(operationType)
+  }
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -59,16 +76,6 @@ class TimeRelatedForm extends Component {
         </FormItem>
         <FormItem {...formItemLayout} label="TimePicker">
           {getFieldDecorator('time-picker', config)(<TimePicker />)}
-        </FormItem>
-        <FormItem
-          wrapperCol={{
-            xs: { span: 24, offset: 0 },
-            sm: { span: 16, offset: 8 },
-          }}
-        >
-          <Button type="primary" htmlType="submit">
-            Submit
-          </Button>
         </FormItem>
       </Form>
     );
