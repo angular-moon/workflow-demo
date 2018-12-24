@@ -54,6 +54,7 @@ const mapOpComponents = (
       <Component
         key={operation.type}
         text={operation.name}
+        type={operation.type}
         select={operation.select}
         opinion={operation.opinion}
         {...restProps}

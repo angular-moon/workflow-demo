@@ -1,15 +1,15 @@
 import { utils, api } from 'demo-common';
-import wrappedApplyActions from '../apply/apply.action';
-import wrappedTaskActions from '../task/task.action';
 import { OperationType } from 'demo-common/src/enums/OperationType.enum';
 import { goBack } from 'react-router-redux';
+import wrappedApplyActions from '../apply/apply.action';
+import wrappedTaskActions from '../task/task.action';
 
 const { unwrapActions } = utils;
 
 const applyActions = unwrapActions(wrappedApplyActions);
 const taskActions = unwrapActions(wrappedTaskActions);
 
-interface SelectNode {
+export interface SelectNode {
   id: string;
   name: string;
 }

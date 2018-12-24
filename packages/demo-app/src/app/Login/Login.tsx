@@ -46,8 +46,12 @@ class LoginForm extends Component<Props, {}> {
 
     form.validateFields(async (err, values) => {
       if (!err) {
-        await userBoundActions.login(users.find(user => user.id === values.userId));
-        dispatch(push('/center'));
+        try {
+          await userBoundActions.login(users.find(user => user.id === values.userId));
+          dispatch(push('/center'));
+        } catch (e) {
+          console.log('LoginForm', e);
+        }
       }
     });
   };

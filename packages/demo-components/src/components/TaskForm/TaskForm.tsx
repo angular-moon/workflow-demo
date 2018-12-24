@@ -1,42 +1,72 @@
-import React, { Component } from 'react';
-import { Form, Select, Modal } from 'antd';
+import React, { Component, MouseEvent } from 'react';
+import { Form, Select, Input, Modal } from 'antd';
+import { connect } from 'react-redux';
 import { ActionCreatorsMapObject } from 'redux';
 import { FormComponentProps } from 'antd/lib/form';
 import { OpinionStrategy } from 'demo-common/src/types/Operation';
 import { OperationType } from 'demo-common/src/enums/OperationType.enum';
+import { utils } from 'demo-common';
+import taskModel, { SelectNode } from '../../models/task/task.model';
+import taskActions from '../../models/task/task.action';
 
 const FormItem = Form.Item;
+const { Option } = Select;
+const { TextArea } = Input;
 
-interface OwnerProps {
+const { stateContainer, bindActions } = utils;
+// @ts-ignore
+stateContainer.injectModel(taskModel);
+
+interface OwnProps {
   operationType: OperationType;
   selectKey?: string; // submit 时可选的
   opinionStrategy: OpinionStrategy;
+  handleSubmit: (selectKey?: string, selectValue?: string, opinion?: string) => void;
+  handleCancel: (e: MouseEvent<any>) => void;
+  visible: boolean;
 }
 
+interface StateProps {
+  /**
+   * 选择流程节点(submit or reject)
+   */
+  selectNodes: Array<SelectNode>;
+}
 
 interface DispatchProps {
   applyBoundActions: ActionCreatorsMapObject;
   taskBoundActions: ActionCreatorsMapObject;
 }
 
-type Props = OwnerProps & FormComponentProps;
+type Props = OwnProps & StateProps & DispatchProps & FormComponentProps;
 
 class TaskForm extends Component<Props> {
-  handleSubmit = e => {
-    e.preventDefault();
-
-    this.props.form.validateFields((err, fieldsValue) => {
-      if (err) {
+  handleOk = () => {
+    const { form, handleSubmit, selectKey } = this.props;
+    form.validateFields((err, fieldsValue) => {
+      if (!err) {
+        const { select, opinion } = fieldsValue;
+        handleSubmit(selectKey, select, opinion);
       }
     });
   };
 
-  componentDidMount(){
-    if(operationType)
+  componentDidMount() {
+    const { operationType, selectKey, taskBoundActions } = this.props;
+    if (
+      (operationType === OperationType.SUBMIT && selectKey) ||
+      operationType === OperationType.REJECT
+    ) {
+      taskBoundActions.fetchSelectNodes(operationType);
+    }
   }
 
   render() {
-    const { getFieldDecorator } = this.props.form;
+    const { selectNodes, operationType, opinionStrategy, form, handleCancel, visible } = this.props;
+    const selectLabel = operationType === OperationType.SUBMIT ? '请选择提交给:' : '请选择退回到:';
+    const opinionLabel = operationType === OperationType.SUBMIT ? '审核意见:' : '退回原因:';
+
+    const { getFieldDecorator } = form;
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -47,41 +77,65 @@ class TaskForm extends Component<Props> {
         sm: { span: 16 },
       },
     };
-    const config = {
-      rules: [{ type: 'object', required: true, message: 'Please select time!' }],
-    };
-    const rangeConfig = {
-      rules: [{ type: 'array', required: true, message: 'Please select time!' }],
-    };
+
+    const selectFormItem = selectNodes ? (
+      <FormItem {...formItemLayout} label={selectLabel}>
+        {getFieldDecorator('select', {
+          rules: [
+            {
+              required: true,
+              message: '请选择',
+            },
+          ],
+        })(
+          <Select>
+            {selectNodes.map(node => (
+              <Option value={node.id}>node.name</Option>
+            ))}
+          </Select>
+        )}
+      </FormItem>
+    ) : null;
+
+    const opinionFormItem =
+      opinionStrategy !== OpinionStrategy.NONE ? (
+        <FormItem {...formItemLayout} label={opinionLabel}>
+          {getFieldDecorator('opinion', {
+            rules: [
+              {
+                required: opinionStrategy === OpinionStrategy.REQUIRE,
+                message: '请填写',
+              },
+            ],
+          })(<TextArea rows={4} />)}
+        </FormItem>
+      ) : null;
+
     return (
-      <Form onSubmit={this.handleSubmit}>
-        <FormItem {...formItemLayout} label="DatePicker">
-          {getFieldDecorator('date-picker', config)(<DatePicker />)}
-        </FormItem>
-        <FormItem {...formItemLayout} label="DatePicker[showTime]">
-          {getFieldDecorator('date-time-picker', config)(
-            <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />
-          )}
-        </FormItem>
-        <FormItem {...formItemLayout} label="MonthPicker">
-          {getFieldDecorator('month-picker', config)(<MonthPicker />)}
-        </FormItem>
-        <FormItem {...formItemLayout} label="RangePicker">
-          {getFieldDecorator('range-picker', rangeConfig)(<RangePicker />)}
-        </FormItem>
-        <FormItem {...formItemLayout} label="RangePicker[showTime]">
-          {getFieldDecorator('range-time-picker', rangeConfig)(
-            <RangePicker showTime format="YYYY-MM-DD HH:mm:ss" />
-          )}
-        </FormItem>
-        <FormItem {...formItemLayout} label="TimePicker">
-          {getFieldDecorator('time-picker', config)(<TimePicker />)}
-        </FormItem>
-      </Form>
+      <Modal title="Basic Modal" visible={visible} onOk={this.handleOk} onCancel={handleCancel}>
+        <Form>
+          {selectFormItem}
+          {opinionFormItem}
+        </Form>
+      </Modal>
     );
   }
 }
 
-const WrappedTimeRelatedForm = Form.create()(TimeRelatedForm);
+const WrappedTaskForm = Form.create()(TaskForm);
 
-ReactDOM.render(<WrappedTimeRelatedForm />, mountNode);
+function mapStateToProps(state): StateProps {
+  return {
+    selectNodes: state.task.selectNodes,
+  };
+}
+
+function mapDispatchToProps(dispatch): DispatchProps {
+  // @ts-ignore
+  return bindActions(taskActions)(dispatch);
+}
+
+export default connect<StateProps, DispatchProps, OwnProps>(
+  mapStateToProps,
+  mapDispatchToProps
+)(WrappedTaskForm);

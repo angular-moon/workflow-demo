@@ -8,6 +8,5 @@ export default createActions({
     set: identity,
     fetch: identity,
     save: identity,
-    submit: identity,
   },
 });

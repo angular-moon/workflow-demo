@@ -6,8 +6,8 @@ import { convertRESTAPI } from '../util';
 function process_instances_reject_nodes_get(opts) {
   return instance({
     method: 'get',
-    url:  '/process-instances/reject-nodes',
-    opts: opts
+    url: '/process-instances/reject-nodes',
+    opts: opts,
   });
 }
 
@@ -16,7 +16,7 @@ function process_instances_instanceId_delete(opts) {
   return instance({
     method: 'delete',
     url: convertRESTAPI('/process-instances/{instanceId}', opts),
-    opts: opts
+    opts: opts,
   });
 }
 
@@ -24,8 +24,8 @@ function process_instances_instanceId_delete(opts) {
 function process_instances_complete_nodes_get(opts) {
   return instance({
     method: 'get',
-    url:  '/process-instances/complete-nodes',
-    opts: opts
+    url: '/process-instances/complete-nodes',
+    opts: opts,
   });
 }
 
@@ -33,8 +33,8 @@ function process_instances_complete_nodes_get(opts) {
 function process_instances_ui_config_get(opts) {
   return instance({
     method: 'get',
-    url:  '/process-instances/ui-config',
-    opts: opts
+    url: '/process-instances/ui-config',
+    opts: opts,
   });
 }
 
@@ -42,8 +42,8 @@ function process_instances_ui_config_get(opts) {
 function process_instances_post(opts) {
   return instance({
     method: 'post',
-    url:  '/process-instances',
-    opts: opts
+    url: '/process-instances',
+    opts: opts,
   });
 }
 
@@ -51,8 +51,8 @@ function process_instances_post(opts) {
 function me_todo_list_get(opts) {
   return instance({
     method: 'get',
-    url:  '/me/todo-list',
-    opts: opts
+    url: '/me/todo-list',
+    opts: opts,
   });
 }
 
@@ -61,7 +61,7 @@ function me_todo_list_taskId_delete(opts) {
   return instance({
     method: 'delete',
     url: convertRESTAPI('/me/todo-list/{taskId}', opts),
-    opts: opts
+    opts: opts,
   });
 }
 
@@ -69,8 +69,8 @@ function me_todo_list_taskId_delete(opts) {
 function me_todo_list_stats_get(opts) {
   return instance({
     method: 'get',
-    url:  '/me/todo-list/stats',
-    opts: opts
+    url: '/me/todo-list/stats',
+    opts: opts,
   });
 }
 
@@ -79,7 +79,7 @@ function me_todo_list_taskId_patch(opts) {
   return instance({
     method: 'patch',
     url: convertRESTAPI('/me/todo-list/{taskId}', opts),
-    opts: opts
+    opts: opts,
   });
 }
 
@@ -87,8 +87,8 @@ function me_todo_list_taskId_patch(opts) {
 function me_todo_list_counting_get(opts) {
   return instance({
     method: 'get',
-    url:  '/me/todo-list/counting',
-    opts: opts
+    url: '/me/todo-list/counting',
+    opts: opts,
   });
 }
 
@@ -97,7 +97,7 @@ function me_revoke_tasks_taskId_patch(opts) {
   return instance({
     method: 'patch',
     url: convertRESTAPI('/me/revoke-tasks/{taskId}', opts),
-    opts: opts
+    opts: opts,
   });
 }
 
@@ -106,7 +106,7 @@ function applies_id_get(opts) {
   return instance({
     method: 'get',
     url: convertRESTAPI('/applies/{id}', opts),
-    opts: opts
+    opts: opts,
   });
 }
 
@@ -114,8 +114,8 @@ function applies_id_get(opts) {
 function me_revoke_tasks_counting_get(opts) {
   return instance({
     method: 'get',
-    url:  '/me/revoke-tasks/counting',
-    opts: opts
+    url: '/me/revoke-tasks/counting',
+    opts: opts,
   });
 }
 
@@ -124,7 +124,7 @@ function applies_id_history_get(opts) {
   return instance({
     method: 'get',
     url: convertRESTAPI('/applies/{id}/history', opts),
-    opts: opts
+    opts: opts,
   });
 }
 
@@ -133,7 +133,7 @@ function login_userId_get(opts) {
   return instance({
     method: 'get',
     url: convertRESTAPI('/login/{userId}', opts),
-    opts: opts
+    opts: opts,
   });
 }
 
@@ -141,8 +141,8 @@ function login_userId_get(opts) {
 function login_get(opts) {
   return instance({
     method: 'get',
-    url:  '/login',
-    opts: opts
+    url: '/login',
+    opts: opts,
   });
 }
 
@@ -150,8 +150,8 @@ function login_get(opts) {
 function me_revoke_tasks_get(opts) {
   return instance({
     method: 'get',
-    url:  '/me/revoke-tasks',
-    opts: opts
+    url: '/me/revoke-tasks',
+    opts: opts,
   });
 }
 
@@ -160,7 +160,7 @@ function applies_id_put(opts) {
   return instance({
     method: 'put',
     url: convertRESTAPI('/applies/{id}', opts),
-    opts: opts
+    opts: opts,
   });
 }
 
@@ -168,8 +168,8 @@ function applies_id_put(opts) {
 function applies_post(opts) {
   return instance({
     method: 'post',
-    url:  '/applies',
-    opts: opts
+    url: '/applies',
+    opts: opts,
   });
 }
 
@@ -177,8 +177,8 @@ function applies_post(opts) {
 function applies_test2_post(opts) {
   return instance({
     method: 'post',
-    url:  '/applies/test2',
-    opts: opts
+    url: '/applies/test2',
+    opts: opts,
   });
 }
 
@@ -186,8 +186,8 @@ function applies_test2_post(opts) {
 function applies_test_get(opts) {
   return instance({
     method: 'get',
-    url:  '/applies/test',
-    opts: opts
+    url: '/applies/test',
+    opts: opts,
   });
 }
 
@@ -212,5 +212,5 @@ export {
   applies_id_put,
   applies_post,
   applies_test2_post,
-  applies_test_get
+  applies_test_get,
 };

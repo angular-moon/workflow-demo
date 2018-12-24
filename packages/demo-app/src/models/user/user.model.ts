@@ -28,7 +28,6 @@ export default {
         const { data } = yield call(api.workflowDemo.login_userId_get, {
           path: { userId: user.id },
         });
-        // 暂时保存
         localStorage.setItem('user', JSON.stringify(user));
         yield put({ type: 'setUser', payload: user });
       } catch (e) {

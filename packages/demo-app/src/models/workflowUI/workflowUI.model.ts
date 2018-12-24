@@ -29,7 +29,7 @@ export default {
     *showUI({ payload: taskId }: Action<any>, { call, put }: EffectsCommandMap) {
       try {
         // 获取处理UI配置
-        const { data } = yield call(api.workflowDemo.me_todo_list_taskId_ui_config_get, {
+        const { data } = yield call(api.workflowDemo.process_instances_ui_config_get, {
           path: { taskId },
         });
         // 保存配置
@@ -44,7 +44,7 @@ export default {
       try {
         // TODO 替换为创建工作流接口
         console.log('createWorkflow');
-        const { data: taskId } = yield call(api.workflowDemo.flows_post);
+        const { data: taskId } = yield call(api.workflowDemo.process_instances_post);
         // @ts-ignore
         yield put.resolve(workflowUIActions.showUI(taskId));
       } catch (e) {
