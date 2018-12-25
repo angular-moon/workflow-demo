@@ -23,16 +23,12 @@ export default {
   },
   effects: {
     *login({ payload: user }: Action<any>, { call, put }: EffectsCommandMap) {
-      try {
-        // mock 数据不好改, 暂时直接保存user, 不使用接口返回的数据
-        const { data } = yield call(api.workflowDemo.login_userId_get, {
-          path: { userId: user.id },
-        });
-        localStorage.setItem('user', JSON.stringify(user));
-        yield put({ type: 'setUser', payload: user });
-      } catch (e) {
-        console.log(e);
-      }
+      // mock 数据不好改, 暂时直接保存user, 不使用接口返回的数据
+      const { data } = yield call(api.workflowDemo.login_userId_get, {
+        path: { userId: user.id },
+      });
+      localStorage.setItem('user', JSON.stringify(user));
+      yield put({ type: 'setUser', payload: user });
     },
   },
 };

@@ -1,13 +1,12 @@
 import { OperationType } from 'demo-common/src/enums/OperationType.enum';
-import Save from './Save';
-import Submit from './Submit';
-import Reject from '../../Operation/Reject';
+import Revoke from '../../Operation/Revoke';
+import Submit from '../../Operation/Submit';
 import Cancel from '../../Operation/Cancel';
 
-export { Save, Cancel, Reject, Submit };
+export { Cancel, Revoke, Submit };
 
 // opComponentMaps
 export default {
+  [OperationType.REVOKE]: Revoke,
   [OperationType.SUBMIT]: Submit,
-  [OperationType.REJECT]: Reject,
 };

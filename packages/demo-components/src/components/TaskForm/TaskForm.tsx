@@ -17,11 +17,17 @@ const { stateContainer, bindActions } = utils;
 // @ts-ignore
 stateContainer.injectModel(taskModel);
 
+export interface HandleSubmitArgs {
+  selectKey?: string;
+  selectValue?: string;
+  opinion?: string;
+}
+
 interface OwnProps {
   operationType: OperationType;
   selectKey?: string; // submit 时可选的
   opinionStrategy: OpinionStrategy;
-  handleSubmit: (selectKey?: string, selectValue?: string, opinion?: string) => void;
+  handleSubmit: (args: HandleSubmitArgs) => void;
   handleCancel: (e: MouseEvent<any>) => void;
   visible: boolean;
 }
@@ -45,8 +51,8 @@ class TaskForm extends Component<Props> {
     const { form, handleSubmit, selectKey } = this.props;
     form.validateFields((err, fieldsValue) => {
       if (!err) {
-        const { select, opinion } = fieldsValue;
-        handleSubmit(selectKey, select, opinion);
+        const { selectValue, opinion } = fieldsValue;
+        handleSubmit({ selectKey, selectValue, opinion });
       }
     });
   };
@@ -80,7 +86,7 @@ class TaskForm extends Component<Props> {
 
     const selectFormItem = selectNodes ? (
       <FormItem {...formItemLayout} label={selectLabel}>
-        {getFieldDecorator('select', {
+        {getFieldDecorator('selectValue', {
           rules: [
             {
               required: true,

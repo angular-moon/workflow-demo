@@ -27,13 +27,9 @@ export default {
   },
   effects: {
     *fetch({ payload }: Action<any>, { call, put }: EffectsCommandMap) {
-      try {
-        // 获取暂存和待办任务数量
-        const { data: todoCounting } = yield call(api.workflowDemo.me_todo_list_stats_get);
-        yield put(todoCountingActions.set(todoCounting));
-      } catch (e) {
-        console.log(e);
-      }
+      // 获取待办任务数量(包含可撤回)
+      const { data: todoCounting } = yield call(api.workflowDemo.me_todo_list_stats_get);
+      yield put(todoCountingActions.set(todoCounting));
     },
   },
 };

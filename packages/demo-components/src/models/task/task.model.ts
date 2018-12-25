@@ -1,12 +1,10 @@
 import { utils, api } from 'demo-common';
 import { OperationType } from 'demo-common/src/enums/OperationType.enum';
 import { goBack } from 'react-router-redux';
-import wrappedApplyActions from '../apply/apply.action';
 import wrappedTaskActions from '../task/task.action';
 
 const { unwrapActions } = utils;
 
-const applyActions = unwrapActions(wrappedApplyActions);
 const taskActions = unwrapActions(wrappedTaskActions);
 
 export interface SelectNode {
@@ -40,28 +38,41 @@ export default {
         operationType === OperationType.SUBMIT
           ? api.workflowDemo.process_instances_complete_nodes_get
           : api.workflowDemo.process_instances_reject_nodes_get;
-      try {
-        const { data } = yield call(selectNodesApi, {
-          params: { taskId },
-        });
-        yield put(taskActions.set({ selectNodes: data }));
-      } catch (e) {
-        utils.showError(e.message);
-      }
+
+      const { data } = yield call(selectNodesApi, {
+        params: { taskId },
+      });
+      yield put(taskActions.set({ selectNodes: data }));
     },
     *submit({ payload }, { call, put, select }) {
       const { opinion, selectKey, selectValue } = payload;
       const taskId = yield select(state => state.task.taskId);
-      try {
-        yield put.resolve(applyActions.save());
-        yield call(api.workflowDemo.me_todo_list_taskId_patch, {
-          path: { taskId },
-          data: { opinion, selectKey, selectValue },
-        });
-        yield put(goBack());
-      } catch (e) {
-        utils.showError(e.message);
-      }
+      yield call(api.workflowDemo.me_todo_list_taskId_patch, {
+        path: { taskId },
+        data: { opinion, selectKey, selectValue },
+      });
+      utils.popup.success('提交成功');
+      yield put(goBack());
+    },
+    *reject({ payload }, { call, put, select }) {
+      const { opinion, selectValue } = payload;
+      const taskId = yield select(state => state.task.taskId);
+      yield call(api.workflowDemo.me_todo_list_taskId_delete, {
+        path: { taskId },
+        data: { opinion, targetId: selectValue },
+      });
+      utils.popup.success('退回成功');
+      yield put(goBack());
+    },
+    *revoke({ payload }, { call, put, select }) {
+      const { opinion } = payload;
+      const taskId = yield select(state => state.task.taskId);
+      yield call(api.workflowDemo.me_revoke_tasks_taskId_patch, {
+        path: { taskId },
+        data: { opinion },
+      });
+      utils.popup.success('撤回成功');
+      yield put(goBack());
     },
   },
 };

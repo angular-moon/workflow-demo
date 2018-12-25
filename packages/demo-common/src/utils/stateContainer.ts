@@ -12,6 +12,10 @@ export interface StateContainer {
   injectModel: (model: Model, replace?: boolean) => Model;
 }
 
-const stateContainer: StateContainer = create(history, process.env.NODE_ENV);
+const stateContainer: StateContainer = create({
+  history,
+  NODE_ENV: process.env.NODE_ENV,
+  module,
+});
 
 export default stateContainer;

@@ -50,7 +50,7 @@ class LoginForm extends Component<Props, {}> {
           await userBoundActions.login(users.find(user => user.id === values.userId));
           dispatch(push('/center'));
         } catch (e) {
-          console.log('LoginForm', e);
+          console.error('LoginForm', e);
         }
       }
     });

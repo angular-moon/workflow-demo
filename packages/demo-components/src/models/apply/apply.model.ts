@@ -1,6 +1,7 @@
 import { utils, api } from 'demo-common';
 import wrappedApplyActions from './apply.action';
 import { Apply, ApplyServer } from '../../types/Apply';
+import { success } from '../../../../demo-common/src/utils/popup';
 
 const { unwrapActions } = utils;
 
@@ -52,10 +53,10 @@ export default {
         // 保存数据
         yield put(applyActions.set(transform2Client(data)));
       } catch (e) {
-        utils.showError(e.message);
+        utils.popup.error(e.message);
       }
     },
-    *save({ payload: processId }, { call, put, select }) {
+    *save({ payload }, { call, put, select }) {
       try {
         const { apply, processId } = yield select(state => ({
           apply: state.apply,
@@ -73,11 +74,11 @@ export default {
             data: { ...transform2Server(apply) },
           });
         }
-
+        utils.popup.success('保存成功');
         // 保存数据
         yield put(applyActions.set(transform2Client(response.data)));
       } catch (e) {
-        utils.showError(e.message);
+        utils.popup.error(e.message);
       }
     },
   },

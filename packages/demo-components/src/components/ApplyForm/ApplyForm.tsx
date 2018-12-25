@@ -12,9 +12,8 @@ import taskActions from '../../models/task/task.action';
 import applyModel from '../../models/apply/apply.model';
 import { filterOperations, mapOpComponents } from '../../utils/operations';
 import ButtonBox from '../ButtonBox';
-import { Cancel } from '../Operation';
-import CatalogSelect, { Catalog } from './CatalogSelect';
-import opComponentMaps, { Save } from './Operation';
+import CatalogSelect from './CatalogSelect';
+import opComponentMaps, { Save, Cancel } from './Operation';
 import { Apply } from '../../types/Apply';
 
 const FormItem = Form.Item;
@@ -216,7 +215,9 @@ export class ApplyForm extends Component<Props, State> {
         {agentItem}
         <FormItem {...tailFormItemLayout}>
           <ButtonBox>
+            {/* workflow op */}
             {opComponents}
+            {/* 保存 */}
             <Save />
             {/* 取消 */}
             {cancelNeedRemoveWorkFlow ? <Cancel preCancel={this.removeWorkFlow} /> : <Cancel />}
