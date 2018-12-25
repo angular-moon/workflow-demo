@@ -1,10 +1,10 @@
 import { api, utils } from 'demo-common';
 import { Action } from 'redux-actions';
 import { EffectsCommandMap } from 'dva';
-import { Put } from 'redux-saga/effects';
 import { push } from 'react-router-redux';
 import { WorkflowUI } from './workflowUI';
 import wrappedWorkflowUIActions from './workflowUI.action';
+import { TodoType } from 'demo-common/src/enums';
 
 const workflowUIActions = utils.unwrapActions(wrappedWorkflowUIActions);
 
@@ -26,27 +26,34 @@ export default {
     },
   },
   effects: {
-    *showUI({ payload: taskId }: Action<any>, { call, put }: EffectsCommandMap) {
+    *showUI(
+      { payload: { taskId, processId, applyId, todoType } }: Action<any>,
+      { call, put }: EffectsCommandMap
+    ) {
       try {
         // 获取处理UI配置
-        const { data } = yield call(api.workflowDemo.process_instances_ui_config_get, {
+        const { data: UICofing } = yield call(api.workflowDemo.process_instances_ui_config_get, {
           path: { taskId },
         });
         // 保存配置
-        yield put(workflowUIActions.set(data));
+        yield put(workflowUIActions.set(UICofing, { taskId, processId, applyId, todoType }));
         // 跳转路由
         yield put(push('/center/WorkflowUI'));
       } catch (e) {
         console.log(e);
       }
     },
-    *createWorkflow({ payload }: Action<any>, { call, put }: EffectsCommandMap) {
+    *createProcess({ payload }: Action<any>, { call, put }: EffectsCommandMap) {
       try {
-        // TODO 替换为创建工作流接口
-        console.log('createWorkflow');
-        const { data: taskId } = yield call(api.workflowDemo.process_instances_post);
+        const { data: task } = yield call(api.workflowDemo.process_instances_post);
         // @ts-ignore
-        yield put.resolve(workflowUIActions.showUI(taskId));
+        yield put.resolve(
+          workflowUIActions.showUI({
+            taskId: task.id,
+            processId: task.processInstanceId,
+            todoType: TodoType.PENDING,
+          })
+        );
       } catch (e) {
         console.log(e);
       }

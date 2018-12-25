@@ -8,6 +8,7 @@ import todoListModel from './todoList.model';
 import Pagination from '../../types/Pagination';
 import todoListActions from './todoList.action';
 import { RouteComponentProps } from 'react-router';
+import { Handle } from '../../components/Operation';
 
 const { bindActions, stateContainer } = utils;
 
@@ -29,7 +30,9 @@ const columns = [
   {
     title: '操作',
     render(value, record) {
-      return <Button type="primary">处理</Button>;
+      const { id: taskId, processInstanceId: processId, type: todoType } = record.task;
+      const applyId = record.apply && record.apply.id;
+      return <Handle taskId={taskId} processId={processId} todoType={todoType} applyId={applyId} />;
     },
   },
 ];

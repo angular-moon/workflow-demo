@@ -7,13 +7,17 @@ import UIUrlMap from './UIUrlMap';
 export default createActions({
   workflowUI: {
     reset: identity,
-    set: UICofing => ({
+    set: (UICofing, { taskId, processId, applyId, todoType }) => ({
       url: UIUrlMap[UICofing.name],
-      props: JSON.parse(UICofing.data),
+      data: JSON.parse(UICofing.data),
       operations: UICofing.operations.map(operation => ({
         ...operation,
         data: JSON.parse(operation.data),
       })),
+      taskId,
+      processId,
+      applyId,
+      todoType,
     }),
     showUI: identity,
     createWorkflow: identity,

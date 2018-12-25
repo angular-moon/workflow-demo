@@ -16,7 +16,7 @@ export default ({ match }: RouteComponentProps) => (
     <Content style={{ minHeight: 700, padding: 20 }}>
       <Switch>
         <Route exact path={match.path} component={TodoCounting} />
-        <Route path={`${match.path}/todos/:bizState`} component={TodoList} />
+        <Route path={`${match.path}/todos/:todoType`} component={TodoList} />
         <Route path={`${match.path}/workflow-ui`} component={WorkflowUI} />
       </Switch>
     </Content>

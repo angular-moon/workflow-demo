@@ -25,7 +25,7 @@ const Create = (props: Props) => {
   function create() {
     const { workflowUIBoundActions, disabled } = props;
     console.log('create', disabled);
-    if (!disabled) workflowUIBoundActions.createWorkflow();
+    if (!disabled) workflowUIBoundActions.createProcess();
   }
 
   return (
