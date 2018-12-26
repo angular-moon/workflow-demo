@@ -14,7 +14,7 @@ export interface ApplyServer {
   applyTime?: number;
   id?: string;
   money?: number;
-  processId?: string;
+  processInstanceId?: string;
   state?: string | number;
   stockDirId?: string;
   stockDirName?: string;

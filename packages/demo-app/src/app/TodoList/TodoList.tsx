@@ -30,9 +30,16 @@ const columns = [
   {
     title: '操作',
     render(value, record) {
-      const { id: taskId, processInstanceId: processId, type: todoType } = record.task;
+      const { id: taskId, processInstanceId, todoType } = record.task;
       const applyId = record.apply && record.apply.id;
-      return <Handle taskId={taskId} processId={processId} todoType={todoType} applyId={applyId} />;
+      return (
+        <Handle
+          applyId={applyId}
+          taskId={taskId}
+          processInstanceId={processInstanceId}
+          todoType={todoType}
+        />
+      );
     },
   },
 ];
@@ -68,12 +75,13 @@ class TodoList extends Component<Props, {}> {
   };
 
   render() {
-    const { todos, pagination } = this.props;
+    const { todos, pagination, match } = this.props;
+    const dataSource = todos.map(todo => ({ ...todo, todoType: match.params.todoType }));
     return (
       <>
         <h1>TodoList</h1>
         <Table
-          dataSource={todos}
+          dataSource={dataSource}
           columns={columns}
           rowKey={record => record.task.id}
           pagination={{ ...pagination, onChange: this.onPageChange }}

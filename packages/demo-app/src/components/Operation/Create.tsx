@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { utils } from 'demo-common';
 // @ts-ignore
@@ -20,8 +20,6 @@ interface DispatchProps {
 type Props = OwnerProps & DispatchProps;
 
 const Create = (props: Props) => {
-  const [createdFlag, setCreatedFlag] = useState(false);
-
   function create() {
     const { workflowUIBoundActions, disabled } = props;
     console.log('create', disabled);

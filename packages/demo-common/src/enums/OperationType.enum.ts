@@ -1,5 +1,5 @@
 export enum OperationType {
-  SUBMIT = 'submit',
-  REJECT = 'reject',
-  REVOKE = 'revoke',
+  SUBMIT = 'COMPLETE',
+  REJECT = 'REJECT',
+  REVOKE = 'REVOKE',
 }

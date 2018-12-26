@@ -7,16 +7,20 @@ import applyActions from '../../../models/apply/apply.action';
 
 const { bindActions } = utils;
 
+interface OwnProps {
+  mode: 'create' | 'update_agent';
+}
+
 interface DispatchProps {
   applyBoundActions: ActionCreatorsMapObject;
 }
 
-type Props = DispatchProps;
+type Props = OwnProps & DispatchProps;
 
 const Cancel = (props: Props) => {
   function save() {
-    const { applyBoundActions } = props;
-    applyBoundActions.save();
+    const { applyBoundActions, mode } = props;
+    applyBoundActions.save(mode);
   }
 
   return (

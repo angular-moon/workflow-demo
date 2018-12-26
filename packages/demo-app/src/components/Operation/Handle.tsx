@@ -4,18 +4,18 @@ import { connect } from 'react-redux';
 import { utils } from 'demo-common';
 // @ts-ignore
 import { Dispatch, ActionCreatorsMapObject } from 'redux';
-import { workflowUIModel, workflowUIActions } from '../../models/workflowUI';
 import { TodoType } from 'demo-common/src/enums';
+import { workflowUIModel, workflowUIActions } from '../../models/workflowUI';
 
 const { stateContainer, bindActions } = utils;
 
 stateContainer.injectModel(workflowUIModel);
 
 type OwnerProps = {
-  taskId: string;
-  todoType: TodoType;
-  processId: string;
   applyId?: string;
+  taskId: string;
+  processInstanceId: string;
+  todoType: TodoType;
 };
 
 interface DispatchProps {
@@ -26,8 +26,15 @@ type Props = OwnerProps & DispatchProps;
 
 const Handle = (props: Props) => {
   function handle() {
-    const { taskId, processId, applyId, workflowUIBoundActions } = props;
-    workflowUIBoundActions.showUI({ taskId, processId, applyId });
+    const {
+      applyId, taskId, processInstanceId, todoType, workflowUIBoundActions,
+    } = props;
+    workflowUIBoundActions.showUI({
+      applyId,
+      taskId,
+      processInstanceId,
+      todoType,
+    });
   }
 
   return (

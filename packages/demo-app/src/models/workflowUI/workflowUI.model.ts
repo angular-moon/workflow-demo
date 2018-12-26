@@ -2,9 +2,9 @@ import { api, utils } from 'demo-common';
 import { Action } from 'redux-actions';
 import { EffectsCommandMap } from 'dva';
 import { push } from 'react-router-redux';
+import { TodoType } from 'demo-common/src/enums';
 import { WorkflowUI } from './workflowUI';
 import wrappedWorkflowUIActions from './workflowUI.action';
-import { TodoType } from 'demo-common/src/enums';
 
 const workflowUIActions = utils.unwrapActions(wrappedWorkflowUIActions);
 
@@ -27,16 +27,27 @@ export default {
   },
   effects: {
     *showUI(
-      { payload: { taskId, processId, applyId, todoType } }: Action<any>,
+      {
+        payload: {
+          taskId, processInstanceId, applyId, todoType,
+        },
+      }: Action<any>,
       { call, put }: EffectsCommandMap
     ) {
       try {
         // 获取处理UI配置
+        const params = todoType === TodoType.REVOKEABLE ? { processInstanceId } : { taskId };
         const { data: UICofing } = yield call(api.workflowDemo.process_instances_ui_config_get, {
-          path: { taskId },
+          params,
         });
         // 保存配置
-        yield put(workflowUIActions.set(UICofing, { taskId, processId, applyId, todoType }));
+        yield put(
+          workflowUIActions.set(UICofing, {
+            taskId,
+            processInstanceId,
+            applyId,
+          })
+        );
         // 跳转路由
         yield put(push('/center/WorkflowUI'));
       } catch (e) {
@@ -50,7 +61,7 @@ export default {
         yield put.resolve(
           workflowUIActions.showUI({
             taskId: task.id,
-            processId: task.processInstanceId,
+            processInstanceId: task.processInstanceId,
             todoType: TodoType.PENDING,
           })
         );

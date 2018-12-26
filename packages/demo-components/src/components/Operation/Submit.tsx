@@ -13,7 +13,7 @@ const { bindActions } = utils;
 interface OwnProps {
   text: string;
   type: OperationType;
-  select: string; // selectKey
+  selectKey: string;
   opinion: OpinionStrategy;
   [key: string]: any;
 }
@@ -27,10 +27,10 @@ type Props = OwnProps & DispatchProps;
 const Submit = (props: Props) => {
   const [taskFormVisible, setTaskFormVisible] = useState(false);
 
-  const { text, taskBoundActions, select, opinion, type } = props;
+  const { text, taskBoundActions, selectKey, opinion, type } = props;
 
   async function submit() {
-    if (select && opinion === OpinionStrategy.NONE) {
+    if (selectKey && opinion === OpinionStrategy.NONE) {
       setTaskFormVisible(true);
     } else {
       try {
@@ -63,7 +63,7 @@ const Submit = (props: Props) => {
       <TaskForm
         operationType={type}
         opinionStrategy={opinion}
-        selectKey={select}
+        selectKey={selectKey}
         visible={taskFormVisible}
         handleSubmit={handleTaskFormSubmit}
         handleCancel={handleTaskFormCancel}

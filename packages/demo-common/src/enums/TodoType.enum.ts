@@ -1,7 +1,7 @@
 export enum TodoType {
-  PENDING = 'pending',
-  REJECTED = 'rejected',
-  REVOKEABLE = 'revokeable',
+  PENDING = 'PENDING',
+  REJECTED = 'REJECTED',
+  REVOKEABLE = 'REVOKEABLE',
 }
 
 export enum TodoTypeName {

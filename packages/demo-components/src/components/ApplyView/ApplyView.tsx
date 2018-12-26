@@ -1,7 +1,6 @@
 import { Col, Row } from 'antd';
 import { utils } from 'demo-common';
 import React, { useEffect } from 'react';
-import { TodoType } from 'demo-common/src/enums/TodoType.enum';
 import { Operation } from 'demo-common/src/types/Operation';
 import { connect } from 'react-redux';
 import { ActionCreatorsMapObject } from 'redux';
@@ -9,7 +8,7 @@ import styled from 'styled-components';
 import applyActions from '../../models/apply/apply.action';
 import applyModel from '../../models/apply/apply.model';
 import opComponentMaps, { Cancel } from './Operation';
-import { filterOperations, mapOpComponents } from '../../utils/operations';
+import { mapOpComponents } from '../../utils/operations';
 import taskActions from '../../models/task/task.action';
 
 const { stateContainer, bindActions } = utils;
@@ -28,17 +27,13 @@ export interface OwnProps {
    */
   applyId?: string;
   /**
-   * 工作流任务类型
-   */
-  todoType: TodoType;
-  /**
    * 工作流任务id
    */
   taskId: string;
   /**
    * 工作流实例id
    */
-  processId: string;
+  processInstanceId: string;
   /**
    * 工作流配置的操作
    */
@@ -72,10 +67,9 @@ export const ApplyView = (props: Props) => {
     applyId,
     apply,
     taskId,
-    processId,
+    processInstanceId,
     applyBoundActions,
     taskBoundActions,
-    todoType,
     operations,
   } = props;
   useEffect(() => {
@@ -85,12 +79,12 @@ export const ApplyView = (props: Props) => {
     taskBoundActions.reset();
     taskBoundActions.set({
       taskId,
-      processId,
+      processInstanceId,
     });
   }, []);
 
-  // 计算当前任务有哪些操作, 工作流配置有且当前的任务类型允许出现该操作
-  const opComponents = filterOperations(todoType)(operations).map(mapOpComponents(opComponentMaps));
+  // 工作流配置的操作, map to opComponent
+  const opComponents = operations.map(mapOpComponents(opComponentMaps));
 
   return (
     <Row gutter={16}>

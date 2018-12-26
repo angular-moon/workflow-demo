@@ -11,6 +11,6 @@ export type Operation = {
   type: OperationType;
   opinion: OpinionStrategy;
   // 是否需要选择提交节点
-  select?: string;
+  selectKey?: string;
   data?: {};
 };

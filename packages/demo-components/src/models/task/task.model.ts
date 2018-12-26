@@ -14,7 +14,7 @@ export interface SelectNode {
 
 interface TaskState {
   taskId?: string;
-  processId?: string;
+  processInstanceId?: string;
   selectNodes: Array<SelectNode>;
 }
 

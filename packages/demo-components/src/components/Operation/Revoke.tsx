@@ -5,8 +5,8 @@ import { OpinionStrategy } from 'demo-common/src/types/Operation';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { ActionCreatorsMapObject } from 'redux';
-import taskActions from '../../../models/task/task.action';
-import TaskForm, { HandleSubmitArgs } from '../../TaskForm';
+import taskActions from '../../models/task/task.action';
+import TaskForm, { HandleSubmitArgs } from '../TaskForm';
 
 const { bindActions } = utils;
 

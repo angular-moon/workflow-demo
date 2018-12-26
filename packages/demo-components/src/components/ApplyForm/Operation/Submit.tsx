@@ -9,14 +9,16 @@ import { ActionCreatorsMapObject } from 'redux';
 import applyActions from '../../../models/apply/apply.action';
 import taskActions from '../../../models/task/task.action';
 import TaskForm, { HandleSubmitArgs } from '../../TaskForm';
+import { Mode } from '../enums/Mode';
 
 const { bindActions } = utils;
 
 interface OwnProps {
   text: string;
   form: WrappedFormUtils;
+  mode: Mode;
   type: OperationType;
-  select: string; // selectKey
+  selectKey: string;
   opinion: OpinionStrategy;
   [key: string]: any;
 }
@@ -31,17 +33,17 @@ type Props = OwnProps & DispatchProps;
 const Submit = (props: Props) => {
   const [taskFormVisible, setTaskFormVisible] = useState(false);
 
-  const { text, form, select, opinion, type } = props;
+  const { text, form, mode, selectKey, opinion, type } = props;
 
   function submit() {
     form.validateFieldsAndScroll(async (err, values) => {
       if (!err) {
         const { taskBoundActions } = props;
-        if (select && opinion === OpinionStrategy.NONE) {
+        if (selectKey && opinion === OpinionStrategy.NONE) {
           setTaskFormVisible(true);
         } else {
           try {
-            await applyActions.save();
+            await applyActions.save(mode);
             await taskBoundActions.submit();
           } catch (e) {
             utils.popup.error(e.message);
@@ -52,9 +54,9 @@ const Submit = (props: Props) => {
   }
 
   async function handleTaskFormSubmit({ selectKey, selectValue, opinion }: HandleSubmitArgs) {
-    const { taskBoundActions } = props;
+    const { mode, taskBoundActions } = props;
     try {
-      await applyActions.save();
+      await applyActions.save(mode);
       await taskBoundActions.submit({ selectKey, selectValue, opinion });
       setTaskFormVisible(false);
     } catch (e) {
@@ -74,7 +76,7 @@ const Submit = (props: Props) => {
       <TaskForm
         operationType={type}
         opinionStrategy={opinion}
-        selectKey={select}
+        selectKey={selectKey}
         visible={taskFormVisible}
         handleSubmit={handleTaskFormSubmit}
         handleCancel={handleTaskFormCancel}

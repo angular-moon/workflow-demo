@@ -2,7 +2,6 @@ import { Form, Input } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { utils } from 'demo-common';
 import { OperationType } from 'demo-common/src/enums/OperationType.enum';
-import { TodoType } from 'demo-common/src/enums/TodoType.enum';
 import { Operation } from 'demo-common/src/types/Operation';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -10,11 +9,12 @@ import { ActionCreatorsMapObject } from 'redux';
 import applyActions from '../../models/apply/apply.action';
 import taskActions from '../../models/task/task.action';
 import applyModel from '../../models/apply/apply.model';
-import { filterOperations, mapOpComponents } from '../../utils/operations';
+import { mapOpComponents } from '../../utils/operations';
 import ButtonBox from '../ButtonBox';
 import CatalogSelect from './CatalogSelect';
 import opComponentMaps, { Save, Cancel } from './Operation';
 import { Apply } from '../../types/Apply';
+import { Mode } from './enums/Mode';
 
 const FormItem = Form.Item;
 const { stateContainer, bindActions } = utils;
@@ -22,25 +22,17 @@ const { stateContainer, bindActions } = utils;
 // @ts-ignore
 stateContainer.injectModel(applyModel);
 
-export enum Mode {
-  CREATE = 'create',
-  UPDATE_AGENT = 'update_agent',
-}
-
 export interface OwnProps {
   /**
    * 申报id
    */
   applyId?: string;
+  // 不能使用Mode, 提取props时拿不到枚举值
   /**
    * 模式
    * @workflow
    */
   mode: 'create' | 'update_agent';
-  /**
-   * 工作流任务类型
-   */
-  todoType: TodoType;
   /**
    * 工作流任务id
    */
@@ -48,7 +40,7 @@ export interface OwnProps {
   /**
    * 工作流实例id
    */
-  processId: string;
+  processInstanceId: string;
   /**
    * 工作流配置的操作
    */
@@ -88,12 +80,12 @@ export class ApplyForm extends Component<Props, State> {
   componentDidMount() {
     const {
       form,
+      mode,
       applyId,
       taskId,
-      processId,
+      processInstanceId,
       applyBoundActions,
       taskBoundActions,
-      todoType,
       operations,
     } = this.props;
 
@@ -107,16 +99,16 @@ export class ApplyForm extends Component<Props, State> {
     taskBoundActions.reset();
     taskBoundActions.set({
       taskId,
-      processId,
+      processInstanceId,
     });
 
-    // 提交操作, 传递 form utils 用于表单验证
-    const opComponentPropMaps = { [OperationType.SUBMIT]: { form } };
+    // 提交操作需要的props
+    // form: 传递 form utils 用于表单验证
+    // mode: 当前的表单模式, 保存业务数据时需要提交给服务器
+    const opComponentPropMaps = { [OperationType.SUBMIT]: { form, mode } };
 
-    // 计算当前任务有哪些操作, 工作流配置有且当前的任务类型允许出现该操作
-    const opComponents = filterOperations(todoType)(operations).map(
-      mapOpComponents(opComponentMaps, opComponentPropMaps)
-    );
+    // 工作流配置的操作, map to opComponent
+    const opComponents = operations.map(mapOpComponents(opComponentMaps, opComponentPropMaps));
 
     this.setState({ opComponents });
   }
@@ -218,7 +210,7 @@ export class ApplyForm extends Component<Props, State> {
             {/* workflow op */}
             {opComponents}
             {/* 保存 */}
-            <Save />
+            <Save mode={mode} />
             {/* 取消 */}
             {cancelNeedRemoveWorkFlow ? <Cancel preCancel={this.removeWorkFlow} /> : <Cancel />}
           </ButtonBox>
