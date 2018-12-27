@@ -6,14 +6,18 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { ActionCreatorsMapObject } from 'redux';
 import taskActions from '../../models/task/task.action';
-import TaskForm, { HandleSubmitArgs } from '../TaskForm';
+import TaskForm from '../TaskForm';
+import { HandleSubmitArgs } from '../TaskForm/TaskForm';
+import taskModel from '../../models/task/task.model';
 
-const { bindActions } = utils;
+const { stateContainer, bindActions } = utils;
+// @ts-ignore
+stateContainer.injectModel(taskModel);
 
 interface OwnProps {
   text: string;
   type: OperationType;
-  opinion: OpinionStrategy;
+  opinionStrategy: OpinionStrategy;
   [key: string]: any;
 }
 
@@ -26,14 +30,14 @@ type Props = OwnProps & DispatchProps;
 const Reject = (props: Props) => {
   const [taskFormVisible, setTaskFormVisible] = useState(false);
 
-  const { text, opinion, type } = props;
+  const { text, opinionStrategy, type } = props;
 
   function reject() {
     const { taskBoundActions } = props;
-    if (opinion === OpinionStrategy.NONE) {
+    if (opinionStrategy !== OpinionStrategy.NONE) {
       setTaskFormVisible(true);
     } else {
-      taskBoundActions.reject().catch(e => utils.popup.error(e.message));
+      taskBoundActions.reject({}).catch(e => utils.popup.error(e.message));
     }
   }
 
@@ -54,12 +58,12 @@ const Reject = (props: Props) => {
 
   return (
     <>
-      <Button type="primary" onClick={reject}>
+      <Button type="danger" onClick={reject}>
         {text}
       </Button>
       <TaskForm
         operationType={type}
-        opinionStrategy={opinion}
+        opinionStrategy={opinionStrategy}
         visible={taskFormVisible}
         handleSubmit={handleTaskFormSubmit}
         handleCancel={handleTaskFormCancel}

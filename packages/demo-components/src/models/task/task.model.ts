@@ -1,7 +1,7 @@
 import { utils, api } from 'demo-common';
 import { OperationType } from 'demo-common/src/enums/OperationType.enum';
 import { goBack } from 'react-router-redux';
-import wrappedTaskActions from '../task/task.action';
+import wrappedTaskActions from './task.action';
 
 const { unwrapActions } = utils;
 
@@ -21,7 +21,7 @@ interface TaskState {
 const defaultState = () => ({} as TaskState);
 
 export default {
-  namespace: 'apply',
+  namespace: 'task',
   state: defaultState(),
   reducers: {
     set(state, { payload }) {

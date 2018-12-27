@@ -6,15 +6,19 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { ActionCreatorsMapObject } from 'redux';
 import taskActions from '../../models/task/task.action';
-import TaskForm, { HandleSubmitArgs } from '../TaskForm';
+import TaskForm from '../TaskForm';
+import { HandleSubmitArgs } from '../TaskForm/TaskForm';
+import taskModel from '../../models/task/task.model';
 
-const { bindActions } = utils;
+const { stateContainer, bindActions } = utils;
+// @ts-ignore
+stateContainer.injectModel(taskModel);
 
 interface OwnProps {
   text: string;
   type: OperationType;
   selectKey: string;
-  opinion: OpinionStrategy;
+  opinionStrategy: OpinionStrategy;
   [key: string]: any;
 }
 
@@ -27,22 +31,21 @@ type Props = OwnProps & DispatchProps;
 const Submit = (props: Props) => {
   const [taskFormVisible, setTaskFormVisible] = useState(false);
 
-  const { text, taskBoundActions, selectKey, opinion, type } = props;
+  const { text, taskBoundActions, selectKey, opinionStrategy, type } = props;
 
   async function submit() {
-    if (selectKey && opinion === OpinionStrategy.NONE) {
+    if (selectKey || opinionStrategy !== OpinionStrategy.NONE) {
       setTaskFormVisible(true);
     } else {
       try {
-        await taskBoundActions.submit();
+        await taskBoundActions.submit({});
       } catch (e) {
         utils.popup.error(e.message);
       }
     }
   }
 
-  async function handleTaskFormSubmit({ selectKey, selectValue, opinion }: HandleSubmitArgs) {
-    const { taskBoundActions } = props;
+  async function handleTaskFormSubmit({ selectValue, opinion }: HandleSubmitArgs) {
     try {
       await taskBoundActions.submit({ selectKey, selectValue, opinion });
       setTaskFormVisible(false);
@@ -62,7 +65,7 @@ const Submit = (props: Props) => {
       </Button>
       <TaskForm
         operationType={type}
-        opinionStrategy={opinion}
+        opinionStrategy={opinionStrategy}
         selectKey={selectKey}
         visible={taskFormVisible}
         handleSubmit={handleTaskFormSubmit}

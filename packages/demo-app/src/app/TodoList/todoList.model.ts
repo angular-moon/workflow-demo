@@ -1,28 +1,27 @@
-import { utils, api } from 'demo-common';
-import { Action } from 'redux-actions';
-import { EffectsCommandMap } from 'dva';
-import { assign } from 'lodash';
-import produce from 'immer';
-import wrappedTodoListActions from './todoList.action';
-import Pagination from '../../types/Pagination';
+import { api, utils } from 'demo-common';
 import { TodoType } from 'demo-common/src/enums';
+import { EffectsCommandMap } from 'dva';
+import produce from 'immer';
+import { assign } from 'lodash';
+import { Action } from 'redux-actions';
+import Pagination from '../../types/Pagination';
+import wrappedTodoListActions from './todoList.action';
 
 const { unwrapActions } = utils;
 
 const todoListActions = unwrapActions(wrappedTodoListActions);
 
-const defaultState = () =>
-  assign(
-    {},
-    {
-      pagination: {
-        current: 1,
-        pageSize: 10,
-        total: 0,
-      } as Pagination,
-      todos: [],
-    }
-  );
+const defaultState = () => assign(
+  {},
+  {
+    pagination: {
+      current: 1,
+      pageSize: 10,
+      total: 0,
+    } as Pagination,
+    todos: [],
+  }
+);
 
 export default {
   namespace: 'todoList',
@@ -45,17 +44,17 @@ export default {
     },
   },
   effects: {
-    *fetch({ payload: todoType }: Action<any>, { call, put, select, all }: EffectsCommandMap) {
+    *fetch({ payload: todoType }: Action<any>, {
+      call, put, select, all,
+    }: EffectsCommandMap) {
       const pagination: Pagination = yield select(state => state.todoList.pagination);
-      const todoApi =
-        todoType === TodoType.REVOKEABLE
-          ? api.workflowDemo.me_revoke_tasks_get
-          : api.workflowDemo.me_todo_list_get;
+      const todoApi = todoType === TodoType.REVOKEABLE
+        ? api.workflowDemo.me_revoke_tasks_get
+        : api.workflowDemo.me_todo_list_get;
 
-      const todoCountApi =
-        todoType === TodoType.REVOKEABLE
-          ? api.workflowDemo.me_revoke_tasks_counting_get
-          : api.workflowDemo.me_todo_list_counting_get;
+      const todoCountApi = todoType === TodoType.REVOKEABLE
+        ? api.workflowDemo.me_revoke_tasks_counting_get
+        : api.workflowDemo.me_todo_list_counting_get;
 
       const [
         { data: todos },

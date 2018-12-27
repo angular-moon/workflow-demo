@@ -24,6 +24,7 @@ const FileManagerPlugin = require('filemanager-webpack-plugin');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
 const externals = require('./externals');
+const { packageSrcAbsPaths } = require('./packages');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -117,7 +118,11 @@ const webpackConfig = {
   devtool: shouldUseSourceMap ? 'source-map' : false,
   externals,
   // In production, we only want to load the app code.
-  entry: [paths.appIndexJs],
+  entry: {
+    index: paths.appIndexJs,
+    ApplyForm: `${paths.appSrc}/components/ApplyForm/index.tsx`,
+    ApplyView: `${paths.appSrc}/components/ApplyView/index.tsx`,
+  },
   output: {
     // The build folder.
     path: paths.appBuild,
@@ -129,7 +134,8 @@ const webpackConfig = {
     // We inferred the "public path" (such as / or /my-project) from homepage.
     publicPath,
     // Point sourcemap entries to original disk location (format as URL on Windows)
-    devtoolModuleFilenameTemplate: info => path.relative(paths.appSrc, info.absoluteResourcePath).replace(/\\/g, '/'),
+    devtoolModuleFilenameTemplate: info =>
+      path.relative(paths.appSrc, info.absoluteResourcePath).replace(/\\/g, '/'),
     libraryTarget: 'umd',
   },
   optimization: {
@@ -181,13 +187,13 @@ const webpackConfig = {
           parser: safePostCssParser,
           map: shouldUseSourceMap
             ? {
-              // `inline: false` forces the sourcemap to be output into a
-              // separate file
-              inline: false,
-              // `annotation: true` appends the sourceMappingURL to the end of
-              // the css file, helping the browser find the sourcemap
-              annotation: true,
-            }
+                // `inline: false` forces the sourcemap to be output into a
+                // separate file
+                inline: false,
+                // `annotation: true` appends the sourceMappingURL to the end of
+                // the css file, helping the browser find the sourcemap
+                annotation: true,
+              }
             : false,
         },
       }),
@@ -286,8 +292,7 @@ const webpackConfig = {
           // The preset includes JSX, Flow, TypeScript and some ESnext features.
           {
             test: /\.(js|mjs|jsx|ts|tsx)$/,
-            include: paths.appSrc,
-
+            include: packageSrcAbsPaths,
             loader: require.resolve('babel-loader'),
             options: {
               rootMode: 'upward',
@@ -490,8 +495,8 @@ const webpackConfig = {
       ],
     }),
     // TypeScript type checking
-    fs.existsSync(paths.appTsConfig)
-      && new ForkTsCheckerWebpackPlugin({
+    fs.existsSync(paths.appTsConfig) &&
+      new ForkTsCheckerWebpackPlugin({
         typescript: resolve.sync('typescript', {
           basedir: paths.appNodeModules,
         }),
@@ -558,15 +563,16 @@ if (deployType) {
     case 'scp':
       webpackConfig.plugins.push(
         ...deployInfos.map(
-          deployInfo => new WebpackScpClient({
-            port: '22',
-            path: paths.appBuild,
-            host: deployInfo.host,
-            username: deployInfo.username,
-            password: deployInfo.password,
-            remotePath: deployInfo.remotePath,
-            verbose: true,
-          })
+          deployInfo =>
+            new WebpackScpClient({
+              port: '22',
+              path: paths.appBuild,
+              host: deployInfo.host,
+              username: deployInfo.username,
+              password: deployInfo.password,
+              remotePath: deployInfo.remotePath,
+              verbose: true,
+            })
         )
       );
       break;

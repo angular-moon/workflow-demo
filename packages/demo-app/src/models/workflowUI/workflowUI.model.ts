@@ -27,16 +27,15 @@ export default {
   },
   effects: {
     *showUI(
-      {
-        payload: {
-          taskId, processInstanceId, applyId, todoType,
-        },
-      }: Action<any>,
+      { payload: { taskId, processInstanceId, applyId, todoType } }: Action<any>,
       { call, put }: EffectsCommandMap
     ) {
       try {
         // 获取处理UI配置
-        const params = todoType === TodoType.REVOKEABLE ? { processInstanceId } : { taskId };
+        const params =
+          todoType === TodoType.REVOKEABLE
+            ? { type: 'process', id: processInstanceId }
+            : { type: 'task', id: taskId };
         const { data: UICofing } = yield call(api.workflowDemo.process_instances_ui_config_get, {
           params,
         });

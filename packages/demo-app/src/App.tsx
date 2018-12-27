@@ -2,9 +2,7 @@ import { hot, setConfig } from 'react-hot-loader';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { LocaleProvider, Button } from 'antd';
-import {
-  Router, Route, Link, Switch,
-} from 'react-router-dom';
+import { Router, Route, Link, Switch } from 'react-router-dom';
 import zhCN from 'antd/es/locale-provider/zh_CN';
 import { utils } from 'demo-common';
 import Center from './app/Center';
@@ -25,6 +23,8 @@ const App = () => (
   </LocaleProvider>
 );
 
-// @ts-ignore
-setConfig({ pureSFC: true });
+setConfig({
+  // @ts-ignore
+  pureSFC: true,
+});
 export default hot(module)(App);

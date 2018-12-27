@@ -24,7 +24,7 @@ const mapOpComponents = (
         text={operation.name}
         type={operation.type}
         selectKey={operation.selectKey}
-        opinion={operation.opinion}
+        opinionStrategy={operation.opinionStrategy}
         {...restProps}
       />
     );

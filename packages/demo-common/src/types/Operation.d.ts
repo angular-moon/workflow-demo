@@ -9,7 +9,7 @@ export enum OpinionStrategy {
 export type Operation = {
   name: string;
   type: OperationType;
-  opinion: OpinionStrategy;
+  opinionStrategy: OpinionStrategy;
   // 是否需要选择提交节点
   selectKey?: string;
   data?: {};

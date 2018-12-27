@@ -1,7 +1,6 @@
 import { utils, api } from 'demo-common';
 import wrappedApplyActions from './apply.action';
 import { Apply, ApplyServer } from '../../types/Apply';
-import { success } from '../../../../demo-common/src/utils/popup';
 
 const { unwrapActions } = utils;
 
@@ -66,12 +65,13 @@ export default {
         // no id => post & bind processInstanceId
         if (!apply.id) {
           response = yield call(api.workflowDemo.applies_post, {
+            params: { mode },
             data: { ...transform2Server(apply), processInstanceId },
           });
         } else {
           response = yield call(api.workflowDemo.applies_id_put, {
             path: { id: apply.id },
-            mode,
+            params: { mode },
             data: { ...transform2Server(apply) },
           });
         }

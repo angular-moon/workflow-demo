@@ -10,6 +10,7 @@ import applyModel from '../../models/apply/apply.model';
 import opComponentMaps, { Cancel } from './Operation';
 import { mapOpComponents } from '../../utils/operations';
 import taskActions from '../../models/task/task.action';
+import ButtonBox from '../ButtonBox';
 
 const { stateContainer, bindActions } = utils;
 
@@ -58,8 +59,12 @@ interface DispatchProps {
 
 type Props = StateProps & DispatchProps & OwnProps;
 
-const Label = styled.label`
-  display: block;
+const Item = styled.div`
+  padding: 15px;
+  label {
+    display: block;
+    color: #6b7f92;
+  }
 `;
 
 export const ApplyView = (props: Props) => {
@@ -72,6 +77,7 @@ export const ApplyView = (props: Props) => {
     taskBoundActions,
     operations,
   } = props;
+
   useEffect(() => {
     applyBoundActions.fetch(applyId);
 
@@ -86,28 +92,38 @@ export const ApplyView = (props: Props) => {
   // 工作流配置的操作, map to opComponent
   const opComponents = operations.map(mapOpComponents(opComponentMaps));
 
-  return (
+  return apply ? (
     <Row gutter={16}>
       <Col span={24}>
-        <Label>采购目录</Label>
-        <div>{apply.catalog.name}</div>
+        <Item>
+          <label>采购目录</label>
+          <div>{apply.catalog.name}</div>
+        </Item>
       </Col>
       <Col span={24}>
-        <Label>采购金额</Label>
-        <div>{apply.budget} 元</div>
+        <Item>
+          <label>采购金额</label>
+          <div>{apply.budget} 元</div>
+        </Item>
       </Col>
       <Col span={24}>
-        <Label>采购代理机构</Label>
-        <div>{apply.agent}</div>
+        <Item>
+          <label>采购代理机构</label>
+          <div>{apply.agent}</div>
+        </Item>
       </Col>
       <Col span={24}>
-        {/* workflow op */}
-        {opComponents}
-        {/* 取消 */}
-        <Cancel />
+        <Item>
+          <ButtonBox>
+            {/* workflow op */}
+            {opComponents}
+            {/* 取消 */}
+            <Cancel />
+          </ButtonBox>
+        </Item>
       </Col>
     </Row>
-  );
+  ) : null;
 };
 
 function mapStateToProps({ apply }: any): StateProps {

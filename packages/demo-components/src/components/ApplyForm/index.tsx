@@ -1,4 +1,3 @@
-import ApplyForm, { Mode } from './ApplyForm';
+import ApplyForm from './ApplyForm';
 
-export { Mode };
 export default ApplyForm;

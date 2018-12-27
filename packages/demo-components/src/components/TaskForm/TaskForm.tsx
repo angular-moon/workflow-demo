@@ -18,7 +18,6 @@ const { stateContainer, bindActions } = utils;
 stateContainer.injectModel(taskModel);
 
 export interface HandleSubmitArgs {
-  selectKey?: string;
   selectValue?: string;
   opinion?: string;
 }
@@ -48,11 +47,11 @@ type Props = OwnProps & StateProps & DispatchProps & FormComponentProps;
 
 class TaskForm extends Component<Props> {
   handleOk = () => {
-    const { form, handleSubmit, selectKey } = this.props;
+    const { form, handleSubmit } = this.props;
     form.validateFields((err, fieldsValue) => {
       if (!err) {
         const { selectValue, opinion } = fieldsValue;
-        handleSubmit({ selectKey, selectValue, opinion });
+        handleSubmit({ selectValue, opinion });
       }
     });
   };
@@ -69,18 +68,18 @@ class TaskForm extends Component<Props> {
 
   render() {
     const { selectNodes, operationType, opinionStrategy, form, handleCancel, visible } = this.props;
-    const selectLabel = operationType === OperationType.SUBMIT ? '请选择提交给:' : '请选择退回到:';
+    const selectLabel = operationType === OperationType.SUBMIT ? '提交给:' : '退回到:';
     const opinionLabel = operationType === OperationType.SUBMIT ? '审核意见:' : '退回原因:';
 
     const { getFieldDecorator } = form;
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
-        sm: { span: 8 },
+        sm: { span: 6 },
       },
       wrapperCol: {
         xs: { span: 24 },
-        sm: { span: 16 },
+        sm: { span: 18 },
       },
     };
 
@@ -96,7 +95,9 @@ class TaskForm extends Component<Props> {
         })(
           <Select>
             {selectNodes.map(node => (
-              <Option value={node.id}>node.name</Option>
+              <Option value={node.id} key={node.id}>
+                {node.name}
+              </Option>
             ))}
           </Select>
         )}
@@ -118,7 +119,7 @@ class TaskForm extends Component<Props> {
       ) : null;
 
     return (
-      <Modal title="Basic Modal" visible={visible} onOk={this.handleOk} onCancel={handleCancel}>
+      <Modal title="请填写以下信息" visible={visible} onOk={this.handleOk} onCancel={handleCancel}>
         <Form>
           {selectFormItem}
           {opinionFormItem}

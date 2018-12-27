@@ -51,5 +51,7 @@ module.exports = {
     'react/jsx-filename-extension': ['error', { extensions: ['.jsx', '.tsx'] }],
     'jsx-a11y/click-events-have-key-events': 'off',
     'jsx-a11y/anchor-is-valid': 'off',
+    'object-curly-newline': 'off',
+    'operator-linebreak': 'off',
   },
 };

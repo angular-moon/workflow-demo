@@ -7,14 +7,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ActionCreatorsMapObject } from 'redux';
 import applyActions from '../../models/apply/apply.action';
-import taskActions from '../../models/task/task.action';
 import applyModel from '../../models/apply/apply.model';
+import taskActions from '../../models/task/task.action';
+import { Apply } from '../../types/Apply';
 import { mapOpComponents } from '../../utils/operations';
 import ButtonBox from '../ButtonBox';
 import CatalogSelect from './CatalogSelect';
-import opComponentMaps, { Save, Cancel } from './Operation';
-import { Apply } from '../../types/Apply';
 import { Mode } from './enums/Mode';
+import opComponentMaps, { Cancel, Save } from './Operation';
+import ApplyPrompt from './ApplyPrompt';
 
 const FormItem = Form.Item;
 const { stateContainer, bindActions } = utils;
@@ -70,13 +71,6 @@ export class ApplyForm extends Component<Props, State> {
     opComponents: [],
   };
 
-  removeWorkFlow = () => {
-    // TODO
-    console.log('workFlow was removed');
-    // @ts-ignore
-    return Promise.resolve('workFlow was removed');
-  };
-
   componentDidMount() {
     const {
       form,
@@ -117,13 +111,14 @@ export class ApplyForm extends Component<Props, State> {
     const {
       mode,
       apply,
+      processInstanceId,
       form: { getFieldDecorator },
     } = this.props;
 
     const { opComponents } = this.state;
 
-    // mode为create且没有保存过, 取消时删除工作流
-    const cancelNeedRemoveWorkFlow = mode === Mode.CREATE && !apply.id;
+    // mode为create且没有保存过, 取消时删除工作流实例
+    const needRemoveWorkFlow = mode === Mode.CREATE && !apply.id;
 
     const formItemLayout = {
       labelCol: {
@@ -197,25 +192,28 @@ export class ApplyForm extends Component<Props, State> {
       ) : null;
 
     return (
-      <Form>
-        <FormItem {...formItemLayout} label="采购目录">
-          {catalogItem}
-        </FormItem>
-        <FormItem {...formItemLayout} label="采购预算">
-          {budgetItem}
-        </FormItem>
-        {agentItem}
-        <FormItem {...tailFormItemLayout}>
-          <ButtonBox>
-            {/* workflow op */}
-            {opComponents}
-            {/* 保存 */}
-            <Save mode={mode} />
-            {/* 取消 */}
-            {cancelNeedRemoveWorkFlow ? <Cancel preCancel={this.removeWorkFlow} /> : <Cancel />}
-          </ButtonBox>
-        </FormItem>
-      </Form>
+      <>
+        <Form>
+          <FormItem {...formItemLayout} label="采购目录">
+            {catalogItem}
+          </FormItem>
+          <FormItem {...formItemLayout} label="采购预算">
+            {budgetItem}
+          </FormItem>
+          {agentItem}
+          <FormItem {...tailFormItemLayout}>
+            <ButtonBox>
+              {/* workflow op */}
+              {opComponents}
+              {/* 保存 */}
+              <Save mode={mode} />
+              {/* 取消 */}
+              {<Cancel />}
+            </ButtonBox>
+          </FormItem>
+        </Form>
+        <ApplyPrompt when={needRemoveWorkFlow} processInstanceId={processInstanceId} />
+      </>
     );
   }
 }
@@ -254,4 +252,5 @@ function mapDispatchToProps(dispatch): DispatchProps {
 export default connect<StateProps, DispatchProps, OwnProps>(
   mapStateToProps,
   mapDispatchToProps
+  // @ts-ignore
 )(WrappedApplyForm);
