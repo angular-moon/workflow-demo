@@ -120,8 +120,8 @@ const webpackConfig = {
   // In production, we only want to load the app code.
   entry: {
     index: paths.appIndexJs,
-    ApplyForm: `${paths.appSrc}/components/ApplyForm/index.tsx`,
-    ApplyView: `${paths.appSrc}/components/ApplyView/index.tsx`,
+    ApplyForm: `${paths.appSrc}/components/ApplyForm`,
+    ApplyView: `${paths.appSrc}/components/ApplyView`,
   },
   output: {
     // The build folder.
@@ -201,14 +201,20 @@ const webpackConfig = {
     // Automatically split vendor and commons
     // https://twitter.com/wSokra/status/969633336732905474
     // https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
-    splitChunks: {
-      chunks: 'all',
-      name: false,
-    },
+    // 不提取公共模块, 让组件包含所有的依赖
+    // splitChunks: {
+    //   chunks: 'all',
+    //   name: false,
+    // },
     // Keep the runtime chunk seperated to enable long term caching
     // https://twitter.com/wSokra/status/969679223278505985
+    // 不单独提取webpack runtime, 包含在组件中
     runtimeChunk: false,
   },
+  // optimization: {
+  //   minimize: false,
+  //   runtimeChunk: false,
+  // },
   resolve: {
     // This allows you to set a fallback for where Webpack should look for modules.
     // We placed these paths second because we want `node_modules` to "win"

@@ -22,7 +22,6 @@ type Props = OwnerProps & DispatchProps;
 const Create = (props: Props) => {
   function create() {
     const { workflowUIBoundActions, disabled } = props;
-    console.log('create', disabled);
     if (!disabled) workflowUIBoundActions.createProcess();
   }
 

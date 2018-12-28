@@ -1,11 +1,11 @@
 export enum TodoType {
   PENDING = 'PENDING',
   REJECTED = 'REJECTED',
-  REVOKEABLE = 'REVOKEABLE',
+  REVOKABLE = 'REVOKABLE',
 }
 
 export enum TodoTypeName {
   PENDING = '待处理',
   REJECTED = '被退回',
-  REVOKEABLE = '可撤销',
+  REVOKABLE = '可撤销',
 }

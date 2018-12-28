@@ -53,5 +53,6 @@ module.exports = {
     'jsx-a11y/anchor-is-valid': 'off',
     'object-curly-newline': 'off',
     'operator-linebreak': 'off',
+    'implicit-arrow-linebreak': 'off',
   },
 };

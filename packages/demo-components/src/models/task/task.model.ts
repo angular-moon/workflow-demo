@@ -15,7 +15,8 @@ export interface SelectNode {
 interface TaskState {
   taskId?: string;
   processInstanceId?: string;
-  selectNodes: Array<SelectNode>;
+  selectNodes?: Array<SelectNode>;
+  selectNodesLoadError: boolean;
 }
 
 const defaultState = () => ({} as TaskState);
@@ -27,22 +28,32 @@ export default {
     set(state, { payload }) {
       return { ...state, ...payload };
     },
-    reset(state) {
+    reset() {
       return defaultState();
+    },
+    fetchSelectNodesError(state) {
+      return { ...state, selectNodesLoadError: true };
     },
   },
   effects: {
     *fetchSelectNodes({ payload: operationType }, { call, put, select }) {
       const taskId = yield select(state => state.task.taskId);
+      if (!taskId) return;
+
       const selectNodesApi =
         operationType === OperationType.SUBMIT
           ? api.workflowDemo.process_instances_complete_nodes_get
           : api.workflowDemo.process_instances_reject_nodes_get;
 
-      const { data } = yield call(selectNodesApi, {
-        params: { taskId },
-      });
-      yield put(taskActions.set({ selectNodes: data }));
+      try {
+        const { data } = yield call(selectNodesApi, {
+          params: { taskId },
+        });
+        yield put(taskActions.set({ selectNodes: data }));
+      } catch (e) {
+        yield put(taskActions.fetchSelectNodesError());
+        utils.popup.error(`提交节点加载失败, ${e.message}`);
+      }
     },
     *submit({ payload }, { call, put, select }) {
       const { opinion, selectKey, selectValue } = payload;

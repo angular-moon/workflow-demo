@@ -11,17 +11,18 @@ const { unwrapActions } = utils;
 
 const todoListActions = unwrapActions(wrappedTodoListActions);
 
-const defaultState = () => assign(
-  {},
-  {
-    pagination: {
-      current: 1,
-      pageSize: 10,
-      total: 0,
-    } as Pagination,
-    todos: [],
-  }
-);
+const defaultState = () =>
+  assign(
+    {},
+    {
+      pagination: {
+        current: 1,
+        pageSize: 10,
+        total: 0,
+      } as Pagination,
+      todos: [],
+    }
+  );
 
 export default {
   namespace: 'todoList',
@@ -44,17 +45,17 @@ export default {
     },
   },
   effects: {
-    *fetch({ payload: todoType }: Action<any>, {
-      call, put, select, all,
-    }: EffectsCommandMap) {
+    *fetch({ payload: todoType }: Action<any>, { call, put, select, all }: EffectsCommandMap) {
       const pagination: Pagination = yield select(state => state.todoList.pagination);
-      const todoApi = todoType === TodoType.REVOKEABLE
-        ? api.workflowDemo.me_revoke_tasks_get
-        : api.workflowDemo.me_todo_list_get;
+      const todoApi =
+        todoType === TodoType.REVOKABLE
+          ? api.workflowDemo.me_revoke_tasks_get
+          : api.workflowDemo.me_todo_list_get;
 
-      const todoCountApi = todoType === TodoType.REVOKEABLE
-        ? api.workflowDemo.me_revoke_tasks_counting_get
-        : api.workflowDemo.me_todo_list_counting_get;
+      const todoCountApi =
+        todoType === TodoType.REVOKABLE
+          ? api.workflowDemo.me_revoke_tasks_counting_get
+          : api.workflowDemo.me_todo_list_counting_get;
 
       const [
         { data: todos },

@@ -6,22 +6,11 @@ import { enums } from 'demo-common';
 export default createActions({
   todoCounting: {
     fetch: identity,
-    set: () => [
-      {
-        todoType: enums.TodoType.PENDING,
-        todoTypeName: enums.TodoTypeName.PENDING,
-        count: 8,
-      },
-      {
-        todoType: enums.TodoType.REJECTED,
-        todoTypeName: enums.TodoTypeName.REJECTED,
-        count: 8,
-      },
-      {
-        todoType: enums.TodoType.REVOKEABLE,
-        todoTypeName: enums.TodoTypeName.REVOKEABLE,
-        count: 0,
-      },
-    ],
+    set: counts =>
+      counts.map(count => ({
+        todoType: count.type,
+        todoTypeName: enums.TodoTypeName[count.type],
+        count: count.num,
+      })),
   },
 });

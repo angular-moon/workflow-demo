@@ -28,8 +28,8 @@ export default {
   effects: {
     *fetch({ payload }: Action<any>, { call, put }: EffectsCommandMap) {
       // 获取待办任务数量(包含可撤回)
-      const { data: todoCounting } = yield call(api.workflowDemo.me_todo_list_stats_get);
-      yield put(todoCountingActions.set(todoCounting));
+      const { data: counts } = yield call(api.workflowDemo.me_todo_list_stats_get);
+      yield put(todoCountingActions.set(counts));
     },
   },
 };

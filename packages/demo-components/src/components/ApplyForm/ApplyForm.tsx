@@ -71,30 +71,25 @@ export class ApplyForm extends Component<Props, State> {
     opComponents: [],
   };
 
-  componentDidMount() {
-    const {
-      form,
-      mode,
-      applyId,
-      taskId,
-      processInstanceId,
-      applyBoundActions,
-      taskBoundActions,
-      operations,
-    } = this.props;
-
-    applyBoundActions.reset();
-    // 加载申请表单数据
-    if (applyId) {
-      applyBoundActions.fetch(applyId);
-    }
-
+  constructor(props) {
+    super(props);
+    const { taskId, processInstanceId, taskBoundActions } = this.props;
     // 设置任务数据, 用于保存, 提交, 退回操作
     taskBoundActions.reset();
     taskBoundActions.set({
       taskId,
       processInstanceId,
     });
+  }
+
+  componentDidMount() {
+    const { form, mode, applyId, applyBoundActions, operations } = this.props;
+
+    applyBoundActions.reset();
+    // 加载申请表单数据
+    if (applyId) {
+      applyBoundActions.fetch(applyId);
+    }
 
     // 提交操作需要的props
     // form: 传递 form utils 用于表单验证
@@ -212,6 +207,7 @@ export class ApplyForm extends Component<Props, State> {
             </ButtonBox>
           </FormItem>
         </Form>
+        {/* 尚未保存的新建阻止切换路由, 如果用户执意退出, 删除新建的工作流 */}
         <ApplyPrompt when={needRemoveWorkFlow} processInstanceId={processInstanceId} />
       </>
     );

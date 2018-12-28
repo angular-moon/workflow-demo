@@ -35,7 +35,8 @@ interface StateProps {
   /**
    * 选择流程节点(submit or reject)
    */
-  selectNodes: Array<SelectNode>;
+  selectNodes?: Array<SelectNode>;
+  selectNodesLoadError: boolean;
 }
 
 interface DispatchProps {
@@ -56,18 +57,39 @@ class TaskForm extends Component<Props> {
     });
   };
 
-  componentDidMount() {
-    const { operationType, selectKey, taskBoundActions } = this.props;
+  componentDidUpdate() {
+    const {
+      visible,
+      selectNodes,
+      selectNodesLoadError,
+      operationType,
+      selectKey,
+      taskBoundActions,
+    } = this.props;
     if (
-      (operationType === OperationType.SUBMIT && selectKey) ||
-      operationType === OperationType.REJECT
+      ((operationType === OperationType.SUBMIT && selectKey) ||
+        operationType === OperationType.REJECT) &&
+      visible &&
+      !selectNodesLoadError &&
+      !selectNodes
     ) {
+      console.log('fetchSelectNodes');
       taskBoundActions.fetchSelectNodes(operationType);
     }
   }
 
   render() {
-    const { selectNodes, operationType, opinionStrategy, form, handleCancel, visible } = this.props;
+    const {
+      selectKey,
+      selectNodes,
+      selectNodesLoadError,
+      operationType,
+      opinionStrategy,
+      form,
+      handleCancel,
+      visible,
+    } = this.props;
+
     const selectLabel = operationType === OperationType.SUBMIT ? '提交给:' : '退回到:';
     const opinionLabel = operationType === OperationType.SUBMIT ? '审核意见:' : '退回原因:';
 
@@ -83,26 +105,42 @@ class TaskForm extends Component<Props> {
       },
     };
 
-    const selectFormItem = selectNodes ? (
-      <FormItem {...formItemLayout} label={selectLabel}>
-        {getFieldDecorator('selectValue', {
-          rules: [
-            {
-              required: true,
-              message: '请选择',
-            },
-          ],
-        })(
-          <Select>
-            {selectNodes.map(node => (
-              <Option value={node.id} key={node.id}>
-                {node.name}
-              </Option>
-            ))}
-          </Select>
-        )}
-      </FormItem>
-    ) : null;
+    const selectFormItem = () => {
+      if (selectNodes) {
+        return (
+          <FormItem {...formItemLayout} label={selectLabel}>
+            {getFieldDecorator('selectValue', {
+              rules: [
+                {
+                  required: true,
+                  message: '请选择',
+                },
+              ],
+            })(
+              <Select>
+                {selectNodes.map(node => (
+                  <Option value={node.id} key={node.id}>
+                    {node.name}
+                  </Option>
+                ))}
+              </Select>
+            )}
+          </FormItem>
+        );
+      }
+
+      if (selectKey) {
+        return (
+          <FormItem {...formItemLayout} label={selectLabel}>
+            {getFieldDecorator('selectValueLoading')(
+              <div>{selectNodesLoadError ? '加载失败, 请稍后再试' : '提交节点加载中...'}</div>
+            )}
+          </FormItem>
+        );
+      }
+
+      return null;
+    };
 
     const opinionFormItem =
       opinionStrategy !== OpinionStrategy.NONE ? (
@@ -121,7 +159,7 @@ class TaskForm extends Component<Props> {
     return (
       <Modal title="请填写以下信息" visible={visible} onOk={this.handleOk} onCancel={handleCancel}>
         <Form>
-          {selectFormItem}
+          {selectFormItem()}
           {opinionFormItem}
         </Form>
       </Modal>
@@ -134,6 +172,7 @@ const WrappedTaskForm = Form.create()(TaskForm);
 function mapStateToProps(state): StateProps {
   return {
     selectNodes: state.task.selectNodes,
+    selectNodesLoadError: state.task.selectNodesLoadError,
   };
 }
 

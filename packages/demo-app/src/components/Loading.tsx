@@ -15,6 +15,7 @@ type Props = {
   tip?: string;
 };
 
+/* eslint-disable react/prop-types */
 export default function Loading(props: Props = { tip: '数据加载中' }) {
   const { tip } = props;
 

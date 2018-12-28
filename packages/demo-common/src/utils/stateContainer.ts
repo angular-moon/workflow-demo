@@ -15,6 +15,10 @@ export interface StateContainer {
 const stateContainer: StateContainer = create({
   history,
   NODE_ENV: process.env.NODE_ENV,
+  onError: err => {
+    // err.preventDefault();
+    console.error(err);
+  },
 });
 
 export default stateContainer;

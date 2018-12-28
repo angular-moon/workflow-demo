@@ -1,5 +1,5 @@
 // for test
 export default {
-  from: 'from-url',
-  view: 'view-url',
+  form: 'http://localhost/static/js/ApplyForm.1a50ed90.js',
+  view: 'http://localhost/static/js/ApplyView.f5cdd4bf.js',
 };

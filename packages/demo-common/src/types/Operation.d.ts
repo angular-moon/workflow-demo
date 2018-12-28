@@ -6,11 +6,15 @@ export enum OpinionStrategy {
   OPTIONAL = 'OPTIONAL',
 }
 
-export type Operation = {
+export interface OperationRaw {
   name: string;
   type: OperationType;
   opinionStrategy: OpinionStrategy;
   // 是否需要选择提交节点
   selectKey?: string;
+  data?: string;
+}
+
+export interface Operation extends OperationRaw {
   data?: {};
-};
+}

@@ -55,23 +55,23 @@ export default {
         utils.popup.error(e.message);
       }
     },
-    *save({ payload: mode }, { call, put, select }) {
+    *save({ payload: { mode, strict } }, { call, put, select }) {
       try {
         const { apply, processInstanceId } = yield select(state => ({
           apply: state.apply,
-          processInstanceId: state.task.procprocessInstanceIdessId,
+          processInstanceId: state.task.processInstanceId,
         }));
         let response;
         // no id => post & bind processInstanceId
         if (!apply.id) {
           response = yield call(api.workflowDemo.applies_post, {
-            params: { mode },
+            params: { strict },
             data: { ...transform2Server(apply), processInstanceId },
           });
         } else {
           response = yield call(api.workflowDemo.applies_id_put, {
             path: { id: apply.id },
-            params: { mode },
+            params: { mode, strict },
             data: { ...transform2Server(apply) },
           });
         }

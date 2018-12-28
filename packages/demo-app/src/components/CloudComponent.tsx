@@ -4,7 +4,6 @@ import * as ReactDOM from 'react-dom';
 import * as StyledComponent from 'styled-components';
 import * as antd from 'antd';
 import * as moment from 'moment';
-// @ts-ignore
 import * as History from 'history';
 import * as ReactRouterDOM from 'react-router-dom';
 import * as Redux from 'redux';
@@ -18,7 +17,6 @@ import * as StateContainer from 'state-container';
 import * as axios from 'axios';
 // @ts-ignore
 import SystemJS from 'systemjs';
-// @ts-ignore
 import Loadable from 'react-loadable';
 import Loading from './Loading';
 

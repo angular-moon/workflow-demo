@@ -17,10 +17,10 @@ interface DispatchProps {
 
 type Props = OwnProps & DispatchProps;
 
-const Cancel = (props: Props) => {
+const Save = (props: Props) => {
   function save() {
     const { applyBoundActions, mode } = props;
-    applyBoundActions.save(mode);
+    applyBoundActions.save({ mode, strict: false });
   }
 
   return (
@@ -38,4 +38,4 @@ function mapDispatchToProps(dispatch): DispatchProps {
 export default connect(
   null,
   mapDispatchToProps
-)(Cancel);
+)(Save);

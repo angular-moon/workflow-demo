@@ -7,6 +7,7 @@ export default createActions({
     set: identity,
     reset: identity,
     fetchSelectNodes: identity,
+    fetchSelectNodesError: identity,
     submit: identity,
     reject: identity,
     revoke: identity,

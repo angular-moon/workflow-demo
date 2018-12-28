@@ -48,7 +48,7 @@ const Submit = (props: Props) => {
           setTaskFormVisible(true);
         } else {
           try {
-            await applyBoundActions.save(mode);
+            await applyBoundActions.save({ mode, strict: true });
             await taskBoundActions.submit({});
           } catch (e) {
             utils.popup.error(e.message);
@@ -61,7 +61,7 @@ const Submit = (props: Props) => {
   async function handleTaskFormSubmit({ selectValue, opinion }: HandleSubmitArgs) {
     const { applyBoundActions, taskBoundActions } = props;
     try {
-      await applyBoundActions.save(mode);
+      await applyBoundActions.save({ mode, strict: true });
       await taskBoundActions.submit({ selectKey, selectValue, opinion });
       setTaskFormVisible(false);
     } catch (e) {
