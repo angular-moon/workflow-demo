@@ -54,5 +54,6 @@ module.exports = {
     'object-curly-newline': 'off',
     'operator-linebreak': 'off',
     'implicit-arrow-linebreak': 'off',
+    'import/prefer-default-export': 'off',
   },
 };

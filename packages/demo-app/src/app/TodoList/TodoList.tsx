@@ -3,14 +3,16 @@ import React, { Component } from 'react';
 import { Button, Table } from 'antd';
 import { ActionCreatorsMapObject, Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { utils, enums } from 'demo-common';
+import { utils, enums, components } from 'demo-common';
 import todoListModel from './todoList.model';
 import Pagination from '../../types/Pagination';
 import todoListActions from './todoList.action';
 import { RouteComponentProps } from 'react-router';
 import { Handle } from '../../components/Operation';
+import { Delete } from './Operation';
 
 const { bindActions, stateContainer } = utils;
+const { ButtonBox } = components;
 
 stateContainer.injectModel(todoListModel);
 
@@ -30,15 +32,18 @@ const columns = [
   {
     title: '操作',
     render(value, record) {
-      const { id: taskId, processInstanceId, todoType } = record.task;
+      const { id: taskId, processInstanceId } = record.task;
       const applyId = record.apply && record.apply.id;
       return (
-        <Handle
-          applyId={applyId}
-          taskId={taskId}
-          processInstanceId={processInstanceId}
-          todoType={todoType}
-        />
+        <ButtonBox>
+          <Handle
+            applyId={applyId}
+            taskId={taskId}
+            processInstanceId={processInstanceId}
+            todoType={record.todoType}
+          />
+          {!record.apply ? <Delete taskId={taskId} processInstanceId={processInstanceId} /> : null}
+        </ButtonBox>
       );
     },
   },

@@ -9,7 +9,7 @@ interface Callback {
 const defaultConfirm: Confirm = message =>
   new Promise((resolve, reject) => {
     /* eslint-disable no-unused-expressions */
-    window.confirm(message + 1) ? resolve() : reject();
+    window.confirm(message) ? resolve() : reject();
   });
 
 let confirm: Confirm = defaultConfirm;

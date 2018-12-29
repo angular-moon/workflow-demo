@@ -30,7 +30,7 @@ export default {
       { payload: { applyId, taskId, processInstanceId, todoType } }: Action<any>,
       { call, put }: EffectsCommandMap
     ) {
-      // 获取处理UI配置
+      // REVOKABLE 目前的实现一个流程只配置了一个UI, 使用 processInstanceId 获取
       const params =
         todoType === TodoType.REVOKABLE
           ? { type: 'process', id: processInstanceId }

@@ -48,5 +48,6 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'import/no-unresolved': 'off',
     'implicit-arrow-linebreak': 'off',
+    'object-curly-newline': 'off',
   },
 };

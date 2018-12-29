@@ -44,11 +44,21 @@ const Submit = (props: Props) => {
     form.validateFieldsAndScroll(async (err, values) => {
       if (!err) {
         const { applyBoundActions, taskBoundActions } = props;
+
+        // 保存业务数据, 需要在请求加载选择节点之前保存业务数据
+        // 因为可选择的提交节点和业务数据有关
+        try {
+          await applyBoundActions.save({ mode, strict: true });
+        } catch (e) {
+          utils.popup.error(e.message);
+        }
+
+        // 如果需要选择提交节点或者填写意见, show TaskForm as Modal
+        // 否则任务直接提交到下一个节点
         if (selectKey || opinionStrategy !== OpinionStrategy.NONE) {
           setTaskFormVisible(true);
         } else {
           try {
-            await applyBoundActions.save({ mode, strict: true });
             await taskBoundActions.submit({});
           } catch (e) {
             utils.popup.error(e.message);
@@ -59,9 +69,8 @@ const Submit = (props: Props) => {
   }
 
   async function handleTaskFormSubmit({ selectValue, opinion }: HandleSubmitArgs) {
-    const { applyBoundActions, taskBoundActions } = props;
+    const { taskBoundActions } = props;
     try {
-      await applyBoundActions.save({ mode, strict: true });
       await taskBoundActions.submit({ selectKey, selectValue, opinion });
       setTaskFormVisible(false);
     } catch (e) {

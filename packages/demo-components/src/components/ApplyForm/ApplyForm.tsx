@@ -1,6 +1,6 @@
 import { Form, Input } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
-import { utils } from 'demo-common';
+import { utils, components } from 'demo-common';
 import { OperationType } from 'demo-common/src/enums/OperationType.enum';
 import { Operation } from 'demo-common/src/types/Operation';
 import React, { Component } from 'react';
@@ -11,7 +11,6 @@ import applyModel from '../../models/apply/apply.model';
 import taskActions from '../../models/task/task.action';
 import { Apply } from '../../types/Apply';
 import { mapOpComponents } from '../../utils/operations';
-import ButtonBox from '../ButtonBox';
 import CatalogSelect from './CatalogSelect';
 import { Mode } from './enums/Mode';
 import opComponentMaps, { Cancel, Save } from './Operation';
@@ -19,6 +18,7 @@ import ApplyPrompt from './ApplyPrompt';
 
 const FormItem = Form.Item;
 const { stateContainer, bindActions } = utils;
+const { ButtonBox } = components;
 
 // @ts-ignore
 stateContainer.injectModel(applyModel);
@@ -175,7 +175,7 @@ export class ApplyForm extends Component<Props, State> {
     const agentItem =
       mode === Mode.UPDATE_AGENT ? (
         <FormItem {...formItemLayout} label="采购代理机构">
-          {getFieldDecorator('budget', {
+          {getFieldDecorator('agent', {
             rules: [
               {
                 required: mode === Mode.UPDATE_AGENT,

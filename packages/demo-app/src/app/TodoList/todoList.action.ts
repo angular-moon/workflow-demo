@@ -8,5 +8,7 @@ export default createActions({
     fetch: identity,
     setTodos: identity,
     setPagination: identity,
+    del: identity,
+    clientDelTodo: identity,
   },
 });

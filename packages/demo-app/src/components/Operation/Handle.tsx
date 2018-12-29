@@ -26,9 +26,7 @@ type Props = OwnerProps & DispatchProps;
 
 const Handle = (props: Props) => {
   function handle() {
-    const {
-      applyId, taskId, processInstanceId, todoType, workflowUIBoundActions,
-    } = props;
+    const { applyId, taskId, processInstanceId, todoType, workflowUIBoundActions } = props;
     workflowUIBoundActions.showUI({
       applyId,
       taskId,

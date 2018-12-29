@@ -1,6 +1,7 @@
-import { utils, api } from 'demo-common';
-import wrappedApplyActions from './apply.action';
+import { api, utils } from 'demo-common';
+import md5 from 'md5';
 import { Apply, ApplyServer } from '../../types/Apply';
+import wrappedApplyActions from './apply.action';
 
 const { unwrapActions } = utils;
 
@@ -25,7 +26,16 @@ interface transform2ServerFunc {
   (clientData: Apply): ApplyServer;
 }
 const transform2Server: transform2ServerFunc = data => ({
-  agentId: '0', // 没有id, 暂时赋值为0
+  // for test, 使用名称MD5作为id(支持的类型为Long, 把字母转为数字(ascii))
+  /* eslint-disable */
+  agentId: data.agent
+    ? md5(data.agent)
+        .slice(0, 5)
+        .split('')
+        .map(c => (Number.isInteger(c) ? c : c.charCodeAt()))
+        .join('')
+    : undefined,
+  /* eslint-enable */
   agentName: data.agent,
   money: data.budget,
   stockDirId: data.catalog.id,

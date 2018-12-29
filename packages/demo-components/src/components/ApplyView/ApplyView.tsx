@@ -1,5 +1,5 @@
 import { Col, Row } from 'antd';
-import { utils } from 'demo-common';
+import { utils, components } from 'demo-common';
 import React, { useEffect } from 'react';
 import { Operation } from 'demo-common/src/types/Operation';
 import { connect } from 'react-redux';
@@ -10,9 +10,9 @@ import applyModel from '../../models/apply/apply.model';
 import opComponentMaps, { Cancel } from './Operation';
 import { mapOpComponents } from '../../utils/operations';
 import taskActions from '../../models/task/task.action';
-import ButtonBox from '../ButtonBox';
 
 const { stateContainer, bindActions } = utils;
+const { ButtonBox } = components;
 
 // @ts-ignore
 stateContainer.injectModel(applyModel);

@@ -1,8 +1,8 @@
 import { api, utils } from 'demo-common';
-import { TodoType } from 'demo-common/src/enums';
+import { TodoType, TaskType } from 'demo-common/src/enums';
 import { EffectsCommandMap } from 'dva';
 import produce from 'immer';
-import { assign } from 'lodash';
+import { reject } from 'lodash';
 import { Action } from 'redux-actions';
 import Pagination from '../../types/Pagination';
 import wrappedTodoListActions from './todoList.action';
@@ -11,18 +11,18 @@ const { unwrapActions } = utils;
 
 const todoListActions = unwrapActions(wrappedTodoListActions);
 
-const defaultState = () =>
-  assign(
-    {},
-    {
-      pagination: {
-        current: 1,
-        pageSize: 10,
-        total: 0,
-      } as Pagination,
-      todos: [],
-    }
-  );
+function convertType(todoType: TodoType): TaskType {
+  return todoType === TodoType.PENDING ? TaskType.NORMAL : TaskType.REJECTED;
+}
+
+const defaultState = () => ({
+  pagination: {
+    current: 1,
+    pageSize: 10,
+    total: 0,
+  } as Pagination,
+  todos: [],
+});
 
 export default {
   namespace: 'todoList',
@@ -41,6 +41,12 @@ export default {
       /* eslint-disable no-param-reassign */
       return produce(state, draft => {
         draft.todos = todos;
+      });
+    },
+    clientDelTodo(state, { payload: taskId }: Action<any>) {
+      /* eslint-disable no-param-reassign */
+      return produce(state, draft => {
+        draft.todos = reject(state.todos, todo => todo.task.id === taskId);
       });
     },
   },
@@ -65,7 +71,7 @@ export default {
       ] = yield all([
         call(todoApi, {
           params: {
-            taskType: todoType,
+            taskType: convertType(todoType),
             offset: (pagination.current - 1) * pagination.pageSize,
             limit: pagination.pageSize,
           },
@@ -74,6 +80,17 @@ export default {
       ]);
       yield put(todoListActions.setTodos(todos));
       yield put(todoListActions.setPagination({ total }));
+    },
+    *del(
+      { payload: { processInstanceId, taskId } }: Action<any>,
+      { call, put, select }: EffectsCommandMap
+    ) {
+      yield call(api.workflowDemo.process_instances_instanceId_delete, {
+        path: { instanceId: processInstanceId },
+      });
+      yield put(todoListActions.clientDelTodo(taskId));
+      const pagination: Pagination = yield select(state => state.todoList.pagination);
+      yield put(todoListActions.setPagination({ total: pagination.total - 1 }));
     },
   },
 };
