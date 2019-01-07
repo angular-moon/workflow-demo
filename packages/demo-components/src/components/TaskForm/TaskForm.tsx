@@ -73,7 +73,6 @@ class TaskForm extends Component<Props> {
       !selectNodesLoadError &&
       !selectNodes
     ) {
-      console.log('fetchSelectNodes');
       taskBoundActions.fetchSelectNodes(operationType);
     }
   }

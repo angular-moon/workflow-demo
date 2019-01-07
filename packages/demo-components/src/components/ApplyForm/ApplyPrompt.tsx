@@ -14,7 +14,7 @@ const ApplyPrompt = (props: Props) => {
 
   const confirm = message =>
     new Promise((resolve, reject) => {
-      /* eslint-disable no-unused-expressions */
+      /* eslint-disable no-unused-expressions, no-alert */
       const ok = window.confirm(message);
       if (ok) {
         api.workflowDemo
