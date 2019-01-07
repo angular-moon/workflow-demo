@@ -42,7 +42,6 @@ const moduleFileExtensions = [
   'web.js',
   'js',
   'web.ts',
-  'd.ts',
   'ts',
   'web.tsx',
   'tsx',
@@ -53,7 +52,9 @@ const moduleFileExtensions = [
 
 // Resolve file paths in the same order as webpack
 const resolveModule = (resolveFn, filePath) => {
-  const extension = moduleFileExtensions.find(extension => fs.existsSync(resolveFn(`${filePath}.${extension}`)));
+  const extension = moduleFileExtensions.find(extension =>
+    fs.existsSync(resolveFn(`${filePath}.${extension}`))
+  );
 
   if (extension) {
     return resolveFn(`${filePath}.${extension}`);

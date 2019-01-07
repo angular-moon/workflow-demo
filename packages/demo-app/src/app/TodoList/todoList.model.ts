@@ -4,7 +4,7 @@ import { EffectsCommandMap } from 'dva';
 import produce from 'immer';
 import { reject } from 'lodash';
 import { Action } from 'redux-actions';
-import Pagination from '../../types/Pagination';
+import Pagination from '../../types/Pagination.d';
 import wrappedTodoListActions from './todoList.action';
 
 const { unwrapActions } = utils;

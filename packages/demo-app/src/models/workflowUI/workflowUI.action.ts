@@ -2,7 +2,7 @@ import { createActions } from 'redux-actions';
 // @ts-ignore
 import { identity } from 'ramda';
 import UIUrlMap from './UIUrlMap';
-import { UIConfigRaw, TaskCoreData, UIConfig } from '../../types/WorkflowUIProps';
+import { UIConfigRaw, TaskCoreData, UIConfig } from '../../types/WorkflowUIProps.d';
 
 interface SetI {
   (UIConfigRaw: UIConfigRaw, tcd: TaskCoreData): UIConfig;

@@ -1,4 +1,4 @@
-import { Operation, OperationRaw } from 'demo-common/src/types/Operation';
+import { Operation, OperationRaw } from 'demo-common/src/types/Operation.d';
 
 export interface UIConfigRaw {
   name: string;

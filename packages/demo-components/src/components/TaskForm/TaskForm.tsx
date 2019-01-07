@@ -3,7 +3,7 @@ import { Form, Select, Input, Modal } from 'antd';
 import { connect } from 'react-redux';
 import { ActionCreatorsMapObject } from 'redux';
 import { FormComponentProps } from 'antd/lib/form';
-import { OpinionStrategy } from 'demo-common/src/types/Operation';
+import { OpinionStrategy } from 'demo-common/src/types/Operation.d';
 import { OperationType } from 'demo-common/src/enums/OperationType.enum';
 import { utils } from 'demo-common';
 import taskModel, { SelectNode } from '../../models/task/task.model';

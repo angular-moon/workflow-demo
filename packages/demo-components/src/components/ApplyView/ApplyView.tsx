@@ -1,7 +1,7 @@
 import { Col, Row } from 'antd';
 import { utils, components } from 'demo-common';
 import React, { useEffect } from 'react';
-import { Operation } from 'demo-common/src/types/Operation';
+import { Operation } from 'demo-common/src/types/Operation.d';
 import { connect } from 'react-redux';
 import { ActionCreatorsMapObject } from 'redux';
 import styled from 'styled-components';

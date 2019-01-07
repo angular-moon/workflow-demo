@@ -2,7 +2,7 @@ import { LocaleProvider } from 'antd';
 import zhCN from 'antd/es/locale-provider/zh_CN';
 import { utils } from 'demo-common';
 import { OperationType } from 'demo-common/src/enums';
-import { OpinionStrategy } from 'demo-common/src/types/Operation';
+import { OpinionStrategy } from 'demo-common/src/types/Operation.d';
 import React from 'react';
 import { hot, setConfig } from 'react-hot-loader';
 import { Provider } from 'react-redux';

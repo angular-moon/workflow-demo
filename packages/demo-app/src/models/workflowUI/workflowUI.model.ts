@@ -3,7 +3,7 @@ import { Action } from 'redux-actions';
 import { EffectsCommandMap } from 'dva';
 import { push } from 'react-router-redux';
 import { TodoType } from 'demo-common/src/enums';
-import { WorkflowUIProps } from '../../types/WorkflowUIProps';
+import { WorkflowUIProps } from '../../types/WorkflowUIProps.d';
 import wrappedWorkflowUIActions from './workflowUI.action';
 
 const workflowUIActions = utils.unwrapActions(wrappedWorkflowUIActions);

@@ -2,7 +2,7 @@ import { Form, Input } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { utils, components } from 'demo-common';
 import { OperationType } from 'demo-common/src/enums/OperationType.enum';
-import { Operation } from 'demo-common/src/types/Operation';
+import { Operation } from 'demo-common/src/types/Operation.d';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ActionCreatorsMapObject } from 'redux';

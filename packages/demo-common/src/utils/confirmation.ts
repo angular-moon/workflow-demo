@@ -8,7 +8,7 @@ interface Callback {
 
 const defaultConfirm: Confirm = message =>
   new Promise((resolve, reject) => {
-    /* eslint-disable no-unused-expressions */
+    /* eslint-disable no-unused-expressions,no-alert */
     window.confirm(message) ? resolve() : reject();
   });
 

@@ -12607,17 +12607,20 @@ react-feather@^1.1.4:
   resolved "http://registry.npm.taobao.org/react-feather/download/react-feather-1.1.4.tgz#d0143da95f9d52843cf13a553091573a7c617897"
   integrity sha1-0BQ9qV+dUoQ88TpVMJFXOnxheJc=
 
-react-hot-loader@^4.3.12:
-  version "4.3.12"
-  resolved "http://registry.npm.taobao.org/react-hot-loader/download/react-hot-loader-4.3.12.tgz#0d56688884e7330c63a00a17217866280616b07a"
-  integrity sha1-DVZoiITnMwxjoAoXIXhmKAYWsHo=
+react-hot-loader@4.6.3:
+  version "4.6.3"
+  resolved "http://registry.npm.taobao.org/react-hot-loader/download/react-hot-loader-4.6.3.tgz#d9c8923c45b35fd51538ba4297081a00be6bccb1"
+  integrity sha1-2ciSPEWzX9UVOLpClwgaAL5rzLE=
   dependencies:
     fast-levenshtein "^2.0.6"
     global "^4.3.0"
     hoist-non-react-statics "^2.5.0"
+    loader-utils "^1.1.0"
+    lodash.merge "^4.6.1"
     prop-types "^15.6.1"
     react-lifecycles-compat "^3.0.4"
     shallowequal "^1.0.2"
+    source-map "^0.7.3"
 
 react-hot-loader@^4.5.1:
   version "4.5.3"

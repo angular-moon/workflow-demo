@@ -5,7 +5,7 @@ import { ActionCreatorsMapObject, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { utils, enums, components } from 'demo-common';
 import todoListModel from './todoList.model';
-import Pagination from '../../types/Pagination';
+import Pagination from '../../types/Pagination.d';
 import todoListActions from './todoList.action';
 import { RouteComponentProps } from 'react-router';
 import { Handle } from '../../components/Operation';

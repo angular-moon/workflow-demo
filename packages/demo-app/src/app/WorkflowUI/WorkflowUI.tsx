@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import { utils } from 'demo-common';
 import { workflowUIModel } from '../../models/workflowUI';
 import CloudComponent from '../../components/CloudComponent';
-import { WorkflowUIProps } from '../../types/WorkflowUIProps';
+import { WorkflowUIProps } from '../../types/WorkflowUIProps.d';
 
 const { stateContainer } = utils;
 

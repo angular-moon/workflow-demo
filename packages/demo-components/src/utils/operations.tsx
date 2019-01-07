@@ -1,5 +1,5 @@
 import React from 'react';
-import { Operation } from 'demo-common/src/types/Operation';
+import { Operation } from 'demo-common/src/types/Operation.d';
 
 interface OperationComponentMaps {
   [type: string]: typeof React.Component;

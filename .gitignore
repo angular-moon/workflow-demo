@@ -74,3 +74,4 @@ typings/
 
 .vscode/
 packages/*/build/
+.docz/

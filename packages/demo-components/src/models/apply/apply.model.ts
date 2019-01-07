@@ -1,6 +1,6 @@
 import { api, utils } from 'demo-common';
 import md5 from 'md5';
-import { Apply, ApplyServer } from '../../types/Apply';
+import { Apply, ApplyServer } from '../../types/Apply.d';
 import wrappedApplyActions from './apply.action';
 
 const { unwrapActions } = utils;
