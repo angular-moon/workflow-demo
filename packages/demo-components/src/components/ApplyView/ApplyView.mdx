@@ -5,6 +5,7 @@ menu: Components
 
 import { Playground, PropsTable } from 'docz'
 import ApplyView, { ApplyView as Origin } from './ApplyView'
+import { OperationType, OpinionStrategy } from 'demo-common/src/enums';
 
 # ApplyView
 
@@ -15,5 +16,17 @@ import ApplyView, { ApplyView as Origin } from './ApplyView'
 ## Basic usage
 
 <Playground>
-  <ApplyView id="1" />
+  <ApplyView
+    applyId="1"
+    processInstanceId="1"
+    taskId="1"
+    operations={[
+      {
+        name: '提交',
+        type: OperationType.SUBMIT,
+        selectKey: '1',
+        opinionStrategy: OpinionStrategy.OPTIONAL,
+      },
+    ]}
+  />
 </Playground>

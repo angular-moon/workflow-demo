@@ -1,10 +1,4 @@
-import { OperationType } from '../enums/OperationType.enum';
-
-export enum OpinionStrategy {
-  NONE = 'NONE',
-  REQUIRE = 'REQUIRE',
-  OPTIONAL = 'OPTIONAL',
-}
+import { OperationType, OpinionStrategy } from '../enums';
 
 export interface OperationRaw {
   name: string;

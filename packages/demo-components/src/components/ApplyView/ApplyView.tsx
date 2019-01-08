@@ -10,6 +10,8 @@ import applyModel from '../../models/apply/apply.model';
 import opComponentMaps, { Cancel } from './Operation';
 import { mapOpComponents } from '../../utils/operations';
 import taskActions from '../../models/task/task.action';
+import { Mode } from '../ApplyForm/enums/Mode';
+import update from 'ramda/es/update';
 
 const { stateContainer, bindActions } = utils;
 const { ButtonBox } = components;
@@ -37,8 +39,9 @@ export interface OwnProps {
   processInstanceId: string;
   /**
    * 工作流配置的操作
+   * keyof Operation
    */
-  operations: Operation[];
+  operations: Array<Operation>;
 }
 
 interface StateProps {

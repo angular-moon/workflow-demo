@@ -5,6 +5,7 @@ import { Router } from 'react-router-dom';
 import { utils } from 'demo-common';
 import zhCN from 'antd/es/locale-provider/zh_CN';
 
+console.log(utils.stateContainer._history);
 const Wrapper = ({ children }) => (
   <LocaleProvider locale={zhCN}>
     <Provider store={utils.stateContainer._store}>
