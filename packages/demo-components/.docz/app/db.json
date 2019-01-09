@@ -7,10 +7,10 @@
     "version": "0.1.0",
     "repository": null,
     "native": false,
-    "codeSandbox": true,
+    "codeSandbox": false,
     "themeConfig": {},
     "typescript": true,
-    "wrapper": "src/wrapper",
+    "wrapper": "src/DoczWrapper",
     "indexHtml": "public/index.docz.html"
   },
   "entries": {
@@ -33,6 +33,43 @@
           "depth": 2,
           "slug": "consistency",
           "value": "Consistency"
+        }
+      ]
+    },
+    "src/components/Alert/Alert.mdx": {
+      "name": "Alert",
+      "menu": "Components",
+      "id": "9c91e8af3f0bac2312d1cef1739af53e",
+      "filepath": "src/components/Alert/Alert.mdx",
+      "link": null,
+      "slug": "src-components-alert-alert",
+      "route": "/src-components-alert-alert",
+      "order": 0,
+      "headings": [
+        {
+          "depth": 1,
+          "slug": "alert",
+          "value": "Alert"
+        },
+        {
+          "depth": 2,
+          "slug": "properties",
+          "value": "Properties"
+        },
+        {
+          "depth": 2,
+          "slug": "basic-usage",
+          "value": "Basic usage"
+        },
+        {
+          "depth": 2,
+          "slug": "using-different-kinds",
+          "value": "Using different kinds"
+        },
+        {
+          "depth": 2,
+          "slug": "use-with-children-as-a-function",
+          "value": "Use with children as a function"
         }
       ]
     },

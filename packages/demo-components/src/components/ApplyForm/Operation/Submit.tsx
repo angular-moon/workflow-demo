@@ -1,8 +1,7 @@
 import { Button } from 'antd';
 import { WrappedFormUtils } from 'antd/es/form/Form';
 import { utils } from 'demo-common';
-import { OperationType } from 'demo-common/src/enums/OperationType.enum';
-import { OpinionStrategy } from 'demo-common/src/types/Operation.d';
+import { OperationType, OpinionStrategy } from 'demo-common/src/enums';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { ActionCreatorsMapObject } from 'redux';
