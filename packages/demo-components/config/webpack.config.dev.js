@@ -84,7 +84,7 @@ module.exports = {
   devtool: 'cheap-module-source-map',
   // These are the "entry points" to our application.
   // This means they will be the "root" imports that are included in JS bundle.
-  externals,
+  externals: externals(),
   entry: [
     // Include an alternative client for WebpackDevServer. A client's job is to
     // connect to WebpackDevServer by a socket and get notified about changes.
@@ -115,7 +115,8 @@ module.exports = {
     // This is the URL that app is served from. We use "/" in development.
     publicPath,
     // Point sourcemap entries to original disk location (format as URL on Windows)
-    devtoolModuleFilenameTemplate: info => path.resolve(info.absoluteResourcePath).replace(/\\/g, '/'),
+    devtoolModuleFilenameTemplate: info =>
+      path.resolve(info.absoluteResourcePath).replace(/\\/g, '/'),
   },
   optimization: {
     // Automatically split vendor and commons
@@ -374,8 +375,8 @@ module.exports = {
       publicPath,
     }),
     // TypeScript type checking
-    useTypeScript
-      && new ForkTsCheckerWebpackPlugin({
+    useTypeScript &&
+      new ForkTsCheckerWebpackPlugin({
         typescript: resolve.sync('typescript', {
           basedir: paths.appNodeModules,
         }),

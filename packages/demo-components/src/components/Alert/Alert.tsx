@@ -14,17 +14,19 @@ const kinds: KindMap = {
 export interface AlertProps {
   /**
    * Set this to change alert kind
+   * one of: 'info' | 'positive' | 'negative' | 'warning'
    * @default info
    */
   kind: 'info' | 'positive' | 'negative' | 'warning';
+  x: string;
 }
 
-const AlertStyled = styled.div`
+const AlertStyled = styled.div<AlertProps>`
   padding: 15px 20px;
   background: white;
   border-radius: 3px;
   color: white;
-  background: ${({ kind = 'info' }: AlertProps) => kinds[kind]};
+  background: ${({ kind = 'info' }) => kinds[kind]};
 `;
 
 export const Alert: SFC<AlertProps> = ({ kind, ...props }) => (

@@ -1,8 +1,6 @@
 // Wonder why the development environment needs to be set to var? Webpack bug?
 // output.libraryTarget 为 umd 时设置为 root, 为 var 时需要设置为 var
-const global = process.env.NODE_ENV === 'development' ? 'var' : 'root';
-
-module.exports = {
+module.exports = (global = 'var') => ({
   react: {
     [global]: 'React',
     amd: 'react',
@@ -117,4 +115,4 @@ module.exports = {
     commonjs: 'react-virtualized-tree',
     commonjs2: 'react-virtualized-tree',
   },
-};
+});

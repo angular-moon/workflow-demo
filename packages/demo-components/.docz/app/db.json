@@ -9,8 +9,10 @@
     "native": false,
     "codeSandbox": false,
     "themeConfig": {},
+    "dest": "build/doc",
     "typescript": true,
-    "wrapper": "src/DoczWrapper",
+    "hashRouter": true,
+    "wrapper": "src/DocWrapper",
     "indexHtml": "public/index.docz.html"
   },
   "entries": {

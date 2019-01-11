@@ -116,7 +116,7 @@ const webpackConfig = {
   // We generate sourcemaps in production. This is slow but gives good results.
   // You can exclude the *.map files from the build during deployment.
   devtool: shouldUseSourceMap ? 'source-map' : false,
-  externals,
+  externals: externals('root'),
   // In production, we only want to load the app code.
   entry: {
     index: paths.appIndexJs,
