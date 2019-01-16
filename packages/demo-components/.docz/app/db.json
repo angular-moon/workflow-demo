@@ -9,6 +9,7 @@
     "native": false,
     "codeSandbox": false,
     "themeConfig": {},
+    "base": "http://localhost/demo/doc",
     "dest": "build/doc",
     "typescript": true,
     "hashRouter": true,
@@ -30,23 +31,18 @@
           "depth": 1,
           "slug": "getting-started",
           "value": "Getting Started"
-        },
-        {
-          "depth": 2,
-          "slug": "consistency",
-          "value": "Consistency"
         }
       ]
     },
     "src/components/Alert/Alert.mdx": {
       "name": "Alert",
-      "menu": "Components",
       "id": "9c91e8af3f0bac2312d1cef1739af53e",
       "filepath": "src/components/Alert/Alert.mdx",
       "link": null,
       "slug": "src-components-alert-alert",
       "route": "/src-components-alert-alert",
       "order": 0,
+      "menu": null,
       "headings": [
         {
           "depth": 1,
@@ -77,13 +73,13 @@
     },
     "src/components/ApplyView/ApplyView.mdx": {
       "name": "ApplyView",
-      "menu": "Components",
       "id": "03fbdd235e6ad6054f23c1c5ff329385",
       "filepath": "src/components/ApplyView/ApplyView.mdx",
       "link": null,
       "slug": "src-components-apply-view-apply-view",
       "route": "/src-components-apply-view-apply-view",
       "order": 0,
+      "menu": null,
       "headings": [
         {
           "depth": 1,

@@ -7,6 +7,7 @@ import zhCN from 'antd/es/locale-provider/zh_CN';
 import { utils } from 'demo-common';
 import Center from './app/Center';
 import Login from './app/Login';
+import CloudComponent from './components/CloudComponent';
 
 const { stateContainer } = utils;
 
@@ -18,6 +19,22 @@ const App = () => (
           <Route exact path="/" component={Login} />
           <Route path="/center" component={Center} />
         </Switch>
+        {/* for test */}
+        {/* <CloudComponent
+          url="http://localhost:3000/static/js/ApplyForm.js"
+          applyId="1"
+          processInstanceId="1"
+          taskId="1"
+          mode="create"
+          operations={[
+            {
+              name: '提交',
+              type: 'COMPLETE',
+              selectKey: '1',
+              opinionStrategy: 'NONE',
+            },
+          ]}
+        /> */}
       </Router>
     </Provider>
   </LocaleProvider>

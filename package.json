@@ -4,8 +4,11 @@
   "devDependencies": {
     "lerna": "^3.5.1"
   },
-  "workspaces": ["packages/*"],
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
+    "bootstrap": "lerna bootstrap",
     "start:app": "lerna run --scope *-app --parallel --progress start",
     "start:c": "lerna run --scope *-components --parallel --progress start",
     "build:c": "lerna run --scope *-components --parallel --progress build",

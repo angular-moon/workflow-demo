@@ -16,7 +16,7 @@ const env = getClientEnvironment(publicUrl);
 const docPath = 'doc';
 
 module.exports = {
-  // base: `${publicUrl}/${docPath}`,
+  base: `${publicUrl}/${docPath}`,
   dest: `build/${docPath}`,
   typescript: true,
   codeSandbox: false,
