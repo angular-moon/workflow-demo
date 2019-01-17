@@ -89,6 +89,7 @@
     "@types/lodash": "^4.14.119",
     "@types/ramda": "^0.25.42",
     "@types/redux-actions": "^2.3.1",
+    "cross-env": "^5.2.0",
     "lerna": "^3.5.1"
   }
 }

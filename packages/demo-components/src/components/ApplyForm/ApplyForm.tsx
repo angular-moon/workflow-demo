@@ -189,7 +189,7 @@ export class ApplyForm extends Component<Props, State> {
     return (
       <>
         <Form>
-          <FormItem {...formItemLayout} label="采购目录1212">
+          <FormItem {...formItemLayout} label="采购目录">
             {catalogItem}
           </FormItem>
           <FormItem {...formItemLayout} label="采购预算">

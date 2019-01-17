@@ -21,7 +21,7 @@ const App = () => (
         </Switch>
         {/* for test */}
         {/* <CloudComponent
-          url="http://localhost:3000/static/js/ApplyForm.js"
+          url="http://localhost:3030/static/js/ApplyForm.js"
           applyId="1"
           processInstanceId="1"
           taskId="1"
