@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@types/dva": "^1.1.0",
+    "@types/lodash": "^4.14.119",
+    "@types/ramda": "^0.25.42",
     "@types/jest": "23.3.10",
     "@types/node": "10.12.12",
     "@types/react": "16.7.13",
@@ -13,20 +15,10 @@
     "@types/redux": "^3.6.0",
     "@types/redux-actions": "^2.3.1",
     "ramda": "^0.26.1",
-    "react": "^16.7.0-alpha.2",
-    "react-dev-utils": "^6.1.1",
-    "react-dom": "^16.7.0-alpha.2",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
     "react-hot-loader": "4.6.3",
-    "react-loadable": "^5.5.0",
-    "resolve": "1.8.1",
-    "sass-loader": "7.1.0",
-    "style-loader": "0.23.0",
-    "terser-webpack-plugin": "1.1.0",
-    "url-loader": "1.1.1",
-    "webpack": "4.19.1",
-    "webpack-dev-server": "3.1.9",
-    "webpack-manifest-plugin": "2.0.4",
-    "workbox-webpack-plugin": "3.6.3"
+    "react-loadable": "^5.5.0"
   },
   "main": "src/index.ts",
   "types": "src/index.ts",
@@ -84,12 +76,22 @@
     ]
   },
   "devDependencies": {
-    "@types/axios": "^0.14.0",
-    "@types/dva": "^1.1.0",
-    "@types/lodash": "^4.14.119",
-    "@types/ramda": "^0.25.42",
-    "@types/redux-actions": "^2.3.1",
+    "@typescript-eslint/eslint-plugin": "^1.0.0",
+    "@typescript-eslint/parser": "^1.0.0",
     "cross-env": "^5.2.0",
-    "lerna": "^3.5.1"
+    "lerna": "^3.5.1",
+    "react-dev-utils": "^6.1.1",
+    "resolve": "1.8.1",
+    "sass-loader": "7.1.0",
+    "style-loader": "0.23.0",
+    "terser-webpack-plugin": "1.1.0",
+    "url-loader": "1.1.1",
+    "webpack": "4.19.1",
+    "webpack-dev-server": "3.1.9",
+    "webpack-manifest-plugin": "2.0.4",
+    "workbox-webpack-plugin": "3.6.3"
+  },
+  "resolutions": {
+    "ansi-styles": "^3.2.0"
   }
 }

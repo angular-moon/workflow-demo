@@ -14,5 +14,8 @@
     "build:c": "lerna run --scope *-components --parallel --progress build",
     "api-gen": "lerna run --scope *-common --parallel --progress api-gen",
     "docz:c": "lerna run --scope *-components --parallel --progress docz:dev"
+  },
+  "resolutions": {
+    "ansi-styles": "^3.2.0"
   }
 }

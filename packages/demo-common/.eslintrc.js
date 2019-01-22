@@ -1,17 +1,20 @@
 // http://eslint.org/docs/user-guide/configuring
 module.exports = {
   extends: ['airbnb'],
-  parser: 'typescript-eslint-parser',
+  parser: '@typescript-eslint/parser',
   parserOptions: {
-    jsx: true,
+    ecmaFeatures: {
+      jsx: true,
+    },
     useJSXTextNode: true,
   },
+  plugins: ['@typescript-eslint'],
   env: {
     browser: true,
   },
   settings: {
     'import/resolver': {
-      'typescript-eslint-parser': ['.d.ts', '.ts', '.tsx'],
+      '@typescript-eslint/parser': ['.d.ts', '.ts', '.tsx'],
     },
   },
   rules: {

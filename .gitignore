@@ -75,3 +75,4 @@ typings/
 .vscode/
 packages/*/build/
 packages/demo-components/.docz/
+packages/demo-components/public/index.docz.html

@@ -1,19 +1,22 @@
+// http://eslint.org/docs/user-guide/configuring
 const path = require('path');
 
-// http://eslint.org/docs/user-guide/configuring
 module.exports = {
-  parser: 'typescript-eslint-parser',
+  extends: ['airbnb'],
+  parser: '@typescript-eslint/parser',
   parserOptions: {
-    jsx: true,
+    ecmaFeatures: {
+      jsx: true,
+    },
     useJSXTextNode: true,
   },
-  extends: ['airbnb'],
+  plugins: ['@typescript-eslint'],
   env: {
     browser: true,
   },
   settings: {
     'import/resolver': {
-      'typescript-eslint-parser': ['.d.ts', '.ts', '.tsx'],
+      '@typescript-eslint/parser': ['.d.ts', '.ts', '.tsx'],
       webpack: {
         config: path.resolve(__dirname, 'config/webpack.config.dev.js'),
       },
@@ -23,7 +26,7 @@ module.exports = {
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/forbid-foreign-prop-types.md
     'react/forbid-foreign-prop-types': 'error',
     'arrow-parens': ['error', 'as-needed'],
-    'react/prefer-stateless-function': 'warn',
+    'no-param-reassign': 'off',
     'no-unused-vars': 'off',
     'no-underscore-dangle': 'off',
     'generator-star-spacing': 'off',
@@ -37,6 +40,10 @@ module.exports = {
     'no-debugger': 'off',
     'no-plusplus': 'off',
     'flowtype/no-types-missing-file-annotation': 'off',
+    'jsx-a11y/label-has-associated-control': 'off',
+    'jsx-a11y/label-has-for': 'off',
+    'jsx-a11y/click-events-have-key-events': 'off',
+    'jsx-a11y/anchor-is-valid': 'off',
     'comma-dangle': [
       'error',
       {
@@ -47,13 +54,12 @@ module.exports = {
         functions: 'ignore',
       },
     ],
-    'import/no-unresolved': 'off',
-    'react/jsx-filename-extension': ['error', { extensions: ['.jsx', '.tsx'] }],
-    'jsx-a11y/click-events-have-key-events': 'off',
-    'jsx-a11y/anchor-is-valid': 'off',
     'object-curly-newline': 'off',
     'operator-linebreak': 'off',
-    'implicit-arrow-linebreak': 'off',
+    'react/jsx-one-expression-per-line': 'off',
+    'react/jsx-filename-extension': ['error', { extensions: ['.jsx', '.tsx'] }],
     'import/prefer-default-export': 'off',
+    'import/no-unresolved': 'off',
+    'implicit-arrow-linebreak': 'off',
   },
 };

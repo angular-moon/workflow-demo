@@ -3,17 +3,20 @@ const path = require('path');
 
 module.exports = {
   extends: ['airbnb'],
-  parser: 'typescript-eslint-parser',
+  parser: '@typescript-eslint/parser',
   parserOptions: {
-    jsx: true,
+    ecmaFeatures: {
+      jsx: true,
+    },
     useJSXTextNode: true,
   },
+  plugins: ['@typescript-eslint'],
   env: {
     browser: true,
   },
   settings: {
     'import/resolver': {
-      'typescript-eslint-parser': ['.d.ts', '.ts', '.tsx'],
+      '@typescript-eslint/parser': ['.d.ts', '.ts', '.tsx'],
       webpack: {
         config: path.resolve(__dirname, 'config/webpack.config.dev.js'),
       },
