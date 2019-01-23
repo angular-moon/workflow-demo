@@ -61,7 +61,7 @@ interface DispatchProps {
   taskBoundActions: ActionCreatorsMapObject;
 }
 
-type Props = StateProps & DispatchProps & OwnProps & FormComponentProps & { xxxxxx: string };
+type Props = StateProps & DispatchProps & OwnProps & FormComponentProps;
 
 type State = {
   opComponents: (React.ReactElement<any> | null)[];
