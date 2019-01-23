@@ -15,12 +15,35 @@ const publicUrl = process.env.REACT_APP_PUBLIC_URL;
 const env = getClientEnvironment(publicUrl);
 const docPath = 'doc';
 
+function getBase(url) {
+  if (!url) return url;
+  /**
+   * 解析 url 的正则表达式, 匹配第一个出现的[和非'/'相邻的'/']分解url
+   * @example:
+   * url: "https://gec123.com/demo"
+   * result: ["https://gec123.com/demo", "https:/", "/gec123.com/demo"]
+   * @example:
+   * url: "//gec123.com/demo"
+   * result: ["//gec123.com/demo", "/", "/gec123.com/demo"]
+   * @example:
+   * url:  "/gec123.com/demo"
+   * result: ["/gec123.com/demo", "", "/gec123.com/demo"]
+   */
+  const regx = /(.*?)(\/[^\/].*)/;
+  const result = regx.exec(url);
+  return result[1]
+    ? `/${result[2]
+        .split('/')
+        .slice(2)
+        .join('/')}`
+    : result[2];
+}
+
 module.exports = {
-  base: `${publicUrl}/${docPath}`,
+  base: `${getBase(publicUrl)}/${docPath}`,
   dest: `build/${docPath}`,
   typescript: true,
   codeSandbox: false,
-  hashRouter: true,
   wrapper: 'src/DocWrapper',
   indexHtml: 'public/index.docz.html',
   // docz 内部也用了 react-hot-loader, 重复了

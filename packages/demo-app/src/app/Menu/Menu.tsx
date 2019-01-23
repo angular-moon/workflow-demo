@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import userModel from '../../models/user/user.model';
 import { User } from '../../types/User.d';
 import Create from '../../components/Operation/Create';
+import { WorkflowUIProps } from '../../types/WorkflowUIProps';
 
 interface StateProps {
   user: User;

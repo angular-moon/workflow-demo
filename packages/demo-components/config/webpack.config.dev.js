@@ -19,6 +19,7 @@ const paths = require('./paths');
 const getClientEnvironment = require('./env');
 const externals = require('./externals');
 const { packageSrcAbsPaths } = require('./packages');
+const exportComponents = require('./exportComponents');
 
 const webpackHotDevClient = require.resolve('react-dev-utils/webpackHotDevClient');
 
@@ -104,8 +105,7 @@ module.exports = {
     // We include the app code last so that if there is a runtime error during
     // initialization, it doesn't blow up the WebpackDevServer client, and
     // changing JS code would still trigger a refresh.
-    ApplyForm: `${paths.appSrc}/components/ApplyForm`,
-    ApplyView: `${paths.appSrc}/components/ApplyView`,
+    ...exportComponents,
   },
   output: {
     // Add /* filename */ comments to generated require()s in the output.

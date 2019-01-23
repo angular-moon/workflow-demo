@@ -1,7 +1,5 @@
-import { bindActionCreators } from 'redux';
-import {
-  keys, head, compose, reduce,
-} from 'ramda';
+import { bindActionCreators, compose } from 'redux';
+import { keys, head, reduce } from 'ramda';
 
 const postfix = 'BoundActions';
 
@@ -9,7 +7,7 @@ const postfix = 'BoundActions';
  * 遍历 actions, bind action with dispatch
  */
 const bindActions = (actions, dispatch) => {
-  const namespace = compose(
+  const namespace = compose<string>(
     head,
     keys
   )(actions);
@@ -32,7 +30,7 @@ const bindActions = (actions, dispatch) => {
  * });
  *
  * return:
- *  // every action creator wrapped into a dispatch call so they may be invoked directly.
+ *  * every action creator wrapped into a dispatch call so they may be invoked directly.
  *  counterBoundActions: {
  *    add,
  *    minus

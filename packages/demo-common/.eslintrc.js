@@ -12,11 +12,6 @@ module.exports = {
   env: {
     browser: true,
   },
-  settings: {
-    'import/resolver': {
-      '@typescript-eslint/parser': ['.d.ts', '.ts', '.tsx'],
-    },
-  },
   rules: {
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/forbid-foreign-prop-types.md
     'react/forbid-foreign-prop-types': 'error',

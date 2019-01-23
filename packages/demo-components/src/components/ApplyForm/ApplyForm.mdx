@@ -1,0 +1,33 @@
+---
+name: ApplyForm
+---
+
+import { Playground, PropsTable } from 'docz';
+import ApplyForm, { ApplyForm as Origin } from './ApplyForm';
+import { OperationType, OpinionStrategy } from 'demo-common/src/enums';
+import { Mode } from './enums/Mode';
+
+# ApplyForm
+
+## Properties
+
+<PropsTable of={Origin} />
+
+## Basic usage
+
+<Playground>
+  <ApplyForm
+    applyId="1"
+    processInstanceId="1"
+    taskId="1"
+    mode={Mode.CREATE}
+    operations={[
+      {
+        name: '提交',
+        type: OperationType.SUBMIT,
+        selectKey: '1',
+        opinionStrategy: OpinionStrategy.OPTIONAL,
+      },
+    ]}
+  />
+</Playground>

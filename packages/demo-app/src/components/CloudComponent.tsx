@@ -11,9 +11,11 @@ import * as ReduxSaga from 'redux-saga';
 import * as ReactRouterRedux from 'react-router-redux';
 import * as ReactRedux from 'react-redux';
 import * as ReduxActions from 'redux-actions';
+// @ts-ignore
 import * as DvaCore from 'dva-core';
 // @ts-ignore
 import * as StateContainer from 'state-container';
+// @ts-ignore
 import * as axios from 'axios';
 // @ts-ignore
 import SystemJS from 'systemjs';

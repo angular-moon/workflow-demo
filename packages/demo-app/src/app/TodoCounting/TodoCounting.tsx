@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { Component } from 'react';
 import { Button, Badge } from 'antd';
 import { ActionCreatorsMapObject, Dispatch } from 'redux';
@@ -54,8 +53,7 @@ function mapStateToProps({ todoCounting }: any): StateProps {
   return { todoCounting };
 }
 
-// const mapDispatchToProps = bindActions(applyActions);
-function mapDispatchToProps(dispatch: Dispatch<any>): DispatchProps {
+function mapDispatchToProps(dispatch): DispatchProps {
   // @ts-ignore
   return bindActions(todoCountingActions)(dispatch);
 }
@@ -63,5 +61,4 @@ function mapDispatchToProps(dispatch: Dispatch<any>): DispatchProps {
 export default connect<StateProps, DispatchProps>(
   mapStateToProps,
   mapDispatchToProps
-  // @ts-ignore
 )(TodoCounting);

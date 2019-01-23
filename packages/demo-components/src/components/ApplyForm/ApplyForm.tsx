@@ -32,6 +32,7 @@ export interface OwnProps {
   /**
    * 模式
    * @workflow
+   * @default create
    */
   mode: 'create' | 'update_agent';
   /**
@@ -60,7 +61,7 @@ interface DispatchProps {
   taskBoundActions: ActionCreatorsMapObject;
 }
 
-type Props = StateProps & DispatchProps & OwnProps & FormComponentProps;
+type Props = StateProps & DispatchProps & OwnProps & FormComponentProps & { xxxxxx: string };
 
 type State = {
   opComponents: (React.ReactElement<any> | null)[];
@@ -245,6 +246,9 @@ function mapDispatchToProps(dispatch): DispatchProps {
   return bindActions(applyActions, taskActions)(dispatch);
 }
 
+/**
+ * 描述 connect
+ */
 export default connect<StateProps, DispatchProps, OwnProps>(
   mapStateToProps,
   mapDispatchToProps

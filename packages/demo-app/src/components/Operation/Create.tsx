@@ -2,14 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { utils } from 'demo-common';
 // @ts-ignore
-import { Dispatch, ActionCreatorsMapObject } from 'redux';
+import { ActionCreatorsMapObject } from 'redux';
 import { workflowUIModel, workflowUIActions } from '../../models/workflowUI';
 
 const { stateContainer, bindActions } = utils;
 
 stateContainer.injectModel(workflowUIModel);
 
-interface OwnerProps {
+interface OwnProps {
   disabled: boolean;
 }
 
@@ -17,7 +17,7 @@ interface DispatchProps {
   workflowUIBoundActions: ActionCreatorsMapObject;
 }
 
-type Props = OwnerProps & DispatchProps;
+type Props = OwnProps & DispatchProps;
 
 const Create = (props: Props) => {
   function create() {
@@ -32,12 +32,12 @@ const Create = (props: Props) => {
   );
 };
 
-function mapDispatchToProps(dispatch: Dispatch<any>): DispatchProps {
+function mapDispatchToProps(dispatch): DispatchProps {
   // @ts-ignore
   return bindActions(workflowUIActions)(dispatch);
 }
 
-export default connect(
+export default connect<any, DispatchProps, OwnProps>(
   null,
   mapDispatchToProps
 )(Create);

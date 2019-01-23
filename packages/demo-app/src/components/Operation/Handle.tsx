@@ -2,8 +2,7 @@ import React from 'react';
 import { Button } from 'antd';
 import { connect } from 'react-redux';
 import { utils } from 'demo-common';
-// @ts-ignore
-import { Dispatch, ActionCreatorsMapObject } from 'redux';
+import { ActionCreatorsMapObject } from 'redux';
 import { TodoType } from 'demo-common/src/enums';
 import { workflowUIModel, workflowUIActions } from '../../models/workflowUI';
 
@@ -11,7 +10,7 @@ const { stateContainer, bindActions } = utils;
 
 stateContainer.injectModel(workflowUIModel);
 
-type OwnerProps = {
+type OwnProps = {
   applyId?: string;
   taskId: string;
   processInstanceId: string;
@@ -22,7 +21,7 @@ interface DispatchProps {
   workflowUIBoundActions: ActionCreatorsMapObject;
 }
 
-type Props = OwnerProps & DispatchProps;
+type Props = DispatchProps & OwnProps;
 
 const Handle = (props: Props) => {
   function handle() {
@@ -42,12 +41,12 @@ const Handle = (props: Props) => {
   );
 };
 
-function mapDispatchToProps(dispatch: Dispatch<any>): DispatchProps {
+function mapDispatchToProps(dispatch): DispatchProps {
   // @ts-ignore
   return bindActions(workflowUIActions)(dispatch);
 }
 
-export default connect(
+export default connect<any, DispatchProps, OwnProps>(
   null,
   mapDispatchToProps
 )(Handle);

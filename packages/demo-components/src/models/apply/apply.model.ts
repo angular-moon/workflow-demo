@@ -1,5 +1,4 @@
 import { api, utils } from 'demo-common';
-import md5 from 'md5';
 import { Apply, ApplyServer } from '../../types/Apply.d';
 import wrappedApplyActions from './apply.action';
 
@@ -26,13 +25,13 @@ interface transform2ServerFunc {
   (clientData: Apply): ApplyServer;
 }
 const transform2Server: transform2ServerFunc = data => ({
-  // for test, 使用名称MD5作为id(支持的类型为Long, 把字母转为数字(ascii))
+  // for test, 使用名称生成id
   /* eslint-disable */
   agentId: data.agent
-    ? md5(data.agent)
+    ? data.agent
         .slice(0, 5)
         .split('')
-        .map(c => (Number.isInteger(c) ? c : c.charCodeAt()))
+        .map(c => c.charCodeAt(0))
         .join('')
     : undefined,
   /* eslint-enable */

@@ -3,12 +3,12 @@ import { Button } from 'antd';
 import { connect } from 'react-redux';
 import { utils } from 'demo-common';
 // @ts-ignore
-import { Dispatch, ActionCreatorsMapObject } from 'redux';
+import { ActionCreatorsMapObject } from 'redux';
 import todoListActions from '../todoList.action';
 
 const { bindActions } = utils;
 
-type OwnerProps = {
+type OwnProps = {
   taskId: string;
   processInstanceId: string;
 };
@@ -17,7 +17,7 @@ interface DispatchProps {
   todoListBoundActions: ActionCreatorsMapObject;
 }
 
-type Props = OwnerProps & DispatchProps;
+type Props = DispatchProps & OwnProps;
 
 const Delete = (props: Props) => {
   function del() {
@@ -32,12 +32,12 @@ const Delete = (props: Props) => {
   );
 };
 
-function mapDispatchToProps(dispatch: Dispatch<any>): DispatchProps {
+function mapDispatchToProps(dispatch): DispatchProps {
   // @ts-ignore
   return bindActions(todoListActions)(dispatch);
 }
 
-export default connect(
+export default connect<null, DispatchProps, OwnProps>(
   null,
   mapDispatchToProps
 )(Delete);
