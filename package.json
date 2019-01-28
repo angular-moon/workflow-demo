@@ -8,12 +8,13 @@
     "packages/*"
   ],
   "scripts": {
-    "bootstrap": "lerna bootstrap",
-    "start:app": "lerna run --scope *-app --parallel --progress start",
-    "start:c": "lerna run --scope *-components --parallel --progress start",
-    "build:c": "lerna run --scope *-components --parallel --progress build",
-    "api-gen": "lerna run --scope *-common --parallel --progress api-gen",
-    "docz:c": "lerna run --scope *-components --parallel --progress docz:dev"
+    "bootstrap": "yarn install",
+    "start:app": "yarn workspace demo-app run start",
+    "bad:app": "yarn workspace demo-components run bad",
+    "start:c": "yarn workspace demo-components run start",
+    "bad:c": "yarn workspace demo-components run bad",
+    "docz:c": "yarn workspace demo-components run docz:dev",
+    "gen:api": "lerna run --stream --progress api-gen"
   },
   "resolutions": {
     "ansi-styles": "^3.2.0"

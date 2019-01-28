@@ -1,18 +1,22 @@
-const fs = require('fs');
+const fs = require('fs-extra');
 const path = require('path');
-const { mapValues, forEach, omitBy, flowRight: compose } = require('lodash');
+const chalk = require('chalk');
+const { mapValues, forEach } = require('lodash');
 
 const paths = require('../config/paths');
 const exportComponents = require('../config/exportComponents');
 
 /**
- * 排除 redux 注入的 props
+ * 排除 redux 注入的 props 和 第三方库的props
  * @param {Object} prop 组件的prop元数据
  */
 const propFilter = prop => {
   const parentName = prop.parent && prop.parent.name;
+  // redux props
   const reduxProps = parentName === 'DispatchProps' || parentName === 'StateProps';
-  return !reduxProps;
+  // lib props
+  const libProps = prop.parent && prop.parent.fileName.includes('node_modules');
+  return !reduxProps && !libProps;
 };
 
 const docgen = require('react-docgen-typescript').withCustomConfig(paths.appTsConfig, {
@@ -39,18 +43,6 @@ const flagWorkflow = meta => {
     }
   });
 
-  return { ...meta, props };
-};
-
-/**
- * 去掉 prop.parent.fileName 不是当前源文件的 prop
- * @param {string} file 当前被解析的源文件 path
- * @param {Object} meta 元数据
- */
-const omitParentFileNotSelf = file => meta => {
-  const props = omitBy(meta.props, prop => {
-    return prop.parent && path.normalize(prop.parent.fileName) !== path.normalize(file);
-  });
   return { ...meta, props };
 };
 
@@ -103,39 +95,36 @@ const indexFile = directory => {
  */
 const parseFile = file => {
   const metaRaw = docgen.parse(file)[0];
-  const meta = compose(
-    omitParentFileNotSelf(file),
-    flagWorkflow
-  )(metaRaw);
+  const meta = flagWorkflow(metaRaw);
   return meta;
 };
 
+/**
+ * 保存元数据
+ * @param {string} componentName 组件名称
+ * @param {Object} meta 元数据
+ */
 const writeFile = (componentName, meta) => {
   fs.writeFileSync(path.join(paths.appBuild, 'meta', `${componentName}.json`), meta);
 };
 
-//递归创建目录 同步方法
-function mkdirsSync(dirname) {
-  //console.log(dirname);
-  if (fs.existsSync(dirname)) {
-    return true;
-  } else {
-    if (mkdirsSync(path.dirname(dirname))) {
-      fs.mkdirSync(dirname);
-      return true;
+function run() {
+  console.log(chalk.yellow('提取组件元数据...'));
+  const metaPath = path.join(paths.appBuild, 'meta');
+  fs.mkdirsSync(metaPath);
+  fs.emptyDirSync(metaPath);
+  forEach(exportComponents, (component, componentName) => {
+    /**
+     *  优先级依次递减
+     */
+    const file = tsxFile(component) || sameNameFile(component) || indexFile(component);
+    if (file) {
+      const meta = parseFile(file);
+      writeFile(componentName, JSON.stringify(meta, null, 2));
+      console.log(chalk.cyan(componentName));
     }
-  }
+  });
+  console.log(chalk.yellow('提取组件元数据完成!'));
 }
 
-const metaPath = path.join(paths.appBuild, 'meta');
-mkdirsSync(metaPath);
-forEach(exportComponents, (component, componentName) => {
-  /**
-   *  优先级依次递减
-   */
-  const file = tsxFile(component) || sameNameFile(component) || indexFile(component);
-  if (file) {
-    const meta = parseFile(file);
-    writeFile(componentName, JSON.stringify(meta, null, 2));
-  }
-});
+run();

@@ -26,15 +26,17 @@
     "react-dom": "^16.7.0",
     "react-hot-loader": "4.6.3",
     "react-loadable": "^5.5.0",
-    "redux": "^4.0.1"
+    "redux": "^4.0.1",
+    "scp2": "^0.5.0"
   },
   "scripts": {
-    "start": "cross-env PORT=3030 node scripts/start.js",
-    "build": "node scripts/build.js",
+    "start": "cross-env PORT=3030 node --max_old_space_size=6144 scripts/start.js",
+    "build": "node --max_old_space_size=6144 scripts/build.js",
     "test": "node scripts/test.js",
     "docz:dev": "docz dev",
-    "docz:build": "docz build",
-    "gen-meta": "node scripts/gen-meta.js"
+    "gen:meta": "node scripts/gen-meta.js",
+    "deploy": "node scripts/deploy.js",
+    "bad": "node --max_old_space_size=6144 scripts/build-and-deploy.js"
   },
   "browserslist": [
     ">0.2%",
@@ -122,6 +124,7 @@
     "fs-extra": "7.0.0",
     "html-webpack-plugin": "4.0.0-alpha.2",
     "identity-obj-proxy": "3.0.0",
+    "inquirer": "^6.2.1",
     "jest": "23.6.0",
     "jest-pnp-resolver": "1.0.1",
     "jest-resolve": "23.6.0",

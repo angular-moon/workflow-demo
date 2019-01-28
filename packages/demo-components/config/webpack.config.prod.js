@@ -544,45 +544,4 @@ const webpackConfig = {
   performance: false,
 };
 
-// 部署信息
-const deployType = process.env.REACT_APP_DEPLOY_TYPE;
-const deployInfos = process.env.REACT_APP_DEPLOY_INFOS
-  ? JSON.parse(process.env.REACT_APP_DEPLOY_INFOS)
-  : [];
-
-if (deployType) {
-  switch (deployType) {
-    case 'zip':
-      webpackConfig.plugins.push(
-        new FileManagerPlugin({
-          onEnd: {
-            archive: [
-              {
-                source: paths.appBuild,
-                destination: `${process.env.DEPLOY_ENV || 'build'}.zip`,
-              },
-            ],
-          },
-        })
-      );
-      break;
-    case 'scp':
-      webpackConfig.plugins.push(
-        ...deployInfos.map(
-          deployInfo =>
-            new WebpackScpClient({
-              port: '22',
-              path: paths.appBuild,
-              host: deployInfo.host,
-              username: deployInfo.username,
-              password: deployInfo.password,
-              remotePath: deployInfo.remotePath,
-              verbose: true,
-            })
-        )
-      );
-      break;
-  }
-}
-
 module.exports = webpackConfig;

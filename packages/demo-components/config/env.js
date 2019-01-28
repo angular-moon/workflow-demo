@@ -14,6 +14,7 @@ if (!NODE_ENV) {
 
 // 部署环境
 const DEPLOY_ENV = process.env.DEPLOY_ENV;
+
 // https://github.com/bkeepers/dotenv#what-other-env-files-can-i-use
 var dotenvFiles = [
   DEPLOY_ENV && `${paths.dotenv}.${DEPLOY_ENV}`,
