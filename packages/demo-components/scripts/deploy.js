@@ -1,6 +1,7 @@
 process.env.BABEL_ENV = 'production';
 process.env.NODE_ENV = 'production';
 
+const inquirer = require('inquirer');
 const zip = require('./utils/zip');
 const scp = require('./utils/scp');
 const loadDeployEnv = require('./utils/load-deploy-env');
@@ -17,30 +18,32 @@ const DEPLOY_TYPE = {
  * zip: 在本地生成打包文件, 需要手动部署到目标服务器
  */
 async function deploy() {
-  // 部署信息
-  const deployType = process.env.REACT_APP_DEPLOY_TYPE || DEPLOY_TYPE.ZIP;
-  const deployInfos = process.env.REACT_APP_DEPLOY_INFOS
-    ? JSON.parse(process.env.REACT_APP_DEPLOY_INFOS)
-    : [];
+  // 部署方式
+  let deployType = process.env.REACT_APP_DEPLOY_TYPE;
+
+  if (!deployType) {
+    const answers = await inquirer.prompt([
+      {
+        type: 'list',
+        name: 'deployType',
+        message: '选择部署方式?',
+        choices: [DEPLOY_TYPE.ZIP, DEPLOY_TYPE.SCP],
+      },
+    ]);
+    deployType = answers.deployType;
+  }
 
   switch (deployType) {
     case DEPLOY_TYPE.ZIP:
       zip(paths.appBuild);
       break;
     case DEPLOY_TYPE.SCP:
-      for (const deployInfo of deployInfos) {
-        await scp(
-          paths.appBuild,
-          {
-            host: deployInfo.host,
-            username: deployInfo.username,
-            password: deployInfo.password,
-            privateKey: deployInfo.privateKey,
-            passphrase: deployInfo.passphrase,
-            path: deployInfo.remotePath,
-          },
-          true
-        );
+      // 部署服务器信息
+      const deployServers = process.env.REACT_APP_DEPLOY_SERVERS
+        ? JSON.parse(process.env.REACT_APP_DEPLOY_SERVERS)
+        : [{}];
+      for (const deployServer of deployServers) {
+        await scp(paths.appBuild, deployServer, true);
       }
       break;
   }

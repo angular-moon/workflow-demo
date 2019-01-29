@@ -72,6 +72,7 @@ typings/
 # FuseBox cache
 .fusebox/
 
+*.zip
 .vscode/
 packages/*/build/
 packages/demo-components/.docz/

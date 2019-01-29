@@ -15,9 +15,10 @@ function zip(source, zipFileName = 'build') {
   const projectName = path.basename(projectRoot);
   const dest = isMono ? path.join(projectRoot, '../..') : projectRoot;
   const fileName = isMono ? `${projectName}-${zipFileName}` : zipFileName;
+  const outputFile = path.format({ dir: dest, name: fileName, ext: '.zip' });
 
   // create a file to stream archive data to.
-  const output = fs.createWriteStream(dest + '/' + fileName + '.zip');
+  const output = fs.createWriteStream(outputFile);
   const archive = archiver('zip', {
     zlib: { level: 9 }, // Sets the compression level.
   });
@@ -27,9 +28,7 @@ function zip(source, zipFileName = 'build') {
   output.on('close', function() {
     console.log();
     console.log(
-      `${chalk.yellow(
-        zipFileName + '文件生成完毕(' + Math.ceil(archive.pointer() / 1024) + ' Kb)!'
-      )}`
+      chalk.yellow(`${outputFile} 文件生成完毕(${Math.ceil(archive.pointer() / 1024)}Kb)!`)
     );
   });
 

@@ -2,8 +2,16 @@ const fs = require('fs');
 const nodeJsPath = require('path');
 const scp2 = require('scp2');
 const chalk = require('chalk');
-const inquirerPwd = require('./inquirer-pwd');
+const inquirer = require('inquirer');
 
+/**
+ * 登录方式
+ * 密码 | 私钥文件
+ */
+const LOGIN_TYPE = {
+  PASSWORD: 'password',
+  PRIVATE_KEY: 'privateKey',
+};
 /**
  * 执行scp命令
  * @param {string} srcPath - 本地目录或文件
@@ -101,26 +109,85 @@ async function scp(
   { port = 22, host, username, password, privateKey, passphrase, path },
   verbose
 ) {
-  if (!host) {
-    return console.log(chalk.red('请配置上传目标服务器 host'));
-  }
-  if (!username) {
-    return console.log(chalk.red('请配置上传目标服务器 username'));
+  const questions = [];
+
+  if (host === undefined) {
+    questions.push({
+      type: 'input',
+      name: 'host',
+      message: '你要部署到哪个服务器?',
+    });
   }
 
-  /**
-   * 提示需要服务器登录密码
-   */
-  if (!privateKey && !password) {
-    password = await inquirerPwd(`请输入 ${host} 的密码?`);
+  if (username === undefined) {
+    questions.push({
+      type: 'input',
+      name: 'username',
+      message: '服务器登录用户名?',
+    });
   }
 
-  /**
-   * 提示需要私钥密码,
-   * 如果私钥没有密码, 并且希望跳过此步, 请配置为空字符串
-   */
-  if (privateKey && passphrase === undefined) {
-    passphrase = await inquirerPwd(`请输入 ${host} 的私钥密码?`);
+  if (password === undefined && privateKey === undefined) {
+    questions.push({
+      type: 'list',
+      name: 'loginType',
+      message: '你要使用哪种方式登录?',
+      choices: [LOGIN_TYPE.PASSWORD, LOGIN_TYPE.PRIVATE_KEY],
+    });
+  }
+
+  if (password === undefined) {
+    questions.push({
+      type: 'password',
+      name: 'password',
+      message: '登录密码?',
+      mask: '*',
+      when: answers => {
+        return answers.loginType === LOGIN_TYPE.PASSWORD;
+      },
+    });
+  }
+
+  if (privateKey === undefined) {
+    questions.push({
+      type: 'input',
+      name: 'privateKey',
+      message: '登录私钥路径?',
+      when: answers => {
+        return answers.loginType === LOGIN_TYPE.PRIVATE_KEY;
+      },
+    });
+  }
+
+  if (passphrase === undefined) {
+    questions.push({
+      type: 'password',
+      name: 'passphrase',
+      message: '登录私钥密码?',
+      mask: '*',
+      when: answers => {
+        return answers.loginType === LOGIN_TYPE.PRIVATE_KEY || privateKey;
+      },
+    });
+  }
+
+  if (!path) {
+    questions.push({
+      type: 'input',
+      name: 'path',
+      message: '上传到服务器哪个目录?',
+    });
+  }
+
+  if (questions.length > 0) {
+    await inquirer.prompt(questions).then(answers => {
+      if (answers.host) host = answers.host;
+      if (answers.username) username = answers.username;
+      if (answers.password) password = answers.password;
+      if (answers.privateKey) privateKey = answers.privateKey;
+      if (answers.passphrase) passphrase = answers.passphrase;
+      if (answers.path) path = answers.path;
+    });
   }
 
   try {
