@@ -4,8 +4,8 @@ import { utils, components } from 'demo-common';
 import { OperationType } from 'demo-common/src/enums/OperationType.enum';
 import { Operation } from 'demo-common/src/types/Operation.d';
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { ActionCreatorsMapObject } from 'redux';
+import { connect, MapDispatchToPropsFunction } from 'react-redux';
+import { ActionCreatorsMapObject, Dispatch } from 'redux';
 import applyActions from '../../models/apply/apply.action';
 import applyModel from '../../models/apply/apply.model';
 import taskActions from '../../models/task/task.action';
@@ -28,7 +28,6 @@ export interface OwnProps {
    * 申报id
    */
   applyId?: string;
-  // 不能使用Mode, 提取props时拿不到枚举值
   /**
    * 模式
    * @workflow
@@ -237,20 +236,15 @@ const WrappedApplyForm = Form.create({
   },
 })(ApplyForm);
 
-function mapStateToProps({ apply }: any): StateProps {
-  return { apply };
-}
+const mapStateToProps = ({ apply }: any) => ({ apply });
 
-function mapDispatchToProps(dispatch): DispatchProps {
-  // @ts-ignore
-  return bindActions(applyActions, taskActions)(dispatch);
-}
+const mapDispatchToProps = bindActions(applyActions, taskActions);
 
 /**
- * 描述 connect
+ * 描述...
+ * @workflow
  */
 export default connect<StateProps, DispatchProps, OwnProps>(
   mapStateToProps,
   mapDispatchToProps
-  // @ts-ignore
 )(WrappedApplyForm);

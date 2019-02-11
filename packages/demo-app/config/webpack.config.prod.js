@@ -116,7 +116,7 @@ const webpackConfig = {
   // We generate sourcemaps in production. This is slow but gives good results.
   // You can exclude the *.map files from the build during deployment.
   devtool: shouldUseSourceMap ? 'source-map' : false,
-  externals,
+  externals: externals(),
   // In production, we only want to load the app code.
   entry: [paths.appIndexJs],
   output: {
@@ -130,7 +130,8 @@ const webpackConfig = {
     // We inferred the "public path" (such as / or /my-project) from homepage.
     publicPath,
     // Point sourcemap entries to original disk location (format as URL on Windows)
-    devtoolModuleFilenameTemplate: info => path.relative(paths.appSrc, info.absoluteResourcePath).replace(/\\/g, '/'),
+    devtoolModuleFilenameTemplate: info =>
+      path.relative(paths.appSrc, info.absoluteResourcePath).replace(/\\/g, '/'),
   },
   optimization: {
     minimizer: [
@@ -181,13 +182,13 @@ const webpackConfig = {
           parser: safePostCssParser,
           map: shouldUseSourceMap
             ? {
-              // `inline: false` forces the sourcemap to be output into a
-              // separate file
-              inline: false,
-              // `annotation: true` appends the sourceMappingURL to the end of
-              // the css file, helping the browser find the sourcemap
-              annotation: true,
-            }
+                // `inline: false` forces the sourcemap to be output into a
+                // separate file
+                inline: false,
+                // `annotation: true` appends the sourceMappingURL to the end of
+                // the css file, helping the browser find the sourcemap
+                annotation: true,
+              }
             : false,
         },
       }),
@@ -225,7 +226,6 @@ const webpackConfig = {
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
-      '@': path.resolve(__dirname, 'src'),
     },
     plugins: [
       // Adds support for installing with Plug'n'Play, leading to faster installs and adding
@@ -491,8 +491,8 @@ const webpackConfig = {
       ],
     }),
     // TypeScript type checking
-    fs.existsSync(paths.appTsConfig)
-      && new ForkTsCheckerWebpackPlugin({
+    fs.existsSync(paths.appTsConfig) &&
+      new ForkTsCheckerWebpackPlugin({
         typescript: resolve.sync('typescript', {
           basedir: paths.appNodeModules,
         }),
@@ -533,45 +533,5 @@ const webpackConfig = {
   // our own hints via the FileSizeReporter
   performance: false,
 };
-
-// 部署信息
-const deployType = process.env.REACT_APP_DEPLOY_TYPE;
-const deployInfos = process.env.REACT_APP_DEPLOY_INFOS
-  ? JSON.parse(process.env.REACT_APP_DEPLOY_INFOS)
-  : [];
-
-if (deployType) {
-  switch (deployType) {
-    case 'zip':
-      webpackConfig.plugins.push(
-        new FileManagerPlugin({
-          onEnd: {
-            archive: [
-              {
-                source: paths.appBuild,
-                destination: `${process.env.DEPLOY_ENV || 'build'}.zip`,
-              },
-            ],
-          },
-        })
-      );
-      break;
-    case 'scp':
-      webpackConfig.plugins.push(
-        ...deployInfos.map(
-          deployInfo => new WebpackScpClient({
-            port: '22',
-            path: paths.appBuild,
-            host: deployInfo.host,
-            username: deployInfo.username,
-            password: deployInfo.password,
-            remotePath: deployInfo.remotePath,
-            verbose: true,
-          })
-        )
-      );
-      break;
-  }
-}
 
 module.exports = webpackConfig;

@@ -10,7 +10,8 @@
   "scripts": {
     "bootstrap": "yarn install",
     "start:app": "yarn workspace demo-app run start",
-    "bad:app": "yarn workspace demo-components run bad",
+    "bad:app": "yarn workspace demo-app run bad",
+    "docz:app": "yarn workspace demo-app run docz:dev",
     "start:c": "yarn workspace demo-components run start",
     "bad:c": "yarn workspace demo-components run bad",
     "docz:c": "yarn workspace demo-components run docz:dev",

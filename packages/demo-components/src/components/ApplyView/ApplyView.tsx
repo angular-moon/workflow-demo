@@ -135,6 +135,9 @@ function mapDispatchToProps(dispatch): DispatchProps {
   return bindActions(applyActions, taskActions)(dispatch);
 }
 
+/**
+ * @workflow
+ */
 export default connect<StateProps, DispatchProps, OwnProps>(
   mapStateToProps,
   mapDispatchToProps

@@ -22,13 +22,16 @@
     "react-dom": "^16.7.0",
     "react-hot-loader": "4.6.3",
     "react-loadable": "^5.5.0",
-    "redux": "^4.0.1",
-    "scp2": "^0.5.0"
+    "redux": "^4.0.1"
   },
   "scripts": {
-    "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
-    "test": "node scripts/test.js"
+    "start": "node --max_old_space_size=6144 scripts/start.js",
+    "build": "node --max_old_space_size=6144 scripts/build.js",
+    "test": "node scripts/test.js",
+    "docz:dev": "docz dev",
+    "docz:build": "docz build",
+    "deploy": "node scripts/deploy.js",
+    "bad": "node --max_old_space_size=6144 scripts/build-and-deploy.js"
   },
   "browserslist": [
     ">0.2%",
@@ -100,6 +103,8 @@
     "chalk": "2.4.1",
     "cross-env": "^5.2.0",
     "css-loader": "1.0.0",
+    "docz": "^0.13.7",
+    "docz-theme-default": "^0.13.7",
     "dotenv": "6.0.0",
     "dotenv-expand": "4.2.0",
     "eslint": "5.6.0",
@@ -138,7 +143,8 @@
     "webpack": "4.19.1",
     "webpack-dev-server": "3.1.9",
     "webpack-manifest-plugin": "2.0.4",
-    "workbox-webpack-plugin": "3.6.3"
+    "workbox-webpack-plugin": "3.6.3",
+    "scp2": "^0.5.0"
   },
   "resolutions": {
     "ansi-styles": "^3.2.0"

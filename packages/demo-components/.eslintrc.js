@@ -32,6 +32,7 @@ module.exports = {
     'react/sort-comp': 'off',
     'import/no-extraneous-dependencies': 'off',
     'react/no-unused-prop-types': 'off',
+    'react/default-props-match-prop-types': 'off',
     'array-callback-return': 'off',
     'no-confusing-arrow': 'off',
     'consistent-return': 'off',

@@ -1,12 +1,21 @@
-import { bindActionCreators, compose } from 'redux';
-import { keys, head, reduce } from 'ramda';
+import { bindActionCreators, compose, ActionCreatorsMapObject, Dispatch } from 'redux';
+import { keys, head } from 'ramda';
+import { ActionFunctionAny, Action } from 'redux-actions';
 
 const postfix = 'BoundActions';
 
+export interface NamespaceActions {
+  [namespace: string]: ActionCreatorsMapObject | ActionFunctionAny<Action<any>>;
+}
+
+interface BindActions {
+  (actions: NamespaceActions | any, dispatch: Dispatch): NamespaceActions;
+}
+
 /**
- * 遍历 actions, bind action with dispatch
+ * bind has namespace actions (one level)
  */
-const bindActions = (actions, dispatch) => {
+const bindActions: BindActions = (actions, dispatch) => {
   const namespace = compose<string>(
     head,
     keys
@@ -15,8 +24,12 @@ const bindActions = (actions, dispatch) => {
   return { [namespace + postfix]: { ...boundActions } };
 };
 
+interface BindActionsCollection {
+  (...actionsCollection: NamespaceActions[]): (dispatch: Dispatch) => any;
+}
+
 /**
- * bind has namespace actions (one level)
+ * bind has namespace Array<actions> (one level)
  * @param  {...object} actionsCollection - action creator object, Usually created by createActions
  * @return {function} dispatch -> object, object key is [namespace + postfix]
  *
@@ -37,11 +50,15 @@ const bindActions = (actions, dispatch) => {
  *  }
  * });
  */
-export default (...actionsCollection) => dispatch => {
-  const boundActionsCollection = reduce(
-    (boundActions, actions) => ({ ...boundActions, ...bindActions(actions, dispatch) }),
-    {},
-    actionsCollection
+const bindActionsCollection: BindActionsCollection = (...actionsCollection) => dispatch => {
+  const boundActionsCollection = actionsCollection.reduce(
+    (boundActions, actions) => ({
+      ...boundActions,
+      ...bindActions(actions, dispatch),
+    }),
+    {}
   );
-  return { ...boundActionsCollection, dispatch };
+  return { ...boundActionsCollection };
 };
+
+export default bindActionsCollection;

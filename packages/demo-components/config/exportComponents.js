@@ -1,7 +1,7 @@
 const path = require('path');
 const paths = require('./paths');
 
-// 要导入的组件
+// 要导出的组件
 const exportComponentNames = ['ApplyForm', 'ApplyView'];
 
 // 规约为 { component: componentPath }

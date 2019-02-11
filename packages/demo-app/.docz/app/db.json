@@ -1,0 +1,64 @@
+{
+  "config": {
+    "title": "Demo App",
+    "description": "My awesome app using docz",
+    "menu": [],
+    "ordering": "descending",
+    "version": "0.1.0",
+    "repository": null,
+    "native": false,
+    "codeSandbox": false,
+    "themeConfig": {},
+    "base": "/doc",
+    "dest": "build/doc",
+    "typescript": true,
+    "wrapper": "src/DocWrapper",
+    "indexHtml": "public/index.docz.html"
+  },
+  "entries": {
+    "src/index.mdx": {
+      "name": "Getting Started",
+      "route": "/",
+      "id": "6576455a124f9aaefd860597f03a8fe4",
+      "filepath": "src/index.mdx",
+      "link": null,
+      "slug": "src-index",
+      "order": 0,
+      "menu": null,
+      "headings": [
+        {
+          "depth": 1,
+          "slug": "getting-started",
+          "value": "Getting Started"
+        }
+      ]
+    },
+    "src/components/Loading.mdx": {
+      "name": "Loading",
+      "id": "416ee2ccccc64c914f3097b32e72432a",
+      "filepath": "src/components/Loading.mdx",
+      "link": null,
+      "slug": "src-components-loading",
+      "route": "/src-components-loading",
+      "order": 0,
+      "menu": null,
+      "headings": [
+        {
+          "depth": 1,
+          "slug": "loading",
+          "value": "Loading"
+        },
+        {
+          "depth": 2,
+          "slug": "properties",
+          "value": "Properties"
+        },
+        {
+          "depth": 2,
+          "slug": "basic-usage",
+          "value": "Basic usage"
+        }
+      ]
+    }
+  }
+}

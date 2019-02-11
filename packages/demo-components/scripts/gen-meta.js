@@ -1,7 +1,7 @@
 const fs = require('fs-extra');
 const path = require('path');
 const chalk = require('chalk');
-const { mapValues, forEach } = require('lodash');
+const { mapValues, forEach, flowRight: compose } = require('lodash');
 
 const paths = require('../config/paths');
 const exportComponents = require('../config/exportComponents');
@@ -29,7 +29,7 @@ const docgen = require('react-docgen-typescript').withCustomConfig(paths.appTsCo
  * 增加属性 workflowFlag: true
  * @param {Object} meta 元数据
  */
-const flagWorkflow = meta => {
+const flagWorkflowProps = meta => {
   const flag = '@workflow';
   const props = mapValues(meta.props, prop => {
     if (prop.description.includes(flag)) {
@@ -44,6 +44,21 @@ const flagWorkflow = meta => {
   });
 
   return { ...meta, props };
+};
+
+/**
+ * 为 组件 增加 workflow 标识
+ * 删除组件描述中的 `@workflow`
+ * 增加属性 workflowFlag: true
+ * @param {Object} meta 元数据
+ */
+const flagWorkflowComponent = meta => {
+  const flag = '@workflow';
+  if (meta.description.includes(flag)) {
+    return { ...meta, description: meta.description.replace(flag, ''), workflowFlag: true };
+  }
+
+  return meta;
 };
 
 /**
@@ -95,7 +110,10 @@ const indexFile = directory => {
  */
 const parseFile = file => {
   const metaRaw = docgen.parse(file)[0];
-  const meta = flagWorkflow(metaRaw);
+  const meta = compose(
+    flagWorkflowProps,
+    flagWorkflowComponent
+  )(metaRaw);
   return meta;
 };
 
