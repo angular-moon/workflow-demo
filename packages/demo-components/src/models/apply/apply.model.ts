@@ -1,6 +1,9 @@
 import { api, utils } from 'demo-common';
+import { AnyAction } from 'redux';
+import { EffectsCommandMap } from 'dva';
 import { Apply, ApplyServer } from '../../types/Apply.d';
 import wrappedApplyActions from './apply.action';
+import { Action } from 'redux-actions';
 
 const { unwrapActions } = utils;
 
@@ -45,7 +48,7 @@ export default {
   namespace: 'apply',
   state: defaultState(),
   reducers: {
-    set(state, { payload }) {
+    set(state, { payload }: AnyAction) {
       return { ...state, ...payload };
     },
     reset(state) {
@@ -53,7 +56,7 @@ export default {
     },
   },
   effects: {
-    *fetch({ payload: applyId }, { call, put }) {
+    *fetch({ payload: applyId }: AnyAction, { call, put }: EffectsCommandMap) {
       try {
         const { data } = yield call(api.workflowDemo.applies_id_get, {
           path: { id: applyId },
@@ -64,7 +67,7 @@ export default {
         utils.popup.error(e.message);
       }
     },
-    *save({ payload: { mode, strict } }, { call, put, select }) {
+    *save({ payload: { mode, strict } }: AnyAction, { call, put, select }: EffectsCommandMap) {
       try {
         const { apply, processInstanceId } = yield select(state => ({
           apply: state.apply,

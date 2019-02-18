@@ -20,7 +20,6 @@ const FormItem = Form.Item;
 const { stateContainer, bindActions } = utils;
 const { ButtonBox } = components;
 
-// @ts-ignore
 stateContainer.injectModel(applyModel);
 
 export interface OwnProps {
